@@ -51,28 +51,28 @@ export function Hero() {
       {/* Full-bleed background photo with subtle parallax */}
       <motion.div style={{ y: imageY, scale: imageScale }} className="absolute inset-0">
         <Image
-          src="/faithsealedus2.PNG"
+          src="/DSCF9486.JPEG"
           alt={`${t.hero.bride} & ${t.hero.groom}`}
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[center_5%] brightness-110 contrast-[1.03]"
+          className="object-cover object-center"
         />
       </motion.div>
 
-      {/* Legibility scrims: a light veil under the header, and one rising from
-          the bottom for the text — kept off the faces so they stay visible. */}
+      {/* Legibility scrims: a light veil under the header, and a stronger one
+          rising from the bottom to seat the text over the bright shirts. */}
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-noir/55 to-transparent"
+        className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-noir/70 to-transparent"
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-noir via-noir/55 to-transparent"
+        className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-noir via-noir/80 to-transparent"
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-[30%] bg-gradient-to-t from-noir to-transparent"
+        className="absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-noir to-transparent"
       />
       <div
         aria-hidden
