@@ -14,7 +14,7 @@ import { getGalleryImages } from '@/lib/gallery';
 const marqueeItems = [
   'Augusta & Georges',
   'Accra · 2 XII',
-  'Dakar · 4 XII',
+  'Dakar · 5 XII',
   'MMXXVI',
   'Two homelands, one union',
 ];

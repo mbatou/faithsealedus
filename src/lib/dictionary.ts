@@ -45,7 +45,7 @@ export interface Dictionary {
   hero: {
     kicker: string; // tagline: "Two homelands, one union"
     tagline: string; // sub: "We're getting married…"
-    dates: string; // "Accra — 2 December · Dakar — 4 December 2026"
+    dates: string; // "Accra — 2 December · Dakar — 5 December 2026"
     cta: string;
     scroll: string;
     and: string;
@@ -152,11 +152,11 @@ export interface Dictionary {
   };
 }
 
-// Sensible default map links (city search) until final venue pins are set.
-const ACCRA_MAP = 'https://maps.google.com/?q=Accra+Ghana';
-const DAKAR_MAP = 'https://maps.google.com/?q=Dakar+Senegal';
+// Map links to the confirmed venues.
+const ACCRA_MAP =
+  'https://maps.google.com/?q=19+Jacob+Avenue,+Nmai+Djorn,+Ashalley+Botwe,+Accra';
+const DAKAR_MAP = 'https://maps.google.com/?q=312+Comico,+Ouakam,+Dakar';
 
-// TODO(Georges): venues, times and dress codes for both celebrations.
 const accraEn: WeekEvent = {
   id: 'ghana',
   act: 'Act I — Accra',
@@ -164,11 +164,11 @@ const accraEn: WeekEvent = {
   country: 'Ghana',
   city: 'Accra',
   date: 'Wednesday, 2 December — Accra, Ghana',
-  isoDate: '2026-12-02T00:00:00+00:00',
+  isoDate: '2026-12-02T13:00:00+00:00',
   blurb: 'The celebration opens in Accra, the first act of our week.',
-  venue: 'To be confirmed',
-  time: 'To be confirmed',
-  dressCode: 'To be confirmed',
+  venue: '19 Jacob Avenue, Nmai Djorn, Ashalley Botwe, Accra',
+  time: 'From 1:00 pm',
+  dressCode: 'Emerald green, white or black — no strict dress code',
   mapUrl: ACCRA_MAP,
 };
 
@@ -178,12 +178,12 @@ const senegalEn: WeekEvent = {
   flag: '🇸🇳',
   country: 'Senegal',
   city: 'Dakar',
-  date: 'Friday, 4 December — Senegal',
-  isoDate: '2026-12-04T00:00:00+00:00',
-  blurb: 'Two days later we gather again in Georges’s home to close the circle.',
-  venue: 'To be confirmed',
-  time: 'To be confirmed',
-  dressCode: 'To be confirmed',
+  date: 'Saturday, 5 December — Dakar, Senegal',
+  isoDate: '2026-12-05T17:00:00+00:00',
+  blurb: 'A few days later we gather again in Georges’s home to close the circle.',
+  venue: '312 Comico, Ouakam, Dakar',
+  time: 'From 5:00 pm',
+  dressCode: 'Emerald green, white or black — no strict dress code',
   mapUrl: DAKAR_MAP,
 };
 
@@ -192,19 +192,17 @@ const accraFr: WeekEvent = {
   act: 'Acte I — Accra',
   date: 'Mercredi 2 décembre — Accra, Ghana',
   blurb: 'La célébration s’ouvre à Accra, le premier acte de notre semaine.',
-  venue: 'À confirmer',
-  time: 'À confirmer',
-  dressCode: 'À confirmer',
+  time: 'À partir de 13h00',
+  dressCode: 'Vert émeraude, blanc ou noir — pas de tenue imposée',
 };
 
 const senegalFr: WeekEvent = {
   ...senegalEn,
   act: 'Acte II — Sénégal',
-  date: 'Vendredi 4 décembre — Sénégal',
-  blurb: 'Deux jours plus tard, nous nous réunissons chez Georges pour boucler la boucle.',
-  venue: 'À confirmer',
-  time: 'À confirmer',
-  dressCode: 'À confirmer',
+  date: 'Samedi 5 décembre — Dakar, Sénégal',
+  blurb: 'Quelques jours plus tard, nous nous réunissons chez Georges pour boucler la boucle.',
+  time: 'À partir de 17h00',
+  dressCode: 'Vert émeraude, blanc ou noir — pas de tenue imposée',
 };
 
 export const dictionaries: Record<Language, Dictionary> = {
@@ -221,7 +219,7 @@ export const dictionaries: Record<Language, Dictionary> = {
     hero: {
       kicker: 'Two homelands, one union',
       tagline: 'We’re getting married, and we’d be honored to have you there.',
-      dates: 'Accra — 2 December · Dakar — 4 December 2026',
+      dates: 'Accra — 2 December · Dakar — 5 December 2026',
       cta: 'RSVP',
       scroll: 'Scroll',
       and: '&',
@@ -319,7 +317,7 @@ export const dictionaries: Record<Language, Dictionary> = {
         name: 'Full name',
         email: 'Email',
         attendingGhana: 'Joining us in Accra (2 Dec)',
-        attendingSenegal: 'Joining us in Senegal (4 Dec)',
+        attendingSenegal: 'Joining us in Senegal (5 Dec)',
         partySize: 'How many of you?',
         dietary: 'Dietary notes',
         dietaryPlaceholder: 'Allergies, preferences, anything we should know',
@@ -388,7 +386,7 @@ export const dictionaries: Record<Language, Dictionary> = {
     hero: {
       kicker: 'Deux terres, une seule union',
       tagline: 'Nous nous marions, et nous serions honorés de votre présence.',
-      dates: 'Accra — le 2 décembre · Dakar — le 4 décembre 2026',
+      dates: 'Accra — le 2 décembre · Dakar — le 5 décembre 2026',
       cta: 'Confirmer',
       scroll: 'Défiler',
       and: '&',
@@ -487,7 +485,7 @@ export const dictionaries: Record<Language, Dictionary> = {
         name: 'Nom complet',
         email: 'E-mail',
         attendingGhana: 'Présent(e) à Accra (2 déc.)',
-        attendingSenegal: 'Présent(e) au Sénégal (4 déc.)',
+        attendingSenegal: 'Présent(e) au Sénégal (5 déc.)',
         partySize: 'Combien serez-vous ?',
         dietary: 'Régime alimentaire',
         dietaryPlaceholder: 'Allergies, préférences, tout ce qu’il faut savoir',

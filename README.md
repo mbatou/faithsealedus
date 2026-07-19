@@ -2,7 +2,7 @@
 
 A mobile-first, bilingual (EN/FR) single-page wedding site for **Augusta &amp;
 Georges** — one trip, two celebrations in the same week: **Accra, Ghana** 🇬🇭 on
-**2 December 2026** and **Senegal** 🇸🇳 on **4 December 2026**. *Two homelands,
+**2 December 2026** and **Senegal** 🇸🇳 on **5 December 2026**. *Two homelands,
 one union.*
 
 Built with **Next.js (App Router)**, **Supabase**, **Tailwind CSS**, and
