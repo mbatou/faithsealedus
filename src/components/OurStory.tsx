@@ -1,11 +1,15 @@
 'use client';
 
 import { Fragment } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
 import { Reveal } from './Reveal';
 import { SectionHeading } from './SectionHeading';
 
-// Render *word* emphasis from the copy as italic <em>.
+// One photo per movement (portrait shots from the shoot).
+const storyImages = ['/faithsealedus4.PNG', '/faithsealedus7.PNG', '/faithsealedus3.PNG'];
+
+// Render *word* emphasis from the copy as a gold highlight.
 function withEmphasis(text: string) {
   return text.split(/(\*[^*]+\*)/g).map((chunk, i) => {
     if (chunk.startsWith('*') && chunk.endsWith('*')) {
@@ -27,24 +31,58 @@ export function OurStory() {
       <div className="container-page">
         <SectionHeading index="01" kicker={t.story.kicker} title={t.story.title} />
 
-        <div className="mx-auto mt-16 max-w-3xl space-y-14">
-          {t.story.movements.map((mv, i) => (
-            <Reveal key={i} delay={i * 0.08} className="relative">
-              <div className="flex items-baseline gap-4">
-                <span className="index-num shrink-0">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div>
-                  <h3 className="font-serif text-2xl italic text-gold sm:text-3xl">
+        <div className="mt-16 space-y-16 sm:mt-24 sm:space-y-28">
+          {t.story.movements.map((mv, i) => {
+            const imageRight = i % 2 === 1;
+            return (
+              <div
+                key={i}
+                className="grid items-center gap-8 md:grid-cols-2 md:gap-14"
+              >
+                {/* Photo */}
+                <Reveal
+                  direction={imageRight ? 'left' : 'right'}
+                  className={imageRight ? 'md:order-2' : ''}
+                >
+                  <div className="relative">
+                    <span
+                      aria-hidden
+                      className={`absolute -z-10 hidden h-full w-full border border-gold/30 md:block ${
+                        imageRight ? '-bottom-3 -right-3' : '-bottom-3 -left-3'
+                      }`}
+                    />
+                    <div className="relative aspect-[4/5] w-full overflow-hidden ring-1 ring-gold/25">
+                      <Image
+                        src={storyImages[i % storyImages.length]}
+                        alt={`${t.hero.bride} & ${t.hero.groom}`}
+                        fill
+                        sizes="(max-width: 768px) 90vw, 45vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+                </Reveal>
+
+                {/* Text */}
+                <Reveal
+                  direction="up"
+                  delay={0.1}
+                  className={imageRight ? 'md:order-1' : ''}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="index-num">{String(i + 1).padStart(2, '0')}</span>
+                    <span aria-hidden className="h-px w-10 bg-gold/40" />
+                  </div>
+                  <h3 className="mt-5 font-serif text-3xl italic text-gold sm:text-4xl">
                     {mv.title}
                   </h3>
-                  <p className="mt-4 text-lg font-light leading-relaxed text-ivory-dim">
+                  <p className="mt-5 text-lg font-light leading-relaxed text-ivory-dim">
                     {withEmphasis(mv.body)}
                   </p>
-                </div>
+                </Reveal>
               </div>
-            </Reveal>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

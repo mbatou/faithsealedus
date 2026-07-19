@@ -56,24 +56,27 @@ export function Hero() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[center_12%]"
+          className="object-cover object-[center_5%] brightness-110 contrast-[1.03]"
         />
       </motion.div>
 
-      {/* Legibility scrims: a light veil under the header, a strong one rising
-          from the bottom so the text sits over near-black, faces left clear. */}
+      {/* Legibility scrims: a light veil under the header, and one rising from
+          the bottom for the text — kept off the faces so they stay visible. */}
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-noir/75 to-transparent"
+        className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-noir/55 to-transparent"
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t from-noir via-noir/85 to-transparent"
+        className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-noir via-noir/55 to-transparent"
       />
-      <div aria-hidden className="absolute inset-0 bg-noir/10" />
       <div
         aria-hidden
-        className="absolute left-1/2 bottom-[24%] h-[26rem] w-[26rem] -translate-x-1/2 rounded-full bg-gold/[0.05] blur-[120px]"
+        className="absolute inset-x-0 bottom-0 h-[30%] bg-gradient-to-t from-noir to-transparent"
+      />
+      <div
+        aria-hidden
+        className="absolute left-1/2 bottom-[20%] h-[24rem] w-[24rem] -translate-x-1/2 rounded-full bg-gold/[0.05] blur-[120px]"
       />
 
       {/* Scroll-linked fade to black */}
@@ -88,7 +91,7 @@ export function Hero() {
       {/* Content — anchored to the lower third so it never covers their faces */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
-        className="relative flex h-full flex-col items-center justify-end px-5 pb-20 text-center sm:pb-24"
+        className="relative flex h-full flex-col items-center justify-end px-5 pb-16 text-center [filter:drop-shadow(0_2px_12px_rgba(0,0,0,0.7))] sm:pb-20"
       >
         <motion.div
           variants={container}
@@ -106,7 +109,7 @@ export function Hero() {
 
           <motion.h1
             variants={item}
-            className="mt-4 w-full text-balance font-serif text-4xl font-semibold leading-[1.0] text-ivory drop-shadow-[0_2px_24px_rgba(0,0,0,0.7)] sm:text-6xl lg:text-7xl"
+            className="mt-4 w-full text-balance font-serif text-4xl font-semibold leading-[1.0] text-ivory sm:text-5xl lg:text-6xl"
           >
             {t.hero.bride}
             <span className="mx-2 font-normal italic text-gold sm:mx-3">{t.hero.and}</span>
@@ -115,7 +118,7 @@ export function Hero() {
 
           <motion.p
             variants={item}
-            className="mt-6 max-w-md text-base font-light leading-relaxed text-ivory/85 sm:text-lg"
+            className="mt-6 max-w-md text-base font-light leading-relaxed text-ivory/90 sm:text-lg"
           >
             {t.hero.tagline}
           </motion.p>

@@ -282,8 +282,7 @@ export const dictionaries: Record<Language, Dictionary> = {
         },
         {
           role: 'Standing with Augusta',
-          names: 'To be revealed',
-          tbd: true,
+          names: 'Regina Shang & Linda Daniella Naa Akuye Addy',
         },
       ],
     },
@@ -451,8 +450,7 @@ export const dictionaries: Record<Language, Dictionary> = {
         },
         {
           role: 'Aux côtés d’Augusta',
-          names: 'À venir',
-          tbd: true,
+          names: 'Regina Shang & Linda Daniella Naa Akuye Addy',
         },
       ],
     },
