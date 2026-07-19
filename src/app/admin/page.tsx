@@ -30,7 +30,7 @@ async function fetchRsvps(): Promise<RsvpRow[]> {
 export default async function AdminPage() {
   if (!isAuthed()) {
     return (
-      <main className="min-h-screen bg-cream">
+      <main className="min-h-screen bg-noir">
         <AdminLogin />
       </main>
     );
@@ -39,7 +39,7 @@ export default async function AdminPage() {
   const rows = await fetchRsvps();
 
   return (
-    <main className="min-h-screen bg-cream">
+    <main className="min-h-screen bg-noir">
       <AdminDashboard rows={rows} />
     </main>
   );

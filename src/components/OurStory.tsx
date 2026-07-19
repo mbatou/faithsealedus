@@ -8,19 +8,21 @@ export function OurStory() {
   const { t } = useLanguage();
 
   return (
-    <section id="story" className="section-pad bg-cream">
+    <section id="story" className="section-pad bg-noir">
       <div className="container-page">
         <SectionHeading kicker={t.story.kicker} title={t.story.title} />
 
-        <div className="mx-auto mt-14 max-w-3xl">
-          <div className="relative border-l-2 border-dashed border-ochre/50 pl-8 sm:pl-10">
+        <div className="mx-auto mt-16 max-w-3xl">
+          <div className="relative border-l border-gold/25 pl-8 sm:pl-10">
             {t.story.paragraphs.map((para, i) => (
-              <Reveal key={i} delay={i * 0.08} className="relative pb-10 last:pb-0">
+              <Reveal key={i} delay={i * 0.1} className="relative pb-12 last:pb-0">
                 <span
                   aria-hidden
-                  className="absolute -left-[41px] top-1.5 flex h-5 w-5 items-center justify-center rounded-full border-2 border-cream bg-terracotta shadow sm:-left-[49px]"
+                  className="absolute -left-[37px] top-2 h-2.5 w-2.5 rotate-45 bg-gold sm:-left-[45px]"
                 />
-                <p className="text-lg leading-relaxed text-ink/80">{para}</p>
+                <p className="text-lg font-light leading-relaxed text-ivory-dim">
+                  {para}
+                </p>
               </Reveal>
             ))}
           </div>

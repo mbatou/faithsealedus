@@ -15,21 +15,16 @@ export function SectionHeading({
   intro,
   align = 'center',
 }: SectionHeadingProps) {
-  const alignment = align === 'center' ? 'text-center mx-auto' : 'text-left';
+  const alignment = align === 'center' ? 'text-center mx-auto items-center' : 'text-left items-start';
   return (
-    <Reveal className={`max-w-2xl ${alignment}`}>
-      <p className="font-script text-2xl sm:text-3xl text-terracotta">{kicker}</p>
-      <h2 className="mt-1 font-serif text-3xl sm:text-4xl md:text-5xl font-semibold text-ink">
+    <Reveal className={`flex max-w-2xl flex-col ${alignment}`}>
+      <p className="eyebrow">{kicker}</p>
+      <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-ivory sm:text-4xl md:text-5xl">
         {title}
       </h2>
-      <span
-        aria-hidden
-        className={`mt-5 block h-1 w-24 rounded-full bg-kente-band ${
-          align === 'center' ? 'mx-auto' : ''
-        }`}
-      />
+      <span aria-hidden className="rule mt-6" />
       {intro && (
-        <p className="mt-6 text-base sm:text-lg leading-relaxed text-ink/70">
+        <p className="mt-6 text-base leading-relaxed text-ivory-dim sm:text-lg">
           {intro}
         </p>
       )}

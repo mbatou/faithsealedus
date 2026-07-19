@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Cormorant_Garamond, Mulish, Great_Vibes } from 'next/font/google';
+import { Playfair_Display, Mulish } from 'next/font/google';
 import { LanguageProvider } from '@/context/LanguageContext';
 import './globals.css';
 
-const serif = Cormorant_Garamond({
+const serif = Playfair_Display({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
   variable: '--font-serif',
   display: 'swap',
 });
@@ -14,13 +15,6 @@ const sans = Mulish({
   subsets: ['latin'],
   weight: ['300', '400', '600', '700'],
   variable: '--font-sans',
-  display: 'swap',
-});
-
-const script = Great_Vibes({
-  subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-script',
   display: 'swap',
 });
 
@@ -37,7 +31,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#b5482e',
+  themeColor: '#0B0B0B',
   width: 'device-width',
   initialScale: 1,
 };
@@ -48,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable} ${script.variable}`}>
+    <html lang="en" className={`${serif.variable} ${sans.variable}`}>
       <body>
         <LanguageProvider>{children}</LanguageProvider>
       </body>

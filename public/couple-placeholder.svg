@@ -1,26 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100" role="img" aria-label="Couple photo placeholder">
   <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#f5ecdd"/>
-      <stop offset="1" stop-color="#dfc39b"/>
-    </linearGradient>
-    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#b5482e"/>
-      <stop offset="1" stop-color="#8f3822"/>
+    <radialGradient id="glow" cx="50%" cy="38%" r="60%">
+      <stop offset="0" stop-color="#2a2420"/>
+      <stop offset="55%" stop-color="#141210"/>
+      <stop offset="100%" stop-color="#0B0B0B"/>
+    </radialGradient>
+    <linearGradient id="fig" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c1a17"/>
+      <stop offset="1" stop-color="#0d0c0b"/>
     </linearGradient>
   </defs>
-  <rect width="900" height="1100" fill="url(#sky)"/>
-  <circle cx="450" cy="360" r="150" fill="#e9b657" opacity="0.85"/>
-  <rect y="760" width="900" height="340" fill="url(#ground)"/>
-  <g opacity="0.9">
-    <!-- two figures -->
-    <path d="M300 760c0-80 40-150 90-150s90 70 90 150z" fill="#243a6b"/>
-    <circle cx="390" cy="560" r="55" fill="#33477a"/>
-    <path d="M470 760c0-92 46-172 100-172s100 80 100 172z" fill="#1f6b46"/>
-    <circle cx="570" cy="540" r="60" fill="#26805a"/>
+  <rect width="900" height="1100" fill="url(#glow)"/>
+  <!-- candle glow -->
+  <circle cx="450" cy="360" r="180" fill="#C6A15B" opacity="0.10"/>
+  <circle cx="450" cy="360" r="90" fill="#C6A15B" opacity="0.08"/>
+  <!-- two silhouettes -->
+  <g fill="url(#fig)">
+    <path d="M300 780c0-86 42-160 96-160s96 74 96 160z"/>
+    <circle cx="396" cy="566" r="58"/>
+    <path d="M470 780c0-98 48-182 104-182s104 84 104 182z"/>
+    <circle cx="574" cy="544" r="63"/>
   </g>
-  <g fill="#2a211b" opacity="0.55" font-family="Georgia, serif" text-anchor="middle">
-    <text x="450" y="1000" font-size="34">Add your favourite photo here</text>
-    <text x="450" y="1045" font-size="22">public/couple-placeholder.svg</text>
+  <!-- gold hairline detail -->
+  <path d="M470 780c0-98 48-182 104-182" fill="none" stroke="#C6A15B" stroke-width="1.5" opacity="0.35"/>
+  <g fill="#C6A15B" opacity="0.55" font-family="Georgia, serif" text-anchor="middle">
+    <text x="450" y="1000" font-size="30" letter-spacing="2">Add your favourite photo here</text>
+    <text x="450" y="1042" font-size="18" opacity="0.7">public/couple-placeholder.svg</text>
   </g>
 </svg>

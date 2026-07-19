@@ -57,9 +57,11 @@ function toCsv(rows: RsvpRow[]): string {
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-ink/10 bg-white/80 p-5 text-center shadow-sm">
-      <div className="font-serif text-4xl font-semibold text-terracotta">{value}</div>
-      <div className="mt-1 text-xs uppercase tracking-wide text-ink/60">{label}</div>
+    <div className="card p-5 text-center">
+      <div className="font-serif text-4xl font-semibold text-gold">{value}</div>
+      <div className="mt-1 text-[0.65rem] uppercase tracking-[0.15em] text-ivory-dim/60">
+        {label}
+      </div>
     </div>
   );
 }
@@ -94,8 +96,10 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
     <div className="container-page py-10">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl font-semibold text-ink">{a.title}</h1>
-          <p className="font-script text-2xl text-terracotta">{t.footer.hashtag}</p>
+          <h1 className="font-serif text-3xl font-semibold text-ivory">{a.title}</h1>
+          <p className="mt-1 text-xs font-semibold uppercase tracking-luxe text-gold">
+            {t.footer.hashtag}
+          </p>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -122,11 +126,11 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
       </div>
 
       {rows.length === 0 ? (
-        <p className="mt-12 text-center text-ink/60">{a.noRsvps}</p>
+        <p className="mt-14 text-center text-ivory-dim">{a.noRsvps}</p>
       ) : (
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-ink/10 bg-white/80 shadow-sm">
+        <div className="card mt-8 overflow-x-auto">
           <table className="w-full min-w-[820px] text-left text-sm">
-            <thead className="border-b border-ink/10 bg-sand-50 text-xs uppercase tracking-wide text-ink/60">
+            <thead className="border-b border-gold/15 bg-charcoal-dark text-[0.65rem] uppercase tracking-[0.15em] text-ivory-dim/60">
               <tr>
                 <th className="px-4 py-3">{a.colName}</th>
                 <th className="px-4 py-3">{a.colEmail}</th>
@@ -138,21 +142,21 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
                 <th className="px-4 py-3">{a.colDate}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-ink/5">
+            <tbody className="divide-y divide-gold/10">
               {rows.map((r) => (
-                <tr key={r.id} className="align-top hover:bg-sand-50/50">
-                  <td className="px-4 py-3 font-medium text-ink">{r.name}</td>
-                  <td className="px-4 py-3 text-ink/70">{r.email}</td>
-                  <td className="px-4 py-3 text-center">
-                    {r.attending_ghana ? '✅' : '—'}
+                <tr key={r.id} className="align-top transition hover:bg-charcoal-light/60">
+                  <td className="px-4 py-3 font-medium text-ivory">{r.name}</td>
+                  <td className="px-4 py-3 text-ivory-dim">{r.email}</td>
+                  <td className="px-4 py-3 text-center text-gold">
+                    {r.attending_ghana ? '✦' : '—'}
                   </td>
-                  <td className="px-4 py-3 text-center">
-                    {r.attending_senegal ? '✅' : '—'}
+                  <td className="px-4 py-3 text-center text-gold">
+                    {r.attending_senegal ? '✦' : '—'}
                   </td>
-                  <td className="px-4 py-3 text-center text-ink/70">{r.party_size}</td>
-                  <td className="px-4 py-3 text-ink/70">{r.dietary_notes || '—'}</td>
-                  <td className="max-w-xs px-4 py-3 text-ink/70">{r.message || '—'}</td>
-                  <td className="whitespace-nowrap px-4 py-3 text-ink/60">
+                  <td className="px-4 py-3 text-center text-ivory-dim">{r.party_size}</td>
+                  <td className="px-4 py-3 text-ivory-dim">{r.dietary_notes || '—'}</td>
+                  <td className="max-w-xs px-4 py-3 text-ivory-dim">{r.message || '—'}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-ivory-dim/60">
                     {new Date(r.created_at).toLocaleDateString()}
                   </td>
                 </tr>

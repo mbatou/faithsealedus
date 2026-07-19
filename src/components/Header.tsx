@@ -17,7 +17,7 @@ function LanguageToggle() {
   const options: Language[] = ['en', 'fr'];
   return (
     <div
-      className="flex items-center rounded-full border border-ink/15 bg-white/70 p-0.5 text-sm shadow-sm backdrop-blur"
+      className="flex items-center rounded-full border border-gold/25 bg-charcoal/70 p-0.5 text-sm backdrop-blur"
       role="group"
       aria-label={t.nav.langLabel}
     >
@@ -30,7 +30,7 @@ function LanguageToggle() {
             onClick={() => setLang(option)}
             aria-pressed={active}
             className={`rounded-full px-3 py-1 font-semibold uppercase tracking-wide transition ${
-              active ? 'bg-terracotta text-cream shadow' : 'text-ink/60 hover:text-ink'
+              active ? 'bg-gold text-noir' : 'text-ivory-dim hover:text-ivory'
             }`}
           >
             {option}
@@ -63,23 +63,23 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
         scrolled || menuOpen
-          ? 'bg-cream/90 shadow-sm backdrop-blur'
+          ? 'border-b border-gold/10 bg-noir/85 backdrop-blur'
           : 'bg-transparent'
       }`}
     >
       <div className="container-page flex h-16 items-center justify-between sm:h-20">
-        <a href="#top" className="font-serif text-xl font-semibold tracking-wide text-ink">
-          F <span className="font-script text-terracotta">&amp;</span> G
+        <a href="#top" className="font-serif text-xl font-semibold tracking-[0.2em] text-ivory">
+          F <span className="text-gold">&amp;</span> G
         </a>
 
-        <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
           {navItems.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
-              className="text-sm font-medium text-ink/70 transition hover:text-terracotta"
+              className="text-xs font-semibold uppercase tracking-[0.15em] text-ivory-dim transition hover:text-gold"
             >
               {t.nav[item.key]}
             </a>
@@ -90,7 +90,7 @@ export function Header() {
           <LanguageToggle />
           <button
             type="button"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 text-ink md:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/25 text-ivory md:hidden"
             aria-label="Menu"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
@@ -119,7 +119,7 @@ export function Header() {
       {/* Mobile menu */}
       {menuOpen && (
         <nav
-          className="border-t border-ink/10 bg-cream/95 backdrop-blur md:hidden"
+          className="border-t border-gold/10 bg-noir/95 backdrop-blur md:hidden"
           aria-label="Mobile"
         >
           <ul className="container-page flex flex-col py-4">
@@ -128,7 +128,7 @@ export function Header() {
                 <a
                   href={`#${item.id}`}
                   onClick={() => setMenuOpen(false)}
-                  className="block py-3 font-serif text-lg text-ink/80 transition hover:text-terracotta"
+                  className="block py-3 font-serif text-lg text-ivory/85 transition hover:text-gold"
                 >
                   {t.nav[item.key]}
                 </a>

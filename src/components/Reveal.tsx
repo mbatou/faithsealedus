@@ -13,7 +13,7 @@ interface RevealProps {
   once?: boolean;
 }
 
-const offset = 28;
+const offset = 22;
 
 function initialOffset(direction: Direction) {
   switch (direction) {
@@ -50,9 +50,10 @@ export function Reveal({
       x: 0,
       y: 0,
       transition: {
-        duration: reduceMotion ? 0 : 0.7,
+        // Slow, soft, candlelit reveals.
+        duration: reduceMotion ? 0 : 1.2,
         delay: reduceMotion ? 0 : delay,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.16, 1, 0.3, 1],
       },
     },
   };
@@ -63,7 +64,7 @@ export function Reveal({
       variants={variants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, amount: 0.2 }}
+      viewport={{ once, amount: 0.15 }}
     >
       {children}
     </motion.div>

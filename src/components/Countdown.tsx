@@ -56,38 +56,40 @@ export function Countdown() {
       ];
 
   return (
-    <section className="section-pad relative overflow-hidden bg-indigo-deep text-cream">
-      <div aria-hidden className="absolute inset-x-0 top-0 h-2 bg-kente-band" />
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-2 bg-kente-band" />
+    <section className="section-pad relative overflow-hidden bg-noir">
+      <div aria-hidden className="absolute inset-0">
+        <div className="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/[0.07] blur-[110px] animate-flicker" />
+      </div>
 
-      <div className="container-page relative text-center">
-        <p className="font-script text-3xl text-ochre-light">{t.countdown.kicker}</p>
-        <h2 className="mt-1 font-serif text-3xl font-semibold sm:text-4xl md:text-5xl">
+      <div className="container-page relative flex flex-col items-center text-center">
+        <p className="eyebrow">{t.countdown.kicker}</p>
+        <h2 className="mt-4 font-serif text-3xl font-semibold text-ivory sm:text-4xl md:text-5xl">
           {t.countdown.title}
         </h2>
-        <p className="mt-3 text-sm uppercase tracking-[0.2em] text-cream/60">
+        <span aria-hidden className="rule mt-6" />
+        <p className="mt-5 text-xs uppercase tracking-[0.22em] text-gold">
           {t.countdown.to}
         </p>
 
         {timeLeft?.done ? (
-          <p className="mt-10 font-serif text-2xl text-ochre-light sm:text-3xl">
+          <p className="mt-12 font-serif text-2xl italic text-gold sm:text-3xl">
             {t.countdown.passed}
           </p>
         ) : (
-          <div className="mx-auto mt-10 grid max-w-lg grid-cols-4 gap-3 sm:gap-5">
+          <div className="mx-auto mt-12 grid max-w-lg grid-cols-4 gap-3 sm:gap-5">
             {units.map((unit, i) => (
               <motion.div
                 key={unit.label}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="rounded-2xl border border-cream/15 bg-white/5 py-4 backdrop-blur sm:py-6"
+                transition={{ delay: i * 0.1, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="card py-5 sm:py-7"
               >
-                <div className="font-serif text-3xl font-semibold tabular-nums sm:text-5xl">
+                <div className="font-serif text-3xl font-semibold tabular-nums text-gold sm:text-5xl">
                   {String(unit.value).padStart(2, '0')}
                 </div>
-                <div className="mt-1 text-[0.65rem] uppercase tracking-[0.15em] text-cream/60 sm:text-xs">
+                <div className="mt-2 text-[0.6rem] uppercase tracking-[0.18em] text-ivory-dim/60 sm:text-xs">
                   {unit.label}
                 </div>
               </motion.div>

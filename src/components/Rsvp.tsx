@@ -73,12 +73,12 @@ export function Rsvp() {
   }
 
   return (
-    <section id="rsvp" className="section-pad bg-cream">
+    <section id="rsvp" className="section-pad bg-noir-soft">
       <div className="container-page">
         <SectionHeading kicker={t.rsvp.kicker} title={t.rsvp.title} intro={t.rsvp.intro} />
 
-        <Reveal className="mx-auto mt-12 max-w-xl">
-          <div className="rounded-3xl border border-ink/10 bg-white/80 p-6 shadow-sm sm:p-8">
+        <Reveal className="mx-auto mt-14 max-w-xl">
+          <div className="card p-6 sm:p-8">
             <AnimatePresence mode="wait">
               {status === 'success' ? (
                 <motion.div
@@ -88,13 +88,13 @@ export function Rsvp() {
                   exit={{ opacity: 0 }}
                   className="py-6 text-center"
                 >
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-kente-green/15 text-3xl">
-                    💛
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-gold/30 bg-charcoal-dark text-3xl">
+                    🕯️
                   </div>
-                  <h3 className="mt-5 font-serif text-2xl font-semibold text-ink">
+                  <h3 className="mt-6 font-serif text-2xl font-semibold text-ivory">
                     {t.rsvp.successTitle}
                   </h3>
-                  <p className="mt-2 text-ink/70">{t.rsvp.successBody}</p>
+                  <p className="mt-3 font-light text-ivory-dim">{t.rsvp.successBody}</p>
                   <button
                     type="button"
                     onClick={() => setStatus('idle')}
@@ -144,30 +144,30 @@ export function Rsvp() {
                       className="field-input"
                       aria-describedby="email-note"
                     />
-                    <p id="email-note" className="mt-1 text-xs text-ink/50">
+                    <p id="email-note" className="mt-1.5 text-xs text-ivory-dim/50">
                       {t.rsvp.confirmationNote}
                     </p>
                   </div>
 
                   <fieldset className="space-y-2">
                     <legend className="field-label">{t.nav.week}</legend>
-                    <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-ink/15 bg-white/70 px-4 py-3 transition hover:border-kente-green/50">
+                    <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gold/15 bg-charcoal-dark px-4 py-3 transition hover:border-gold/45">
                       <input
                         type="checkbox"
                         checked={ghana}
                         onChange={(e) => setGhana(e.target.checked)}
-                        className="h-5 w-5 accent-kente-green"
+                        className="h-5 w-5 accent-gold"
                       />
-                      <span className="text-ink/80">{f.attendingGhana}</span>
+                      <span className="text-ivory-dim">{f.attendingGhana}</span>
                     </label>
-                    <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-ink/15 bg-white/70 px-4 py-3 transition hover:border-indigo-deep/50">
+                    <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gold/15 bg-charcoal-dark px-4 py-3 transition hover:border-gold/45">
                       <input
                         type="checkbox"
                         checked={senegal}
                         onChange={(e) => setSenegal(e.target.checked)}
-                        className="h-5 w-5 accent-indigo-deep"
+                        className="h-5 w-5 accent-gold"
                       />
-                      <span className="text-ink/80">{f.attendingSenegal}</span>
+                      <span className="text-ivory-dim">{f.attendingSenegal}</span>
                     </label>
                   </fieldset>
 
@@ -213,7 +213,7 @@ export function Rsvp() {
                   </div>
 
                   {error && (
-                    <p className="rounded-xl bg-terracotta/10 px-4 py-3 text-sm text-terracotta-dark">
+                    <p className="rounded-xl border border-red-400/25 bg-red-500/10 px-4 py-3 text-sm text-red-200">
                       {error}
                     </p>
                   )}

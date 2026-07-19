@@ -1,10 +1,10 @@
 import type { Config } from 'tailwindcss';
 
 /**
- * Palette drawn from West African textile traditions:
- *  - Ghanaian Kente: gold, warm red, deep green, ink black
- *  - Senegalese indigo & wax prints: indigo, terracotta, ochre, sand
- * The intent is warm, celebratory, and grounded in cloth colour.
+ * Dark editorial luxury.
+ *  - Base near-black with charcoal section cards
+ *  - Champagne-gold accent used sparingly (dividers, buttons, names)
+ *  - Ivory text, candlelit low-light mood
  */
 const config: Config = {
   content: [
@@ -15,51 +15,42 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        sand: {
-          50: '#fbf7f0',
-          100: '#f5ecdd',
-          200: '#ecdcc2',
-          300: '#dfc39b',
+        noir: {
+          DEFAULT: '#0B0B0B',
+          soft: '#0F0E0D',
         },
-        terracotta: {
-          DEFAULT: '#b5482e',
-          light: '#c9694f',
-          dark: '#8f3822',
+        charcoal: {
+          DEFAULT: '#161514',
+          light: '#1E1B18',
+          dark: '#100F0E',
         },
-        ochre: {
-          DEFAULT: '#d99a2b',
-          light: '#e9b657',
-          dark: '#b47c17',
+        gold: {
+          DEFAULT: '#C6A15B',
+          light: '#D9BC86',
+          dark: '#A8823F',
         },
-        kente: {
-          green: '#1f6b46',
-          gold: '#e0a516',
-          red: '#a51f2c',
+        ivory: {
+          DEFAULT: '#F4EFE6',
+          dim: '#CDC7BB',
         },
-        indigo: {
-          deep: '#243a6b',
-          dusk: '#33477a',
-        },
-        ink: '#2a211b',
-        cream: '#fdfaf4',
       },
       fontFamily: {
-        serif: ['var(--font-serif)', 'Cormorant Garamond', 'Georgia', 'serif'],
+        serif: ['var(--font-serif)', 'Playfair Display', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        script: ['var(--font-script)', 'cursive'],
+      },
+      letterSpacing: {
+        luxe: '0.32em',
       },
       keyframes: {
-        'gradient-pan': {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
+        flicker: {
+          '0%, 100%': { opacity: '0.55' },
+          '45%': { opacity: '0.7' },
+          '55%': { opacity: '0.5' },
+          '70%': { opacity: '0.68' },
         },
       },
       animation: {
-        'gradient-pan': 'gradient-pan 18s ease infinite',
-      },
-      backgroundImage: {
-        'kente-band':
-          'repeating-linear-gradient(90deg, #1f6b46 0 12px, #e0a516 12px 24px, #a51f2c 24px 36px, #243a6b 36px 48px)',
+        flicker: 'flicker 6s ease-in-out infinite',
       },
     },
   },

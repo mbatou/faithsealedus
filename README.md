@@ -5,8 +5,11 @@ that spans **two countries in one week** — a traditional ceremony in **Accra,
 Ghana** 🇬🇭 and a celebration in **Dakar, Senegal** 🇸🇳.
 
 Built with **Next.js (App Router)**, **Supabase**, **Tailwind CSS**, and
-**Framer Motion** for tasteful scroll animations. The palette is drawn from
-Ghanaian Kente and Senegalese indigo textile traditions.
+**Framer Motion** for slow, soft scroll reveals. The look is **dark editorial
+luxury** — a near-black (`#0B0B0B`) base with charcoal section cards, a
+champagne-gold accent (`#C6A15B`) used sparingly for dividers, buttons and
+names, ivory text, high-contrast Playfair Display headings, and a candlelit,
+low-light mood with large photos framed by gold hairline borders.
 
 ## Sections
 
@@ -74,7 +77,9 @@ The header toggle switches EN/FR instantly and remembers the choice
 
 - **Names, dates, venues, cultural notes** → `src/lib/dictionary.ts`
 - **Couple photo** → replace `public/couple-placeholder.svg`
-- **Colours &amp; fonts** → `tailwind.config.ts` and `src/app/layout.tsx`
+- **Gallery placeholders** → replace `public/gallery/*.svg` (or upload to Supabase)
+- **Colours (noir / charcoal / gold / ivory) &amp; fonts** → `tailwind.config.ts`
+  and `src/app/layout.tsx`
 
 ## Scripts
 
