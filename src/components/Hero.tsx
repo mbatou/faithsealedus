@@ -1,20 +1,40 @@
 'use client';
 
 import Image from 'next/image';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { Mark } from './Mark';
 
 export function Hero() {
   const { t } = useLanguage();
   const reduce = useReducedMotion();
+  const ref = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  });
+
+  // Subtle parallax + zoom on the photo, and a black veil that ramps up so the
+  // hero fades to #0B0B0B and hands off cleanly to the next section.
+  const imageY = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '12%']);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 1.1]);
+  const veil = useTransform(scrollYProgress, [0, 0.9], [0, 0.92]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 0.5], [0, reduce ? 0 : 50]);
 
   const container = {
     hidden: {},
-    visible: { transition: { staggerChildren: 0.16, delayChildren: 0.15 } },
+    visible: { transition: { staggerChildren: 0.16, delayChildren: 0.3 } },
   };
   const item = {
-    hidden: { opacity: 0, y: reduce ? 0 : 18 },
+    hidden: { opacity: 0, y: reduce ? 0 : 20 },
     visible: {
       opacity: 1,
       y: 0,
@@ -24,109 +44,109 @@ export function Hero() {
 
   return (
     <section
+      ref={ref}
       id="top"
-      className="relative flex min-h-[100svh] items-center overflow-hidden bg-noir pt-20 sm:pt-24"
+      className="relative h-[100svh] min-h-[600px] overflow-hidden bg-noir"
     >
-      {/* Candlelit glow on pure black */}
-      <div aria-hidden className="absolute inset-0">
-        <div className="absolute left-[60%] top-1/3 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-gold/[0.09] blur-[130px] animate-flicker" />
-      </div>
+      {/* Full-bleed background photo with subtle parallax */}
+      <motion.div style={{ y: imageY, scale: imageScale }} className="absolute inset-0">
+        <Image
+          src="/faithsealedus2.PNG"
+          alt={`${t.hero.bride} & ${t.hero.groom}`}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[center_12%]"
+        />
+      </motion.div>
 
-      {/* Vertical edge label */}
-      <span className="absolute right-4 top-1/2 hidden -translate-y-1/2 lg:block">
-        <span className="v-label">Accra · Dakar — MMXXVI</span>
-      </span>
+      {/* Legibility scrims: a light veil under the header, a strong one rising
+          from the bottom so the text sits over near-black, faces left clear. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-noir/75 to-transparent"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t from-noir via-noir/85 to-transparent"
+      />
+      <div aria-hidden className="absolute inset-0 bg-noir/10" />
+      <div
+        aria-hidden
+        className="absolute left-1/2 bottom-[24%] h-[26rem] w-[26rem] -translate-x-1/2 rounded-full bg-gold/[0.05] blur-[120px]"
+      />
 
-      <div className="container-page relative">
-        <div className="grid items-center gap-12 md:grid-cols-12">
-          {/* Text column */}
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="visible"
-            className="order-2 md:order-1 md:col-span-7"
-          >
-            <motion.div variants={item} className="flex items-center gap-3">
-              <span className="index-num">N°01</span>
-              <span aria-hidden className="h-px w-10 bg-gold/40" />
-              <span className="eyebrow">{t.hero.kicker}</span>
-            </motion.div>
+      {/* Scroll-linked fade to black */}
+      <motion.div aria-hidden style={{ opacity: veil }} className="absolute inset-0 bg-noir" />
 
-            <motion.h1
-              variants={item}
-              className="mt-8 font-serif text-[3.4rem] font-semibold leading-[0.95] text-ivory sm:text-7xl lg:text-8xl"
-            >
-              {t.hero.bride}
-              <span className="my-1 flex items-center gap-4 text-gold">
-                <Mark className="h-7 w-12 sm:h-9 sm:w-16" />
-                <span className="font-normal italic">{t.hero.and}</span>
-              </span>
-              {t.hero.groom}
-            </motion.h1>
+      {/* Bottom hairline to meet the next section */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent"
+      />
 
-            <motion.p
-              variants={item}
-              className="mt-9 max-w-md text-lg font-light leading-relaxed text-ivory-dim"
-            >
-              {t.hero.tagline}
-            </motion.p>
-
-            <motion.div
-              variants={item}
-              className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4"
-            >
-              <a href="#rsvp" className="btn-primary">
-                {t.hero.cta}
-              </a>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold">
-                {t.hero.dates}
-              </p>
-            </motion.div>
+      {/* Content — anchored to the lower third so it never covers their faces */}
+      <motion.div
+        style={{ opacity: contentOpacity, y: contentY }}
+        className="relative flex h-full flex-col items-center justify-end px-5 pb-20 text-center sm:pb-24"
+      >
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="visible"
+          className="flex w-full max-w-3xl flex-col items-center"
+        >
+          <motion.div variants={item}>
+            <Mark className="h-6 w-11 text-gold sm:h-7 sm:w-12" />
           </motion.div>
 
-          {/* Photo column — offset gold hairline frame */}
-          <motion.div
-            initial={{ opacity: 0, y: reduce ? 0 : 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="order-1 md:order-2 md:col-span-5"
+          <motion.p variants={item} className="mt-6 eyebrow">
+            {t.hero.kicker}
+          </motion.p>
+
+          <motion.h1
+            variants={item}
+            className="mt-4 w-full text-balance font-serif text-4xl font-semibold leading-[1.0] text-ivory drop-shadow-[0_2px_24px_rgba(0,0,0,0.7)] sm:text-6xl lg:text-7xl"
           >
-            <div className="relative mx-auto max-w-xs sm:max-w-sm md:max-w-none">
-              {/* offset frame */}
-              <span
-                aria-hidden
-                className="absolute -bottom-3 -right-3 h-full w-full border border-gold/40"
-              />
-              <div className="relative overflow-hidden ring-1 ring-gold/25">
-                <Image
-                  src="/faithsealedus1.PNG"
-                  alt={`${t.hero.bride} & ${t.hero.groom}`}
-                  width={1057}
-                  height={1488}
-                  priority
-                  sizes="(max-width: 768px) 90vw, 40vw"
-                  className="h-auto w-full object-cover"
-                />
-              </div>
-            </div>
+            {t.hero.bride}
+            <span className="mx-2 font-normal italic text-gold sm:mx-3">{t.hero.and}</span>
+            {t.hero.groom}
+          </motion.h1>
+
+          <motion.p
+            variants={item}
+            className="mt-6 max-w-md text-base font-light leading-relaxed text-ivory/85 sm:text-lg"
+          >
+            {t.hero.tagline}
+          </motion.p>
+
+          <motion.p
+            variants={item}
+            className="mt-5 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-gold sm:text-xs"
+          >
+            {t.hero.dates}
+          </motion.p>
+
+          <motion.div variants={item} className="mt-9">
+            <a href="#rsvp" className="btn-primary">
+              {t.hero.cta}
+            </a>
           </motion.div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Scroll cue */}
       <motion.div
         aria-hidden
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1 }}
-        className="absolute inset-x-0 bottom-6 hidden justify-center sm:flex"
+        style={{ opacity: contentOpacity }}
+        className="absolute inset-x-0 bottom-5 hidden justify-center sm:flex"
       >
-        <div className="flex flex-col items-center gap-2 text-ivory-dim/50">
+        <div className="flex flex-col items-center gap-2 text-ivory/50">
           <span className="text-[0.6rem] uppercase tracking-widest2">{t.hero.scroll}</span>
           <motion.span
             animate={reduce ? undefined : { scaleY: [0.35, 1, 0.35], opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
-            className="block h-10 w-px origin-top bg-gold/60"
+            className="block h-8 w-px origin-top bg-gold/60"
           />
         </div>
       </motion.div>
