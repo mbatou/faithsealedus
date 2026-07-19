@@ -55,13 +55,11 @@ settings — that error means Vercel served no output for `/`:
 
 ## Database (Neon Postgres) setup
 
-1. On Vercel, open **Storage → Create Database → Neon** (or create a project at
-   [neon.tech](https://neon.tech)). The Vercel integration sets `DATABASE_URL`
-   automatically; locally, copy the pooled connection string into `.env.local`.
-2. Run [`neon/schema.sql`](./neon/schema.sql) in the Neon SQL editor (or
-   `psql "$DATABASE_URL" -f neon/schema.sql`). It creates the `rsvps` and
-   `prayers` tables.
-3. Set the remaining environment variables:
+**No migration step.** Once Neon is linked (Vercel **Storage → Neon** sets
+`DATABASE_URL` for you), the app **creates its tables automatically on first
+use** — the first RSVP, prayer, or `/admin` visit runs idempotent
+`CREATE TABLE IF NOT EXISTS` statements (`ensureSchema` in `src/lib/db.ts`). So
+all you need to do is set two more environment variables and deploy:
 
    | Variable | Purpose |
    | --- | --- |
@@ -69,8 +67,10 @@ settings — that error means Vercel served no output for `/`:
    | `ADMIN_PASSWORD` | Password for the `/admin` dashboard |
    | `EXCLUSIVE_ACCESS_CODE` | Code you share privately to unlock the 5 Dec evening ceremony |
 
-The Neon serverless (HTTP) driver is used, which is ideal for Vercel functions.
-Access is server-side only via route handlers (`src/lib/db.ts`).
+The Neon serverless (HTTP) driver is used, which is ideal for Vercel functions;
+access is server-side only via route handlers. If you'd rather create the tables
+yourself, [`neon/schema.sql`](./neon/schema.sql) has the same DDL — but it's
+optional.
 
 ### RSVP data model (`rsvps`)
 

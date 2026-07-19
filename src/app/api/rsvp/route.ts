@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSql } from '@/lib/db';
+import { getSql, ensureSchema } from '@/lib/db';
 import { rateLimit, clientIp } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
@@ -74,6 +74,7 @@ export async function POST(request: Request) {
   }
 
   try {
+    await ensureSchema(sql);
     await sql`
       insert into rsvps
         (full_name, email, attending_ghana, attending_senegal, attending_exclusive,

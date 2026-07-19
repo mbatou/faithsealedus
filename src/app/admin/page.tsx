@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { isAuthed } from '@/lib/admin-auth';
-import { getSql } from '@/lib/db';
+import { getSql, ensureSchema } from '@/lib/db';
 import { AdminLogin } from './AdminLogin';
 import {
   AdminDashboard,
@@ -20,6 +20,7 @@ async function fetchData(): Promise<{ rows: RsvpRow[]; prayers: PrayerRow[] }> {
   if (!sql) return { rows: [], prayers: [] };
 
   try {
+    await ensureSchema(sql);
     const [rowsRaw, prayersRaw] = await Promise.all([
       sql`select * from rsvps order by created_at desc`,
       sql`select id, name, message, created_at from prayers order by created_at desc`,

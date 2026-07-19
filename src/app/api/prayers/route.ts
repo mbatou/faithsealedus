@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSql } from '@/lib/db';
+import { getSql, ensureSchema } from '@/lib/db';
 import { rateLimit, clientIp } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
@@ -18,6 +18,7 @@ export async function GET() {
   if (!sql) return NextResponse.json({ prayers: [] });
 
   try {
+    await ensureSchema(sql);
     const rows = (await sql`
       select id, name, message, created_at
       from prayers
@@ -67,6 +68,7 @@ export async function POST(request: Request) {
   }
 
   try {
+    await ensureSchema(sql);
     const rows = (await sql`
       insert into prayers (name, message)
       values (${name}, ${message})

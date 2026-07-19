@@ -1,6 +1,10 @@
 -- ===========================================================================
 -- Neon Postgres schema for the wedding site.
--- Run in the Neon SQL editor (or `psql "$DATABASE_URL" -f neon/schema.sql`).
+--
+-- OPTIONAL: the app auto-provisions these tables on first use (see
+-- ensureSchema in src/lib/db.ts), so you normally don't need to run this.
+-- Kept here for reference, or if you prefer to create the tables by hand:
+--   psql "$DATABASE_URL" -f neon/schema.sql
 -- ===========================================================================
 
 create table if not exists rsvps (
