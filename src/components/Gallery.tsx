@@ -16,6 +16,7 @@ export function Gallery({ images }: { images: GalleryImage[] }) {
     <section id="gallery" className="section-pad bg-noir">
       <div className="container-page">
         <SectionHeading
+          index="03"
           kicker={t.gallery.kicker}
           title={t.gallery.title}
           intro={t.gallery.intro}
@@ -34,7 +35,7 @@ export function Gallery({ images }: { images: GalleryImage[] }) {
                 <button
                   type="button"
                   onClick={() => setActive(img)}
-                  className="group relative block aspect-square w-full overflow-hidden rounded-sm ring-1 ring-gold/25 transition duration-500 hover:ring-gold/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                  className="group relative block aspect-square w-full overflow-hidden ring-1 ring-gold/25 transition duration-500 hover:ring-gold/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                 >
                   <Image
                     src={img.src}
@@ -76,7 +77,7 @@ export function Gallery({ images }: { images: GalleryImage[] }) {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.92, opacity: 0 }}
               transition={{ type: 'spring', damping: 24, stiffness: 260 }}
-              className="relative h-[70vh] w-full max-w-3xl overflow-hidden rounded-sm ring-1 ring-gold/40"
+              className="relative h-[70vh] w-full max-w-3xl overflow-hidden ring-1 ring-gold/40"
               onClick={(e) => e.stopPropagation()}
             >
               <Image

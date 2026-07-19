@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100" role="img" aria-label="Couple photo placeholder">
   <defs>
-    <radialGradient id="glow" cx="50%" cy="38%" r="60%">
-      <stop offset="0" stop-color="#2a2420"/>
-      <stop offset="55%" stop-color="#141210"/>
-      <stop offset="100%" stop-color="#0B0B0B"/>
+    <radialGradient id="glow" cx="50%" cy="38%" r="62%">
+      <stop offset="0" stop-color="#1a1611"/>
+      <stop offset="50%" stop-color="#080706"/>
+      <stop offset="100%" stop-color="#000000"/>
     </radialGradient>
     <linearGradient id="fig" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#1c1a17"/>
-      <stop offset="1" stop-color="#0d0c0b"/>
+      <stop offset="0" stop-color="#14120f"/>
+      <stop offset="1" stop-color="#000000"/>
     </linearGradient>
   </defs>
   <rect width="900" height="1100" fill="url(#glow)"/>

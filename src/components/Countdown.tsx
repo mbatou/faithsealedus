@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
-import { SectionHeading } from './SectionHeading';
+import { MarkDivider } from './Mark';
 
 interface TimeLeft {
   days: number;
@@ -63,11 +63,11 @@ export function Countdown() {
 
       <div className="container-page relative flex flex-col items-center text-center">
         <p className="eyebrow">{t.countdown.kicker}</p>
-        <h2 className="mt-4 font-serif text-3xl font-semibold text-ivory sm:text-4xl md:text-5xl">
+        <h2 className="mt-5 font-serif text-3xl font-semibold text-ivory sm:text-4xl md:text-5xl">
           {t.countdown.title}
         </h2>
-        <span aria-hidden className="rule mt-6" />
-        <p className="mt-5 text-xs uppercase tracking-[0.22em] text-gold">
+        <MarkDivider className="mt-7" />
+        <p className="mt-6 text-xs uppercase tracking-[0.22em] text-gold">
           {t.countdown.to}
         </p>
 
@@ -76,7 +76,7 @@ export function Countdown() {
             {t.countdown.passed}
           </p>
         ) : (
-          <div className="mx-auto mt-12 grid max-w-lg grid-cols-4 gap-3 sm:gap-5">
+          <div className="mx-auto mt-12 grid w-full max-w-lg grid-cols-4 gap-px border border-gold/15 bg-gold/15">
             {units.map((unit, i) => (
               <motion.div
                 key={unit.label}
@@ -84,12 +84,12 @@ export function Countdown() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="card py-5 sm:py-7"
+                className="bg-noir py-6 sm:py-8"
               >
                 <div className="font-serif text-3xl font-semibold tabular-nums text-gold sm:text-5xl">
                   {String(unit.value).padStart(2, '0')}
                 </div>
-                <div className="mt-2 text-[0.6rem] uppercase tracking-[0.18em] text-ivory-dim/60 sm:text-xs">
+                <div className="mt-2 text-[0.55rem] uppercase tracking-[0.2em] text-ivory-dim/60 sm:text-xs">
                   {unit.label}
                 </div>
               </motion.div>

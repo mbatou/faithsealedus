@@ -130,7 +130,7 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
       ) : (
         <div className="card mt-8 overflow-x-auto">
           <table className="w-full min-w-[820px] text-left text-sm">
-            <thead className="border-b border-gold/15 bg-charcoal-dark text-[0.65rem] uppercase tracking-[0.15em] text-ivory-dim/60">
+            <thead className="border-b border-gold/15 bg-panel text-[0.65rem] uppercase tracking-[0.15em] text-ivory-dim/60">
               <tr>
                 <th className="px-4 py-3">{a.colName}</th>
                 <th className="px-4 py-3">{a.colEmail}</th>
@@ -144,7 +144,7 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
             </thead>
             <tbody className="divide-y divide-gold/10">
               {rows.map((r) => (
-                <tr key={r.id} className="align-top transition hover:bg-charcoal-light/60">
+                <tr key={r.id} className="align-top transition hover:bg-gold/5">
                   <td className="px-4 py-3 font-medium text-ivory">{r.name}</td>
                   <td className="px-4 py-3 text-ivory-dim">{r.email}</td>
                   <td className="px-4 py-3 text-center text-gold">

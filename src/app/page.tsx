@@ -7,10 +7,21 @@ import { TravelStay } from '@/components/TravelStay';
 import { Rsvp } from '@/components/Rsvp';
 import { Countdown } from '@/components/Countdown';
 import { Footer } from '@/components/Footer';
+import { Marquee } from '@/components/Marquee';
 import { getGalleryImages } from '@/lib/gallery';
 
-// Gallery images are fetched from Supabase Storage at request time.
-export const dynamic = 'force-dynamic';
+const marqueeItems = [
+  'Faith & Georges',
+  'Accra',
+  'Dakar',
+  'XIX — XXIII · XII · MMXXVI',
+  '#FaithSealedUs',
+];
+
+// Statically generated with hourly ISR: the page is served from the CDN (no
+// serverless cold-start or missing-env can 404 it) while still refreshing the
+// gallery from Supabase Storage roughly once an hour.
+export const revalidate = 3600;
 
 export default async function Home() {
   const images = await getGalleryImages();
@@ -20,6 +31,7 @@ export default async function Home() {
       <Header />
       <main>
         <Hero />
+        <Marquee items={marqueeItems} />
         <OurStory />
         <TheWeek />
         <Gallery images={images} />

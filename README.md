@@ -5,11 +5,13 @@ that spans **two countries in one week** — a traditional ceremony in **Accra,
 Ghana** 🇬🇭 and a celebration in **Dakar, Senegal** 🇸🇳.
 
 Built with **Next.js (App Router)**, **Supabase**, **Tailwind CSS**, and
-**Framer Motion** for slow, soft scroll reveals. The look is **dark editorial
-luxury** — a near-black (`#0B0B0B`) base with charcoal section cards, a
-champagne-gold accent (`#C6A15B`) used sparingly for dividers, buttons and
-names, ivory text, high-contrast Playfair Display headings, and a candlelit,
-low-light mood with large photos framed by gold hairline borders.
+**Framer Motion** for slow, soft scroll reveals. The look is an **"Editorial
+Atelier"** — a magazine-catalogue take on a wedding site on a **pure black
+(`#000`)** canvas, delineated by champagne-gold (`#C6A15B`) hairlines rather
+than filled cards. Signatures: section index numerals (`N°01…05`) with
+vertical/uppercase labels, a recurring **"union" mark** (two interlocked rings
+— two people, two countries), high-contrast Playfair Display headings, a
+running editorial marquee, and large photos on black with offset gold frames.
 
 ## Sections
 
@@ -28,6 +30,24 @@ npm run dev
 
 Open http://localhost:3000. The site renders fully with bundled placeholder
 art even before Supabase is configured.
+
+## Deploying to Vercel
+
+The home page is **statically generated** (with hourly ISR), so it's served
+straight from Vercel's CDN. If you saw a `404: NOT_FOUND`, check the project
+settings — that error means Vercel served no output for `/`:
+
+1. **Framework Preset** → *Next.js* (a `vercel.json` pins this too).
+2. **Root Directory** → `./` (the repo root, where `package.json` lives). A
+   wrong root is the most common cause of the 404.
+3. **Production Branch** → the branch you actually push to. The default branch
+   started empty, so point Vercel at `claude/bilingual-wedding-nextjs-3kyrw3`
+   (or merge it into `main`) — otherwise the production URL has nothing to serve.
+4. Add the environment variables below under **Settings → Environment
+   Variables**, then redeploy. The site builds and renders without them (using
+   placeholders), so a missing key won't 404 the page.
+5. Open the failing deployment's **Build Logs** if it still fails — a red build
+   there tells you exactly what broke.
 
 ## Supabase setup
 

@@ -73,9 +73,9 @@ export function Rsvp() {
   }
 
   return (
-    <section id="rsvp" className="section-pad bg-noir-soft">
+    <section id="rsvp" className="section-pad bg-noir">
       <div className="container-page">
-        <SectionHeading kicker={t.rsvp.kicker} title={t.rsvp.title} intro={t.rsvp.intro} />
+        <SectionHeading index="05" kicker={t.rsvp.kicker} title={t.rsvp.title} intro={t.rsvp.intro} />
 
         <Reveal className="mx-auto mt-14 max-w-xl">
           <div className="card p-6 sm:p-8">
@@ -88,7 +88,7 @@ export function Rsvp() {
                   exit={{ opacity: 0 }}
                   className="py-6 text-center"
                 >
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-gold/30 bg-charcoal-dark text-3xl">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center border border-gold/30 text-3xl">
                     🕯️
                   </div>
                   <h3 className="mt-6 font-serif text-2xl font-semibold text-ivory">
@@ -151,7 +151,7 @@ export function Rsvp() {
 
                   <fieldset className="space-y-2">
                     <legend className="field-label">{t.nav.week}</legend>
-                    <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gold/15 bg-charcoal-dark px-4 py-3 transition hover:border-gold/45">
+                    <label className="flex cursor-pointer items-center gap-3 border border-gold/15 px-4 py-3 transition hover:border-gold/45">
                       <input
                         type="checkbox"
                         checked={ghana}
@@ -160,7 +160,7 @@ export function Rsvp() {
                       />
                       <span className="text-ivory-dim">{f.attendingGhana}</span>
                     </label>
-                    <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gold/15 bg-charcoal-dark px-4 py-3 transition hover:border-gold/45">
+                    <label className="flex cursor-pointer items-center gap-3 border border-gold/15 px-4 py-3 transition hover:border-gold/45">
                       <input
                         type="checkbox"
                         checked={senegal}

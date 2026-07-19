@@ -10,7 +10,7 @@ export function OurStory() {
   return (
     <section id="story" className="section-pad bg-noir">
       <div className="container-page">
-        <SectionHeading kicker={t.story.kicker} title={t.story.title} />
+        <SectionHeading index="01" kicker={t.story.kicker} title={t.story.title} />
 
         <div className="mx-auto mt-16 max-w-3xl">
           <div className="relative border-l border-gold/25 pl-8 sm:pl-10">

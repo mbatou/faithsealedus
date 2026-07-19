@@ -17,7 +17,7 @@ function LanguageToggle() {
   const options: Language[] = ['en', 'fr'];
   return (
     <div
-      className="flex items-center rounded-full border border-gold/25 bg-charcoal/70 p-0.5 text-sm backdrop-blur"
+      className="flex items-center rounded-full border border-gold/25 bg-black/50 p-0.5 text-sm backdrop-blur"
       role="group"
       aria-label={t.nav.langLabel}
     >

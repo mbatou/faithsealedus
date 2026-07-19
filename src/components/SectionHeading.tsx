@@ -1,11 +1,13 @@
 'use client';
 
 import { Reveal } from './Reveal';
+import { MarkDivider } from './Mark';
 
 interface SectionHeadingProps {
   kicker: string;
   title: string;
   intro?: string;
+  index?: string;
   align?: 'center' | 'left';
 }
 
@@ -13,18 +15,34 @@ export function SectionHeading({
   kicker,
   title,
   intro,
+  index,
   align = 'center',
 }: SectionHeadingProps) {
-  const alignment = align === 'center' ? 'text-center mx-auto items-center' : 'text-left items-start';
+  const centered = align === 'center';
   return (
-    <Reveal className={`flex max-w-2xl flex-col ${alignment}`}>
-      <p className="eyebrow">{kicker}</p>
-      <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-ivory sm:text-4xl md:text-5xl">
+    <Reveal
+      className={`flex max-w-2xl flex-col ${
+        centered ? 'mx-auto items-center text-center' : 'items-start text-left'
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        {index && (
+          <>
+            <span className="index-num">{index}</span>
+            <span aria-hidden className="h-px w-8 bg-gold/40" />
+          </>
+        )}
+        <p className="eyebrow">{kicker}</p>
+      </div>
+
+      <h2 className="mt-6 font-serif text-[2.1rem] font-semibold leading-[1.05] text-ivory sm:text-5xl md:text-6xl">
         {title}
       </h2>
-      <span aria-hidden className="rule mt-6" />
+
+      <MarkDivider className={`mt-7 ${centered ? '' : 'justify-start'}`} />
+
       {intro && (
-        <p className="mt-6 text-base leading-relaxed text-ivory-dim sm:text-lg">
+        <p className="mt-7 max-w-xl text-base font-light leading-relaxed text-ivory-dim sm:text-lg">
           {intro}
         </p>
       )}

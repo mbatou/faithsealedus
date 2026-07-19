@@ -9,7 +9,6 @@
 
   html {
     scroll-behavior: smooth;
-    /* Offset anchored scrolling so sections clear the sticky header. */
     scroll-padding-top: 5rem;
   }
 
@@ -34,49 +33,53 @@
   }
 
   .section-pad {
-    @apply py-24 sm:py-32;
+    @apply py-24 sm:py-36;
   }
 
-  /* Charcoal card with a champagne-gold hairline border. */
+  /* Pure-black card framed by a champagne-gold hairline — a gallery mat. */
   .card {
-    @apply rounded-2xl border border-gold/15 bg-charcoal;
+    @apply rounded-none border border-gold/20 bg-noir;
+    box-shadow: inset 0 1px 0 rgba(198, 161, 91, 0.06);
   }
 
+  /* Editorial micro-label. */
   .eyebrow {
     @apply text-[0.7rem] font-semibold uppercase tracking-luxe text-gold;
   }
 
-  /* Thin gold divider with a centred diamond node. */
-  .rule {
-    @apply relative block h-px w-24 bg-gradient-to-r from-transparent via-gold/60 to-transparent;
+  /* Section index numeral, e.g. "02" in the margin. */
+  .index-num {
+    @apply font-serif text-sm font-semibold tracking-[0.3em] text-gold/70;
   }
-  .rule::after {
-    content: '';
-    @apply absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-gold;
+
+  /* Vertical rotated label. */
+  .v-label {
+    writing-mode: vertical-rl;
+    @apply text-[0.65rem] font-semibold uppercase tracking-luxe text-ivory-dim/50;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold px-8 py-3
-           text-sm font-semibold uppercase tracking-[0.18em] text-noir
-           transition hover:bg-gold-light focus-visible:outline focus-visible:outline-2
-           focus-visible:outline-offset-2 focus-visible:outline-gold
+    @apply inline-flex items-center justify-center gap-2 rounded-none border border-gold
+           bg-gold px-8 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-noir
+           transition hover:bg-transparent hover:text-gold focus-visible:outline
+           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold
            disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/40
-           px-7 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-ivory
+    @apply inline-flex items-center justify-center gap-2 rounded-none border border-gold/40
+           px-7 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-ivory
            transition hover:border-gold hover:bg-gold/10;
   }
 
   .field-label {
-    @apply mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-ivory-dim;
+    @apply mb-1.5 block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ivory-dim;
   }
 
   .field-input {
-    @apply w-full rounded-xl border border-gold/15 bg-charcoal-dark px-4 py-3 text-ivory
-           outline-none transition placeholder:text-ivory-dim/40
-           focus:border-gold/60 focus:ring-1 focus:ring-gold/40;
+    @apply w-full rounded-none border-0 border-b border-gold/25 bg-transparent px-1 py-2.5
+           text-ivory outline-none transition placeholder:text-ivory-dim/35
+           focus:border-gold;
   }
 }
 
