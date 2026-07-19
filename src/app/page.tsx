@@ -4,6 +4,7 @@ import { OurStory } from '@/components/OurStory';
 import { TheWeek } from '@/components/TheWeek';
 import { Gallery } from '@/components/Gallery';
 import { Witnesses } from '@/components/Witnesses';
+import { Prayers } from '@/components/Prayers';
 import { TravelStay } from '@/components/TravelStay';
 import { Rsvp } from '@/components/Rsvp';
 import { Countdown } from '@/components/Countdown';
@@ -19,13 +20,13 @@ const marqueeItems = [
   'Two homelands, one union',
 ];
 
-// Statically generated with hourly ISR: the page is served from the CDN (no
-// serverless cold-start or missing-env can 404 it) while still refreshing the
-// gallery from Supabase Storage roughly once an hour.
+// Statically generated with hourly ISR: the page is served straight from the
+// CDN (no serverless cold-start or missing env can 404 it). Dynamic bits
+// (prayers, RSVP) are handled by client fetches to route handlers.
 export const revalidate = 3600;
 
-export default async function Home() {
-  const images = await getGalleryImages();
+export default function Home() {
+  const images = getGalleryImages();
 
   return (
     <>
@@ -37,6 +38,7 @@ export default async function Home() {
         <TheWeek />
         <Gallery images={images} />
         <Witnesses />
+        <Prayers />
         <TravelStay />
         <Rsvp />
         <Countdown />

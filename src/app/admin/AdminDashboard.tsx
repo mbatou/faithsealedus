@@ -10,9 +10,17 @@ export interface RsvpRow {
   email: string;
   attending_ghana: boolean;
   attending_senegal: boolean;
+  attending_exclusive: boolean;
   party_size: number;
   dietary_notes: string | null;
   message: string | null;
+  created_at: string;
+}
+
+export interface PrayerRow {
+  id: string;
+  name: string | null;
+  message: string;
   created_at: string;
 }
 
@@ -22,6 +30,7 @@ function toCsv(rows: RsvpRow[]): string {
     'email',
     'attending_ghana',
     'attending_senegal',
+    'attending_exclusive',
     'party_size',
     'dietary_notes',
     'message',
@@ -42,6 +51,7 @@ function toCsv(rows: RsvpRow[]): string {
         r.email,
         r.attending_ghana,
         r.attending_senegal,
+        r.attending_exclusive,
         r.party_size,
         r.dietary_notes ?? '',
         r.message ?? '',
@@ -66,7 +76,13 @@ function StatCard({ label, value }: { label: string; value: number }) {
   );
 }
 
-export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
+export function AdminDashboard({
+  rows,
+  prayers,
+}: {
+  rows: RsvpRow[];
+  prayers: PrayerRow[];
+}) {
   const { t } = useLanguage();
   const a = t.admin;
 
@@ -75,6 +91,7 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
       total: rows.length,
       ghana: rows.filter((r) => r.attending_ghana).length,
       senegal: rows.filter((r) => r.attending_senegal).length,
+      exclusive: rows.filter((r) => r.attending_exclusive).length,
       guests: rows.reduce((sum, r) => sum + (r.party_size || 0), 0),
     };
   }, [rows]);
@@ -118,10 +135,11 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
         </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+      <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-5 sm:gap-4">
         <StatCard label={a.total} value={stats.total} />
         <StatCard label={a.ghana} value={stats.ghana} />
         <StatCard label={a.senegal} value={stats.senegal} />
+        <StatCard label={a.exclusive} value={stats.exclusive} />
         <StatCard label={a.guests} value={stats.guests} />
       </div>
 
@@ -129,13 +147,14 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
         <p className="mt-14 text-center text-ivory-dim">{a.noRsvps}</p>
       ) : (
         <div className="card mt-8 overflow-x-auto">
-          <table className="w-full min-w-[820px] text-left text-sm">
+          <table className="w-full min-w-[920px] text-left text-sm">
             <thead className="border-b border-gold/15 bg-surface text-[0.65rem] uppercase tracking-[0.15em] text-ivory-dim/60">
               <tr>
                 <th className="px-4 py-3">{a.colName}</th>
                 <th className="px-4 py-3">{a.colEmail}</th>
                 <th className="px-4 py-3 text-center">{a.colGhana}</th>
                 <th className="px-4 py-3 text-center">{a.colSenegal}</th>
+                <th className="px-4 py-3 text-center">{a.colExclusive}</th>
                 <th className="px-4 py-3 text-center">{a.colParty}</th>
                 <th className="px-4 py-3">{a.colDietary}</th>
                 <th className="px-4 py-3">{a.colMessage}</th>
@@ -153,6 +172,9 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
                   <td className="px-4 py-3 text-center text-gold">
                     {r.attending_senegal ? '✦' : '—'}
                   </td>
+                  <td className="px-4 py-3 text-center text-gold">
+                    {r.attending_exclusive ? '✦' : '—'}
+                  </td>
                   <td className="px-4 py-3 text-center text-ivory-dim">{r.party_size}</td>
                   <td className="px-4 py-3 text-ivory-dim">{r.dietary_notes || '—'}</td>
                   <td className="max-w-xs px-4 py-3 text-ivory-dim">{r.message || '—'}</td>
@@ -165,6 +187,31 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
           </table>
         </div>
       )}
+
+      {/* Prayer wall */}
+      <div className="mt-14">
+        <h2 className="font-serif text-2xl font-semibold text-ivory">
+          {a.prayersTitle}{' '}
+          <span className="text-gold">({prayers.length})</span>
+        </h2>
+        {prayers.length === 0 ? (
+          <p className="mt-4 text-ivory-dim">{a.noPrayers}</p>
+        ) : (
+          <ul className="mt-6 space-y-3">
+            {prayers.map((p) => (
+              <li key={p.id} className="card p-4">
+                <p className="font-serif italic text-ivory">“{p.message}”</p>
+                <p className="mt-1 text-[0.65rem] uppercase tracking-[0.15em] text-gold/70">
+                  {p.name || '—'} ·{' '}
+                  <span className="text-ivory-dim/60">
+                    {new Date(p.created_at).toLocaleDateString()}
+                  </span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

@@ -9,6 +9,7 @@ const navItems: { id: string; key: keyof ReturnType<typeof useLanguage>['t']['na
   { id: 'week', key: 'week' },
   { id: 'gallery', key: 'gallery' },
   { id: 'witnesses', key: 'witnesses' },
+  { id: 'prayers', key: 'prayers' },
   { id: 'travel', key: 'travel' },
   { id: 'rsvp', key: 'rsvp' },
 ];
@@ -75,7 +76,7 @@ export function Header() {
           A <span className="text-gold">&amp;</span> G
         </a>
 
-        <nav className="hidden items-center gap-5 md:flex lg:gap-7" aria-label="Primary">
+        <nav className="hidden items-center gap-5 lg:flex lg:gap-6" aria-label="Primary">
           {navItems.map((item) => (
             <a
               key={item.id}
@@ -91,7 +92,7 @@ export function Header() {
           <LanguageToggle />
           <button
             type="button"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/25 text-ivory md:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/25 text-ivory lg:hidden"
             aria-label="Menu"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
@@ -120,7 +121,7 @@ export function Header() {
       {/* Mobile menu */}
       {menuOpen && (
         <nav
-          className="border-t border-gold/10 bg-noir/95 backdrop-blur md:hidden"
+          className="border-t border-gold/10 bg-noir/95 backdrop-blur lg:hidden"
           aria-label="Mobile"
         >
           <ul className="container-page flex flex-col py-4">

@@ -38,6 +38,7 @@ export interface Dictionary {
     week: string;
     gallery: string;
     witnesses: string;
+    prayers: string;
     travel: string;
     rsvp: string;
     langLabel: string;
@@ -121,6 +122,31 @@ export interface Dictionary {
     errorRate: string;
     confirmationNote: string;
   };
+  prayers: {
+    kicker: string;
+    title: string;
+    intro: string;
+    placeholder: string;
+    namePlaceholder: string;
+    submit: string;
+    submitting: string;
+    empty: string;
+    thanks: string;
+    error: string;
+    signed: string; // "— {name}" prefix word, kept generic
+  };
+  exclusive: {
+    teaser: string;
+    prompt: string;
+    placeholder: string;
+    unlock: string;
+    unlocking: string;
+    invalid: string;
+    title: string;
+    when: string;
+    note: string;
+    attend: string;
+  };
   countdown: {
     kicker: string;
     title: string;
@@ -143,13 +169,17 @@ export interface Dictionary {
     total: string;
     ghana: string;
     senegal: string;
+    exclusive: string;
     guests: string;
     exportCsv: string;
     noRsvps: string;
+    prayersTitle: string;
+    noPrayers: string;
     colName: string;
     colEmail: string;
     colGhana: string;
     colSenegal: string;
+    colExclusive: string;
     colParty: string;
     colDietary: string;
     colMessage: string;
@@ -219,6 +249,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       week: 'The Week',
       gallery: 'Us',
       witnesses: 'Our Witnesses',
+      prayers: 'Prayers',
       travel: 'Travel & Stay',
       rsvp: 'RSVP',
       langLabel: 'Language',
@@ -360,6 +391,32 @@ export const dictionaries: Record<Language, Dictionary> = {
       errorRate: 'You’ve submitted a few times already. Please try again shortly.',
       confirmationNote: 'We’ll send a confirmation to this address.',
     },
+    prayers: {
+      kicker: 'Blessings',
+      title: 'A cloud of prayers',
+      intro:
+        'Leave us a prayer or a blessing — it joins the cloud above and travels with us into both ceremonies.',
+      placeholder: 'Type your prayer or blessing…',
+      namePlaceholder: 'Your name (optional)',
+      submit: 'Add to the cloud',
+      submitting: 'Adding…',
+      empty: 'Be the first to leave a blessing.',
+      thanks: 'Amen — thank you for your blessing.',
+      error: 'Something went wrong. Please try again in a moment.',
+      signed: '—',
+    },
+    exclusive: {
+      teaser: 'Have a private invitation code?',
+      prompt: 'Enter your code to unlock the private ceremony.',
+      placeholder: 'Invitation code',
+      unlock: 'Unlock',
+      unlocking: 'Checking…',
+      invalid: 'That code isn’t recognised. Please check and try again.',
+      title: 'The private ceremony',
+      when: 'Saturday, 5 December — evening',
+      note: 'An intimate gathering, by invitation only. The address will be shared with your confirmation.',
+      attend: 'Yes — I’ll join the private ceremony',
+    },
     countdown: {
       kicker: 'The countdown',
       title: 'Until we say “I do”',
@@ -382,13 +439,17 @@ export const dictionaries: Record<Language, Dictionary> = {
       total: 'Total responses',
       ghana: 'Attending Accra',
       senegal: 'Attending Senegal',
+      exclusive: 'Private ceremony',
       guests: 'Total guests',
       exportCsv: 'Export CSV',
       noRsvps: 'No RSVPs yet.',
+      prayersTitle: 'Prayer wall',
+      noPrayers: 'No prayers yet.',
       colName: 'Full name',
       colEmail: 'Email',
       colGhana: 'Accra',
       colSenegal: 'Senegal',
+      colExclusive: 'Private',
       colParty: 'Party',
       colDietary: 'Dietary',
       colMessage: 'Message',
@@ -403,6 +464,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       week: 'La semaine',
       gallery: 'Nous',
       witnesses: 'Nos témoins',
+      prayers: 'Prières',
       travel: 'Voyage & hébergement',
       rsvp: 'Confirmer',
       langLabel: 'Langue',
@@ -545,6 +607,32 @@ export const dictionaries: Record<Language, Dictionary> = {
       errorRate: 'Vous avez déjà répondu plusieurs fois. Merci de réessayer plus tard.',
       confirmationNote: 'Nous enverrons une confirmation à cette adresse.',
     },
+    prayers: {
+      kicker: 'Bénédictions',
+      title: 'Un nuage de prières',
+      intro:
+        'Laissez-nous une prière ou une bénédiction — elle rejoint le nuage ci-dessus et nous accompagnera dans les deux cérémonies.',
+      placeholder: 'Écrivez votre prière ou bénédiction…',
+      namePlaceholder: 'Votre nom (facultatif)',
+      submit: 'Ajouter au nuage',
+      submitting: 'Envoi…',
+      empty: 'Soyez la première personne à laisser une bénédiction.',
+      thanks: 'Amen — merci pour votre bénédiction.',
+      error: 'Une erreur est survenue. Merci de réessayer dans un instant.',
+      signed: '—',
+    },
+    exclusive: {
+      teaser: 'Vous avez un code d’invitation privé ?',
+      prompt: 'Saisissez votre code pour dévoiler la cérémonie privée.',
+      placeholder: 'Code d’invitation',
+      unlock: 'Déverrouiller',
+      unlocking: 'Vérification…',
+      invalid: 'Ce code n’est pas reconnu. Merci de vérifier et de réessayer.',
+      title: 'La cérémonie privée',
+      when: 'Samedi 5 décembre — en soirée',
+      note: 'Un moment intime, sur invitation uniquement. L’adresse vous sera communiquée avec votre confirmation.',
+      attend: 'Oui — je me joins à la cérémonie privée',
+    },
     countdown: {
       kicker: 'Le compte à rebours',
       title: 'Avant le grand « oui »',
@@ -567,13 +655,17 @@ export const dictionaries: Record<Language, Dictionary> = {
       total: 'Réponses totales',
       ghana: 'Présents à Accra',
       senegal: 'Présents au Sénégal',
+      exclusive: 'Cérémonie privée',
       guests: 'Invités au total',
       exportCsv: 'Exporter en CSV',
       noRsvps: 'Aucun RSVP pour le moment.',
+      prayersTitle: 'Mur de prières',
+      noPrayers: 'Aucune prière pour le moment.',
       colName: 'Nom complet',
       colEmail: 'E-mail',
       colGhana: 'Accra',
       colSenegal: 'Sénégal',
+      colExclusive: 'Privée',
       colParty: 'Groupe',
       colDietary: 'Régime',
       colMessage: 'Message',

@@ -5,7 +5,7 @@ Georges** — one trip, two celebrations in the same week: **Accra, Ghana** 🇬
 **2 December 2026** and **Senegal** 🇸🇳 on **5 December 2026**. *Two homelands,
 one union.*
 
-Built with **Next.js (App Router)**, **Supabase**, **Tailwind CSS**, and
+Built with **Next.js (App Router)**, **Neon Postgres**, **Tailwind CSS**, and
 **Framer Motion** for slow, soft scroll reveals. The look is **black &amp; gold,
 premium** — a near-black (`#0B0B0B`) canvas with raised `#161514` surface cards,
 champagne-gold (`#C6A15B`) hairlines and accents, high-contrast Playfair Display
@@ -15,11 +15,14 @@ a running marquee, and large photos framed by thin gold hairlines.
 
 ## Sections
 
-Single-page scroll: **Hero → Our Story** (three movements) **→ The Week** (one
-timeline, two acts — Accra & Senegal) **→ Us** (gallery, `next/image` from
-Supabase Storage) **→ Our Witnesses → Travel &amp; Stay → RSVP → Countdown +
-footer**, plus a password-gated **/admin** dashboard. Header **EN/FR** toggle
-throughout.
+Single-page scroll: **Hero → Our Story** (three illustrated movements) **→ The
+Week** (one timeline, two acts — Accra & Senegal) **→ Us** (gallery, `next/image`
+from `/public`) **→ Our Witnesses → Prayers** (a live "cloud of prayers" guests
+add to) **→ Travel &amp; Stay → RSVP → Countdown + footer**, plus a
+password-gated **/admin** dashboard. Header **EN/FR** toggle throughout.
+
+A **discreet, code-gated private ceremony** (evening of 5 December) is hidden
+inside the RSVP: guests who have the invitation code can unlock it and respond.
 
 ## Getting started
 
@@ -29,8 +32,8 @@ cp .env.local.example .env.local   # then fill in the values
 npm run dev
 ```
 
-Open http://localhost:3000. The site renders fully with bundled placeholder
-art even before Supabase is configured.
+Open http://localhost:3000. The site renders fully (photos included) even
+before the database is configured — RSVPs and prayers just can't be saved yet.
 
 ## Deploying to Vercel
 
@@ -45,47 +48,54 @@ settings — that error means Vercel served no output for `/`:
    started empty, so point Vercel at `claude/bilingual-wedding-nextjs-3kyrw3`
    (or merge it into `main`) — otherwise the production URL has nothing to serve.
 4. Add the environment variables below under **Settings → Environment
-   Variables**, then redeploy. The site builds and renders without them (using
-   placeholders), so a missing key won't 404 the page.
+   Variables**, then redeploy. The site builds and renders without them, so a
+   missing key won't 404 the page (RSVPs/prayers just won't persist).
 5. Open the failing deployment's **Build Logs** if it still fails — a red build
    there tells you exactly what broke.
 
-## Supabase setup
+## Database (Neon Postgres) setup
 
-1. Create a project at [supabase.com](https://supabase.com).
-2. Run [`supabase/schema.sql`](./supabase/schema.sql) in the SQL editor. This
-   creates the `rsvps` table (with RLS allowing anonymous inserts only) and a
-   public `gallery` Storage bucket.
-3. Copy your keys from **Project Settings → API** into `.env.local`:
+1. On Vercel, open **Storage → Create Database → Neon** (or create a project at
+   [neon.tech](https://neon.tech)). The Vercel integration sets `DATABASE_URL`
+   automatically; locally, copy the pooled connection string into `.env.local`.
+2. Run [`neon/schema.sql`](./neon/schema.sql) in the Neon SQL editor (or
+   `psql "$DATABASE_URL" -f neon/schema.sql`). It creates the `rsvps` and
+   `prayers` tables.
+3. Set the remaining environment variables:
 
    | Variable | Purpose |
    | --- | --- |
-   | `NEXT_PUBLIC_SUPABASE_URL` | Project URL (browser + server) |
-   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key — used to insert RSVPs |
-   | `SUPABASE_SERVICE_ROLE_KEY` | Server-only — lets `/admin` read every RSVP |
-   | `NEXT_PUBLIC_SUPABASE_GALLERY_BUCKET` | Storage bucket name (default `gallery`) |
+   | `DATABASE_URL` | Neon connection string (set by the Vercel integration) |
    | `ADMIN_PASSWORD` | Password for the `/admin` dashboard |
+   | `EXCLUSIVE_ACCESS_CODE` | Code you share privately to unlock the 5 Dec evening ceremony |
 
-4. Upload photos to the `gallery` bucket — they replace the placeholders
-   automatically.
+The Neon serverless (HTTP) driver is used, which is ideal for Vercel functions.
+Access is server-side only via route handlers (`src/lib/db.ts`).
 
 ### RSVP data model (`rsvps`)
 
 `full_name`, `email`, `attending_ghana` (Accra, 2 Dec), `attending_senegal`
-(Senegal, 4 Dec), `party_size`, `dietary_notes`, `message`, `created_at`.
+(Dakar, 5 Dec), `attending_exclusive` (private ceremony, 5 Dec eve),
+`party_size`, `dietary_notes`, `message`, `created_at`.
 
-Inserts go through the `POST /api/rsvp` route handler, which validates input,
-drops bot submissions via a **honeypot** field, applies a **basic per-IP rate
-limit** (5 / 10 min, in-memory — swap for Upstash/Redis to share across
-instances), and confirms on screen with a note that an email confirmation
-follows (wire up your email provider in `src/app/api/rsvp/route.ts`).
+Inserts go through `POST /api/rsvp`, which validates input, drops bots via a
+**honeypot**, applies a **per-IP rate limit** (5 / 10 min), and only records
+`attending_exclusive` when the submitted **invitation code** matches
+`EXCLUSIVE_ACCESS_CODE` server-side.
+
+### Prayers (`prayers`)
+
+`name` (optional), `message`, `created_at`. `GET /api/prayers` feeds the cloud;
+`POST /api/prayers` adds one (honeypot + rate-limited). The private-ceremony
+code is checked by `POST /api/access`; the ceremony details live client-side and
+are only shown once the code matches, so nothing sensitive ships in the bundle.
 
 ## Admin
 
-Visit **`/admin`** and enter `ADMIN_PASSWORD`. You get response totals,
-per-country attendance, guest counts, the full RSVP table, and a **CSV export**
-button. Auth is a signed, http-only cookie derived from the password — the
-password itself is never stored in the cookie.
+Visit **`/admin`** and enter `ADMIN_PASSWORD`. You get response totals
+(including a **Private ceremony** count), guest totals, the full RSVP table with
+a **CSV export**, and the **prayer wall**. Auth is a signed, http-only cookie
+derived from the password — the password itself is never stored in the cookie.
 
 ## Internationalisation
 
@@ -97,11 +107,13 @@ The header toggle switches EN/FR instantly and remembers the choice
 
 ## Customising
 
-- **All copy (names, story, venues, witnesses, travel…)** → `src/lib/dictionary.ts`
-  (the `TODO`/"to be confirmed" strings are the ones awaiting final details)
-- **Couple photo** → replace `public/couple-placeholder.svg`
-- **Gallery placeholders** → replace `public/gallery/*.svg` (or upload to the
-  Supabase `gallery` bucket)
+- **All copy (names, story, venues, witnesses, travel, prayers…)** →
+  `src/lib/dictionary.ts`
+- **Photos (hero, Our Story, gallery)** → the `faithsealedus*.PNG` files in
+  `/public`, referenced from `src/lib/gallery.ts`, `src/components/Hero.tsx` and
+  `src/components/OurStory.tsx`
+- **Private ceremony details** → `exclusive` in `src/lib/dictionary.ts` (keep it
+  discreet — no secret address in the bundle); set the code via `EXCLUSIVE_ACCESS_CODE`
 - **Colours (`--bg` noir / `--surface` / gold / ivory / muted) &amp; fonts** →
   `tailwind.config.ts` and `src/app/layout.tsx`
 

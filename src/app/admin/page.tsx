@@ -1,8 +1,12 @@
 import type { Metadata } from 'next';
 import { isAuthed } from '@/lib/admin-auth';
-import { getSupabaseServiceClient } from '@/lib/supabase/server';
+import { getSql } from '@/lib/db';
 import { AdminLogin } from './AdminLogin';
-import { AdminDashboard, type RsvpRow } from './AdminDashboard';
+import {
+  AdminDashboard,
+  type RsvpRow,
+  type PrayerRow,
+} from './AdminDashboard';
 
 export const metadata: Metadata = {
   title: 'Admin · RSVPs',
@@ -11,20 +15,23 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-async function fetchRsvps(): Promise<RsvpRow[]> {
-  const supabase = getSupabaseServiceClient();
-  if (!supabase) return [];
+async function fetchData(): Promise<{ rows: RsvpRow[]; prayers: PrayerRow[] }> {
+  const sql = getSql();
+  if (!sql) return { rows: [], prayers: [] };
 
-  const { data, error } = await supabase
-    .from('rsvps')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error('Failed to load RSVPs:', error.message);
-    return [];
+  try {
+    const [rowsRaw, prayersRaw] = await Promise.all([
+      sql`select * from rsvps order by created_at desc`,
+      sql`select id, name, message, created_at from prayers order by created_at desc`,
+    ]);
+    return {
+      rows: rowsRaw as RsvpRow[],
+      prayers: prayersRaw as PrayerRow[],
+    };
+  } catch (err) {
+    console.error('Admin data load failed:', err);
+    return { rows: [], prayers: [] };
   }
-  return (data as RsvpRow[]) ?? [];
 }
 
 export default async function AdminPage() {
@@ -36,11 +43,11 @@ export default async function AdminPage() {
     );
   }
 
-  const rows = await fetchRsvps();
+  const { rows, prayers } = await fetchData();
 
   return (
     <main className="min-h-screen bg-noir">
-      <AdminDashboard rows={rows} />
+      <AdminDashboard rows={rows} prayers={prayers} />
     </main>
   );
 }

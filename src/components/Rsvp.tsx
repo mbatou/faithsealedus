@@ -14,10 +14,44 @@ export function Rsvp() {
   const { t } = useLanguage();
   const f = t.rsvp.fields;
 
+  const ex = t.exclusive;
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
   const [ghana, setGhana] = useState(false);
   const [senegal, setSenegal] = useState(false);
+
+  // Discreet, code-gated private ceremony.
+  const [exOpen, setExOpen] = useState(false);
+  const [code, setCode] = useState('');
+  const [unlocked, setUnlocked] = useState(false);
+  const [exAttend, setExAttend] = useState(false);
+  const [codeError, setCodeError] = useState<string | null>(null);
+  const [checking, setChecking] = useState(false);
+
+  async function checkCode() {
+    const c = code.trim();
+    if (!c) return;
+    setChecking(true);
+    setCodeError(null);
+    try {
+      const res = await fetch('/api/access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: c }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (data.ok) {
+        setUnlocked(true);
+        setExAttend(true);
+      } else {
+        setCodeError(ex.invalid);
+      }
+    } catch {
+      setCodeError(ex.invalid);
+    } finally {
+      setChecking(false);
+    }
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -30,9 +64,11 @@ export function Rsvp() {
     const email = String(data.get('email') ?? '').trim();
 
     // Client-side guardrails (server re-validates).
+    const wantsExclusive = unlocked && exAttend;
+
     if (!name) return setError(t.rsvp.errorName);
     if (!EMAIL_RE.test(email)) return setError(t.rsvp.errorEmail);
-    if (!ghana && !senegal) return setError(t.rsvp.errorAttend);
+    if (!ghana && !senegal && !wantsExclusive) return setError(t.rsvp.errorAttend);
 
     setStatus('submitting');
 
@@ -45,6 +81,8 @@ export function Rsvp() {
           email,
           attending_ghana: ghana,
           attending_senegal: senegal,
+          attending_exclusive: wantsExclusive,
+          access_code: unlocked ? code.trim() : undefined,
           party_size: Number(data.get('party_size') ?? 1),
           dietary_notes: String(data.get('dietary_notes') ?? ''),
           message: String(data.get('message') ?? ''),
@@ -66,6 +104,11 @@ export function Rsvp() {
       form.reset();
       setGhana(false);
       setSenegal(false);
+      setUnlocked(false);
+      setExAttend(false);
+      setExOpen(false);
+      setCode('');
+      setCodeError(null);
       setStatus('success');
     } catch {
       setError(t.rsvp.errorGeneric);
@@ -171,6 +214,77 @@ export function Rsvp() {
                       <span className="text-ivory-dim">{f.attendingSenegal}</span>
                     </label>
                   </fieldset>
+
+                  {/* Discreet, code-gated private ceremony */}
+                  <div className="border-t border-gold/10 pt-4">
+                    {!unlocked && !exOpen && (
+                      <button
+                        type="button"
+                        onClick={() => setExOpen(true)}
+                        className="text-[0.7rem] uppercase tracking-[0.18em] text-ivory-dim/50 underline-offset-4 transition hover:text-gold hover:underline"
+                      >
+                        {ex.teaser}
+                      </button>
+                    )}
+
+                    {!unlocked && exOpen && (
+                      <div>
+                        <p className="text-xs text-ivory-dim">{ex.prompt}</p>
+                        <div className="mt-2 flex gap-2">
+                          <input
+                            type="text"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkCode();
+                              }
+                            }}
+                            placeholder={ex.placeholder}
+                            aria-label={ex.placeholder}
+                            className="field-input"
+                          />
+                          <button
+                            type="button"
+                            onClick={checkCode}
+                            disabled={checking || !code.trim()}
+                            className="btn-ghost shrink-0"
+                          >
+                            {checking ? ex.unlocking : ex.unlock}
+                          </button>
+                        </div>
+                        {codeError && (
+                          <p className="mt-2 text-sm text-red-200">{codeError}</p>
+                        )}
+                      </div>
+                    )}
+
+                    {unlocked && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="border border-gold/30 bg-noir p-5"
+                      >
+                        <p className="eyebrow">{ex.title}</p>
+                        <p className="mt-2 font-serif text-xl italic text-gold">
+                          {ex.when}
+                        </p>
+                        <p className="mt-1 text-sm font-light leading-relaxed text-ivory-dim">
+                          {ex.note}
+                        </p>
+                        <label className="mt-4 flex cursor-pointer items-center gap-3 border border-gold/20 px-4 py-3 transition hover:border-gold/50">
+                          <input
+                            type="checkbox"
+                            checked={exAttend}
+                            onChange={(e) => setExAttend(e.target.checked)}
+                            className="h-5 w-5 accent-gold"
+                          />
+                          <span className="text-ivory">{ex.attend}</span>
+                        </label>
+                      </motion.div>
+                    )}
+                  </div>
 
                   <div>
                     <label htmlFor="party_size" className="field-label">
