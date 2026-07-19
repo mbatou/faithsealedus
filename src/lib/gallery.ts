@@ -7,12 +7,19 @@ export interface GalleryImage {
   alt: string;
 }
 
-// Local fallbacks so the gallery looks intentional before real photos are
-// uploaded to the Supabase Storage bucket.
-const FALLBACK_IMAGES: GalleryImage[] = Array.from({ length: 6 }, (_, i) => ({
-  src: `/gallery/photo-${i + 1}.svg`,
-  alt: `Placeholder photo ${i + 1}`,
-}));
+// The couple's shoot, bundled in /public. These show by default; uploading to
+// the Supabase Storage bucket (if configured) overrides them.
+// Note: filenames are case-sensitive on Linux/Vercel — keep the .PNG casing.
+const FALLBACK_IMAGES: GalleryImage[] = [
+  { src: '/faithsealedus5.PNG', alt: 'Augusta & Georges' },
+  { src: '/faithsealedus1.PNG', alt: 'Augusta & Georges' },
+  { src: '/faithsealedus7.PNG', alt: 'Augusta & Georges' },
+  { src: '/faithsealedus4.PNG', alt: 'Augusta & Georges' },
+  { src: '/faithsealedus6.PNG', alt: 'Augusta & Georges' },
+  { src: '/faithsealedus3.PNG', alt: 'Augusta & Georges' },
+  { src: '/faithsealedus8.PNG', alt: 'Augusta & Georges' },
+  { src: '/faithsealedus2.PNG', alt: 'Augusta & Georges' },
+];
 
 const IMAGE_EXT = /\.(jpe?g|png|webp|avif|gif)$/i;
 

@@ -99,11 +99,12 @@ export function Hero() {
               />
               <div className="relative overflow-hidden ring-1 ring-gold/25">
                 <Image
-                  src="/couple-placeholder.svg"
+                  src="/faithsealedus1.PNG"
                   alt={`${t.hero.bride} & ${t.hero.groom}`}
-                  width={900}
-                  height={1100}
+                  width={1057}
+                  height={1488}
                   priority
+                  sizes="(max-width: 768px) 90vw, 40vw"
                   className="h-auto w-full object-cover"
                 />
               </div>
