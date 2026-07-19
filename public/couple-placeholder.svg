@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100" role="img" aria-label="Couple photo placeholder">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5ecdd"/>
+      <stop offset="1" stop-color="#dfc39b"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b5482e"/>
+      <stop offset="1" stop-color="#8f3822"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1100" fill="url(#sky)"/>
+  <circle cx="450" cy="360" r="150" fill="#e9b657" opacity="0.85"/>
+  <rect y="760" width="900" height="340" fill="url(#ground)"/>
+  <g opacity="0.9">
+    <!-- two figures -->
+    <path d="M300 760c0-80 40-150 90-150s90 70 90 150z" fill="#243a6b"/>
+    <circle cx="390" cy="560" r="55" fill="#33477a"/>
+    <path d="M470 760c0-92 46-172 100-172s100 80 100 172z" fill="#1f6b46"/>
+    <circle cx="570" cy="540" r="60" fill="#26805a"/>
+  </g>
+  <g fill="#2a211b" opacity="0.55" font-family="Georgia, serif" text-anchor="middle">
+    <text x="450" y="1000" font-size="34">Add your favourite photo here</text>
+    <text x="450" y="1045" font-size="22">public/couple-placeholder.svg</text>
+  </g>
+</svg>
