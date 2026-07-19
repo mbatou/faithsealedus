@@ -85,6 +85,13 @@ export interface Dictionary {
     kicker: string;
     title: string;
     intro: string;
+    flights: {
+      label: string;
+      intro: string;
+      legs: { route: string; day: string; detail: string }[];
+      airline: string;
+    };
+    stayLabel: string;
     items: TravelItem[];
   };
   rsvp: {
@@ -289,22 +296,39 @@ export const dictionaries: Record<Language, Dictionary> = {
       title: 'Getting there & staying a while',
       intro:
         'Because you travel for both celebrations, here’s what you need to move between Accra and Dakar with ease.',
+      flights: {
+        label: 'The journey',
+        intro:
+          'We’re flying in together — here are the two legs to sync your own flights with.',
+        legs: [
+          {
+            route: 'Into Accra',
+            day: 'Friday, 27 November',
+            detail:
+              'Fly into Kotoka International (ACC). We arrive this day, ahead of the first celebration on 2 December.',
+          },
+          {
+            route: 'Accra → Dakar',
+            day: 'Friday, 4 December',
+            detail:
+              'Between the two celebrations, fly on to Blaise Diagne International (DSS), Dakar — a day before we gather there.',
+          },
+        ],
+        airline: 'ASKY is currently the best option to fly to Accra and back.',
+      },
+      stayLabel: 'Stay & essentials',
       items: [
         {
-          title: 'Between Ghana & Senegal',
-          body: 'Fly into Kotoka International (ACC) in Accra for the first act, and Blaise Diagne International (DSS) for Dakar. Direct flights connect the two in around four hours — detailed routing to follow.',
-        },
-        {
           title: 'Where to stay in Accra',
-          body: 'Hotel recommendations near the Accra celebration are coming soon.',
+          body: 'Our hotel recommendations near the Accra venue are on their way — we’ll list a few options at different budgets.',
         },
         {
-          title: 'Where to stay in Senegal',
-          body: 'Hotel recommendations for the Senegal celebration are coming soon.',
+          title: 'Where to stay in Dakar',
+          body: 'Recommendations near the Dakar venue in Ouakam are coming shortly, close to the celebration and the coast.',
         },
         {
           title: 'Visas & entry',
-          body: 'Visa guidance for both Ghana and Senegal will be shared here. Please check your own requirements early, as they vary by nationality.',
+          body: 'Requirements differ for Ghana and Senegal and vary by nationality — please check yours early. Detailed guidance to follow.',
         },
       ],
     },
@@ -457,22 +481,39 @@ export const dictionaries: Record<Language, Dictionary> = {
       title: 'Venir et rester un moment',
       intro:
         'Puisque vous voyagez pour les deux célébrations, voici l’essentiel pour circuler sereinement entre Accra et Dakar.',
+      flights: {
+        label: 'Le voyage',
+        intro:
+          'Nous voyageons ensemble — voici les deux trajets à accorder avec vos propres vols.',
+        legs: [
+          {
+            route: 'Vers Accra',
+            day: 'Vendredi 27 novembre',
+            detail:
+              'Atterrissez à l’aéroport international Kotoka (ACC). Nous arrivons ce jour-là, avant la première célébration du 2 décembre.',
+          },
+          {
+            route: 'Accra → Dakar',
+            day: 'Vendredi 4 décembre',
+            detail:
+              'Entre les deux célébrations, envolez-vous vers Blaise Diagne (DSS), Dakar — la veille de nos retrouvailles là-bas.',
+          },
+        ],
+        airline: 'ASKY est aujourd’hui la meilleure option pour rejoindre Accra et en revenir.',
+      },
+      stayLabel: 'Hébergement & essentiels',
       items: [
         {
-          title: 'Entre le Ghana & le Sénégal',
-          body: 'Atterrissez à l’aéroport international Kotoka (ACC) d’Accra pour le premier acte, et à Blaise Diagne (DSS) pour Dakar. Des vols directs relient les deux en quatre heures environ — itinéraires détaillés à venir.',
-        },
-        {
           title: 'Où loger à Accra',
-          body: 'Nos suggestions d’hôtels près de la célébration d’Accra arrivent bientôt.',
+          body: 'Nos suggestions d’hôtels près du lieu d’Accra arrivent bientôt — plusieurs options, à différents budgets.',
         },
         {
-          title: 'Où loger au Sénégal',
-          body: 'Nos suggestions d’hôtels pour la célébration au Sénégal arrivent bientôt.',
+          title: 'Où loger à Dakar',
+          body: 'Nos suggestions près du lieu à Ouakam arrivent sous peu, à deux pas de la célébration et de la côte.',
         },
         {
           title: 'Visas & entrée',
-          body: 'Les informations de visa pour le Ghana et le Sénégal seront partagées ici. Vérifiez vos conditions au plus tôt, car elles varient selon la nationalité.',
+          body: 'Les conditions diffèrent pour le Ghana et le Sénégal et varient selon la nationalité — vérifiez les vôtres au plus tôt. Informations détaillées à venir.',
         },
       ],
     },
