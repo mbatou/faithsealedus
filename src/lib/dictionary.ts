@@ -2,19 +2,29 @@ export type Language = 'en' | 'fr';
 
 export interface WeekEvent {
   id: string;
+  act: string;
   flag: string;
   country: string;
   city: string;
-  title: string;
-  date: string; // human-readable
+  date: string; // human-readable date + place line
   isoDate: string; // machine-readable, for the countdown
-  time: string;
+  blurb: string; // one descriptive sentence
   venue: string;
-  address: string;
+  time: string;
   dressCode: string;
   mapUrl: string;
-  cultural: string;
-  accent: 'kente' | 'indigo';
+}
+
+export interface Movement {
+  title: string;
+  body: string;
+}
+
+export interface WitnessGroup {
+  role: string;
+  names: string;
+  note?: string;
+  tbd?: boolean;
 }
 
 export interface TravelItem {
@@ -27,24 +37,25 @@ export interface Dictionary {
     story: string;
     week: string;
     gallery: string;
+    witnesses: string;
     travel: string;
     rsvp: string;
     langLabel: string;
   };
   hero: {
-    kicker: string;
-    and: string;
-    tagline: string;
-    dates: string;
+    kicker: string; // tagline: "Two homelands, one union"
+    tagline: string; // sub: "We're getting married…"
+    dates: string; // "Accra — 2 December · Dakar — 4 December 2026"
     cta: string;
     scroll: string;
+    and: string;
     bride: string;
     groom: string;
   };
   story: {
     kicker: string;
     title: string;
-    paragraphs: string[];
+    movements: Movement[];
   };
   week: {
     kicker: string;
@@ -55,7 +66,6 @@ export interface Dictionary {
       where: string;
       dress: string;
       map: string;
-      culture: string;
     };
     events: WeekEvent[];
   };
@@ -64,6 +74,12 @@ export interface Dictionary {
     title: string;
     intro: string;
     empty: string;
+  };
+  witnesses: {
+    kicker: string;
+    title: string;
+    intro: string;
+    groups: WitnessGroup[];
   };
   travel: {
     kicker: string;
@@ -95,6 +111,7 @@ export interface Dictionary {
     errorEmail: string;
     errorName: string;
     errorAttend: string;
+    errorRate: string;
     confirmationNote: string;
   };
   countdown: {
@@ -108,8 +125,7 @@ export interface Dictionary {
     passed: string;
   };
   footer: {
-    madeWith: string;
-    hashtag: string;
+    closing: string;
   };
   admin: {
     title: string;
@@ -136,62 +152,59 @@ export interface Dictionary {
   };
 }
 
-const ghanaEventEn: WeekEvent = {
+// Sensible default map links (city search) until final venue pins are set.
+const ACCRA_MAP = 'https://maps.google.com/?q=Accra+Ghana';
+const DAKAR_MAP = 'https://maps.google.com/?q=Dakar+Senegal';
+
+// TODO(Georges): venues, times and dress codes for both celebrations.
+const accraEn: WeekEvent = {
   id: 'ghana',
+  act: 'Act I — Accra',
   flag: '🇬🇭',
   country: 'Ghana',
   city: 'Accra',
-  title: 'The Traditional Ceremony',
-  date: 'Saturday, 19 December 2026',
-  isoDate: '2026-12-19T10:00:00+00:00',
-  time: '10:00 — knocking & rites, followed by a reception',
-  venue: 'Labadi Beach Gardens',
-  address: 'La Beach Road, Accra, Ghana',
-  dressCode: 'Kente & bright wax prints — colour is a blessing',
-  mapUrl: 'https://maps.google.com/?q=Labadi+Beach+Accra+Ghana',
-  cultural:
-    'The day opens with the knocking ceremony (Kↄkↄↄkↄ), where the groom’s family formally asks for the bride’s hand with gifts, schnapps and proverbs. Expect drumming, the pouring of libation to honour the ancestors, and a lot of joyful dancing.',
-  accent: 'kente',
+  date: 'Wednesday, 2 December — Accra, Ghana',
+  isoDate: '2026-12-02T00:00:00+00:00',
+  blurb: 'The celebration opens in Accra, the first act of our week.',
+  venue: 'To be confirmed',
+  time: 'To be confirmed',
+  dressCode: 'To be confirmed',
+  mapUrl: ACCRA_MAP,
 };
 
-const senegalEventEn: WeekEvent = {
+const senegalEn: WeekEvent = {
   id: 'senegal',
+  act: 'Act II — Senegal',
   flag: '🇸🇳',
   country: 'Senegal',
   city: 'Dakar',
-  title: 'The Céremonie & Célébration',
-  date: 'Wednesday, 23 December 2026',
-  isoDate: '2026-12-23T16:00:00+00:00',
-  time: '16:00 — ceremony, then dinner under the stars',
-  venue: 'Terrou-Bi, Corniche Ouest',
-  address: 'Boulevard Martin Luther King, Dakar, Senegal',
-  dressCode: 'Elegant boubous, grand-boubou & indigo — teranga finery',
-  mapUrl: 'https://maps.google.com/?q=Terrou-Bi+Dakar+Senegal',
-  cultural:
-    'In the spirit of teranga (Senegalese hospitality), the celebration blends the takk (the marriage blessing) with sabar drumming and mbalax rhythms. Guests are welcomed like family — come ready to eat well, dance late, and be draped in indigo.',
-  accent: 'indigo',
+  date: 'Friday, 4 December — Senegal',
+  isoDate: '2026-12-04T00:00:00+00:00',
+  blurb: 'Two days later we gather again in Georges’s home to close the circle.',
+  venue: 'To be confirmed',
+  time: 'To be confirmed',
+  dressCode: 'To be confirmed',
+  mapUrl: DAKAR_MAP,
 };
 
-const ghanaEventFr: WeekEvent = {
-  ...ghanaEventEn,
-  title: 'La Cérémonie Traditionnelle',
-  date: 'Samedi 19 décembre 2026',
-  time: '10h00 — rites du « knocking », suivis d’une réception',
-  venue: 'Labadi Beach Gardens',
-  address: 'La Beach Road, Accra, Ghana',
-  dressCode: 'Kente & wax éclatants — la couleur est une bénédiction',
-  cultural:
-    'La journée s’ouvre par la cérémonie du « knocking » (Kↄkↄↄkↄ) : la famille du marié demande officiellement la main de la mariée avec des présents, du schnaps et des proverbes. Au programme : tambours, libations en l’honneur des ancêtres et beaucoup de danse.',
+const accraFr: WeekEvent = {
+  ...accraEn,
+  act: 'Acte I — Accra',
+  date: 'Mercredi 2 décembre — Accra, Ghana',
+  blurb: 'La célébration s’ouvre à Accra, le premier acte de notre semaine.',
+  venue: 'À confirmer',
+  time: 'À confirmer',
+  dressCode: 'À confirmer',
 };
 
-const senegalEventFr: WeekEvent = {
-  ...senegalEventEn,
-  title: 'La Cérémonie & la Célébration',
-  date: 'Mercredi 23 décembre 2026',
-  time: '16h00 — cérémonie, puis dîner sous les étoiles',
-  dressCode: 'Boubous élégants, grand-boubou & indigo — la parure de la teranga',
-  cultural:
-    'Dans l’esprit de la teranga (l’hospitalité sénégalaise), la fête mêle le takk (la bénédiction du mariage) aux tambours sabar et aux rythmes mbalax. On accueille les invités comme la famille : venez prêts à bien manger, danser tard et vous draper d’indigo.',
+const senegalFr: WeekEvent = {
+  ...senegalEn,
+  act: 'Acte II — Sénégal',
+  date: 'Vendredi 4 décembre — Sénégal',
+  blurb: 'Deux jours plus tard, nous nous réunissons chez Georges pour boucler la boucle.',
+  venue: 'À confirmer',
+  time: 'À confirmer',
+  dressCode: 'À confirmer',
 };
 
 export const dictionaries: Record<Language, Dictionary> = {
@@ -199,124 +212,145 @@ export const dictionaries: Record<Language, Dictionary> = {
     nav: {
       story: 'Our Story',
       week: 'The Week',
-      gallery: 'Gallery',
+      gallery: 'Us',
+      witnesses: 'Our Witnesses',
       travel: 'Travel & Stay',
       rsvp: 'RSVP',
       langLabel: 'Language',
     },
     hero: {
-      kicker: 'We’re getting married',
-      and: '&',
-      tagline: 'Two countries, one week, a lifetime of celebration.',
-      dates: '19 – 23 December 2026 · Accra & Dakar',
+      kicker: 'Two homelands, one union',
+      tagline: 'We’re getting married, and we’d be honored to have you there.',
+      dates: 'Accra — 2 December · Dakar — 4 December 2026',
       cta: 'RSVP',
       scroll: 'Scroll',
-      bride: 'Faith',
+      and: '&',
+      bride: 'Augusta',
       groom: 'Georges',
     },
     story: {
       kicker: 'Our Story',
-      title: 'From co-founders to forever',
-      paragraphs: [
-        'We met over a whiteboard, not a candlelit dinner. What started as two people building a company together slowly became the best partnership of our lives — in every sense.',
-        'Between deadlines and demo days, we discovered we were building something far more important than a business: a home for each other. Ghana met Senegal, Faith met Georges, and it simply made sense.',
-        'Now we’re trading pitch decks for wedding vows, and we want to celebrate the way we do everything — together, across both of the cultures that made us.',
+      title: 'How it was sealed',
+      movements: [
+        {
+          title: 'Where it began.',
+          body: 'MEST, December 2022. We met at the Meltwater Entrepreneurial School of Technology, placed on the same team almost by chance. When the program ended, we went our separate ways — neither of us guessing the road would ever loop back.',
+        },
+        {
+          title: 'The turn.',
+          body: 'It did. When illness found Georges, Augusta was the one who reached out — not with the polite “feeling better?” everyone offers, but in her own quiet way, the kind that stays with a person. We graduated as friends. She kept her guard up — a tall man with a military past was, honestly, a *no*. But something steadier was already at work.',
+        },
+        {
+          title: 'When it was sealed.',
+          body: 'Georges stayed in Ghana, and the distance she feared became the distance we chose to cross. Somewhere in the crossing we found we were aligned in the things that hold — in faith, if not the same religion; in business; in ambition. What neither of us planned, God settled. And so, here we are.',
+        },
       ],
     },
     week: {
       kicker: 'The Week',
-      title: 'One week, two celebrations',
+      title: 'One week, two acts',
       intro:
-        'We couldn’t choose between our homes, so we’re not choosing. Join us in Ghana and Senegal in the same joyful week.',
+        'Not two weddings — one celebration in two homelands, the same joyful week.',
       labels: {
         when: 'When',
         where: 'Where',
         dress: 'Dress code',
         map: 'Open map',
-        culture: 'What to expect',
       },
-      events: [ghanaEventEn, senegalEventEn],
+      events: [accraEn, senegalEn],
     },
     gallery: {
       kicker: 'Moments',
-      title: 'Photo Gallery',
-      intro: 'A few of our favourite frames — more to come after the celebrations.',
+      title: 'Us',
+      intro: 'A few frames from our story — more to come after the celebrations.',
       empty:
         'Photos are on their way. Check back soon for pictures from our journey together.',
+    },
+    witnesses: {
+      kicker: 'Our Witnesses',
+      title: 'Those standing with us',
+      intro: 'The people who’ve carried us here, and who’ll stand beside us.',
+      groups: [
+        {
+          role: 'Standing with Georges',
+          names: 'Brice Die Koue & Yela Ba',
+          note: 'the brothers he chose, who’ve carried life alongside him longer than anyone.',
+        },
+        {
+          role: 'Godmother of the union',
+          names: 'Elisabeth Sophie Dioh',
+        },
+        {
+          role: 'Standing with Augusta',
+          names: 'To be revealed',
+          tbd: true,
+        },
+      ],
     },
     travel: {
       kicker: 'Travel & Stay',
       title: 'Getting there & staying a while',
       intro:
-        'Two countries in one week is an adventure. Here’s everything you need to travel between Accra and Dakar with ease.',
+        'Because you travel for both celebrations, here’s what you need to move between Accra and Dakar with ease.',
       items: [
         {
-          title: 'Flying into Ghana',
-          body: 'Fly into Kotoka International Airport (ACC) in Accra. It is well connected to Europe, the Middle East and the rest of Africa. Most nationalities need a visa or e-visa — arrange yours early.',
-        },
-        {
-          title: 'Flying into Senegal',
-          body: 'Blaise Diagne International Airport (DSS) serves Dakar, about 45 minutes from the city centre. Senegal offers visa-free entry for many nationalities — check your requirements before you fly.',
-        },
-        {
-          title: 'Between the two countries',
-          body: 'Direct flights connect Accra (ACC) and Dakar (DSS) in around 3–4 hours on carriers such as ASKY, Air Peace and Royal Air Maroc (via Casablanca). We recommend booking the Accra → Dakar leg for 21–22 December.',
+          title: 'Between Ghana & Senegal',
+          body: 'Fly into Kotoka International (ACC) in Accra for the first act, and Blaise Diagne International (DSS) for Dakar. Direct flights connect the two in around four hours — detailed routing to follow.',
         },
         {
           title: 'Where to stay in Accra',
-          body: 'We’ve reserved a block near Labadi Beach. Labadi Beach Hotel and Kempinski Gold Coast City are lovely, with easy access to the ceremony and the coast.',
+          body: 'Hotel recommendations near the Accra celebration are coming soon.',
         },
         {
-          title: 'Where to stay in Dakar',
-          body: 'Terrou-Bi hosts our Senegalese celebration and has rooms on-site. Radisson Blu and Pullman Dakar Teranga are excellent alternatives along the Corniche.',
+          title: 'Where to stay in Senegal',
+          body: 'Hotel recommendations for the Senegal celebration are coming soon.',
         },
         {
-          title: 'Good to know',
-          body: 'Ghana uses the cedi (GHS) and Senegal the CFA franc (XOF). Both celebrations are outdoors and warm — bring light fabrics, sunscreen, and comfortable shoes for dancing.',
+          title: 'Visas & entry',
+          body: 'Visa guidance for both Ghana and Senegal will be shared here. Please check your own requirements early, as they vary by nationality.',
         },
       ],
     },
     rsvp: {
       kicker: 'Join us',
-      title: 'RSVP',
+      title: 'Will you be with us?',
       intro:
-        'Kindly respond by 1 November 2026. Let us know which celebration(s) you’ll join — you’re welcome at both.',
+        'A final response date will be confirmed here shortly. Let us know which celebration(s) you’ll join — you’re welcome at both.',
       fields: {
         name: 'Full name',
         email: 'Email',
-        attendingGhana: 'I’ll celebrate in Ghana 🇬🇭',
-        attendingSenegal: 'I’ll celebrate in Senegal 🇸🇳',
-        partySize: 'Number of guests (including you)',
+        attendingGhana: 'Joining us in Accra (2 Dec)',
+        attendingSenegal: 'Joining us in Senegal (4 Dec)',
+        partySize: 'How many of you?',
         dietary: 'Dietary notes',
         dietaryPlaceholder: 'Allergies, preferences, anything we should know',
-        message: 'A note for the couple',
+        message: 'A note for us (optional)',
         messagePlaceholder: 'Share your excitement, a blessing, a song request…',
       },
       submit: 'Send RSVP',
       submitting: 'Sending…',
-      successTitle: 'Thank you — we can’t wait to celebrate with you!',
-      successBody:
-        'Your RSVP has been received. A confirmation has been sent to your email.',
+      successTitle: 'Thank you — we can’t wait to celebrate with you.',
+      successBody: 'Your RSVP has been received. A confirmation will follow by email.',
       another: 'Submit another response',
       errorGeneric: 'Something went wrong. Please try again in a moment.',
       errorEmail: 'Please enter a valid email address.',
       errorName: 'Please enter your name.',
       errorAttend: 'Please choose at least one celebration to attend.',
+      errorRate: 'You’ve submitted a few times already. Please try again shortly.',
       confirmationNote: 'We’ll send a confirmation to this address.',
     },
     countdown: {
       kicker: 'The countdown',
       title: 'Until we say “I do”',
-      to: 'Counting down to Accra',
+      to: 'Counting down to Accra · 2 December 2026',
       days: 'Days',
       hours: 'Hours',
       minutes: 'Minutes',
       seconds: 'Seconds',
-      passed: 'The celebration has begun! 🎉',
+      passed: 'The celebration has begun.',
     },
     footer: {
-      madeWith: 'Made with love across two continents',
-      hashtag: '#FaithSealedUs',
+      closing: 'With love, Augusta & Georges',
     },
     admin: {
       title: 'RSVP Dashboard',
@@ -325,14 +359,14 @@ export const dictionaries: Record<Language, Dictionary> = {
       wrongPassword: 'Incorrect password. Please try again.',
       logout: 'Log out',
       total: 'Total responses',
-      ghana: 'Attending Ghana',
+      ghana: 'Attending Accra',
       senegal: 'Attending Senegal',
       guests: 'Total guests',
       exportCsv: 'Export CSV',
       noRsvps: 'No RSVPs yet.',
-      colName: 'Name',
+      colName: 'Full name',
       colEmail: 'Email',
-      colGhana: 'Ghana',
+      colGhana: 'Accra',
       colSenegal: 'Senegal',
       colParty: 'Party',
       colDietary: 'Dietary',
@@ -346,125 +380,146 @@ export const dictionaries: Record<Language, Dictionary> = {
     nav: {
       story: 'Notre histoire',
       week: 'La semaine',
-      gallery: 'Galerie',
-      travel: 'Voyage & séjour',
-      rsvp: 'RSVP',
+      gallery: 'Nous',
+      witnesses: 'Nos témoins',
+      travel: 'Voyage & hébergement',
+      rsvp: 'Confirmer',
       langLabel: 'Langue',
     },
     hero: {
-      kicker: 'Nous nous marions',
-      and: '&',
-      tagline: 'Deux pays, une semaine, toute une vie à célébrer.',
-      dates: '19 – 23 décembre 2026 · Accra & Dakar',
-      cta: 'RSVP',
+      kicker: 'Deux terres, une seule union',
+      tagline: 'Nous nous marions, et nous serions honorés de votre présence.',
+      dates: 'Accra — le 2 décembre · Dakar — le 4 décembre 2026',
+      cta: 'Confirmer',
       scroll: 'Défiler',
-      bride: 'Faith',
+      and: '&',
+      bride: 'Augusta',
       groom: 'Georges',
     },
     story: {
       kicker: 'Notre histoire',
-      title: 'De cofondateurs à pour toujours',
-      paragraphs: [
-        'Nous nous sommes rencontrés devant un tableau blanc, pas autour d’un dîner aux chandelles. Ce qui n’était que deux personnes bâtissant une entreprise est devenu le plus beau partenariat de nos vies — dans tous les sens du terme.',
-        'Entre les délais et les journées de démonstration, nous avons compris que nous construisions bien plus qu’une société : un foyer l’un pour l’autre. Le Ghana a rencontré le Sénégal, Faith a rencontré Georges, et tout est devenu évident.',
-        'Aujourd’hui, nous échangeons nos présentations d’investisseurs contre des vœux de mariage, et nous voulons célébrer comme nous faisons tout — ensemble, à travers les deux cultures qui nous ont façonnés.',
+      title: 'Comment tout s’est scellé',
+      movements: [
+        {
+          title: 'Le commencement.',
+          body: 'MEST, décembre 2022. Nous nous sommes rencontrés à la Meltwater Entrepreneurial School of Technology, réunis dans la même équipe presque par hasard. À la fin du programme, nos chemins se sont séparés — sans que ni l’un ni l’autre n’imagine qu’ils se croiseraient à nouveau.',
+        },
+        {
+          title: 'Le tournant.',
+          body: 'Et pourtant. Lorsque la maladie a frappé Georges, c’est Augusta qui a tendu la main — pas avec le « tu vas mieux ? » poli que tout le monde offre, mais à sa manière, discrète, celle qui marque. Diplômés, nous sommes restés amis. Elle gardait ses distances — un homme grand, au passé militaire, c’était franchement un *non*. Mais quelque chose de plus profond était déjà à l’œuvre.',
+        },
+        {
+          title: 'Scellés.',
+          body: 'Georges est resté au Ghana, et la distance qu’elle redoutait est devenue celle que nous avons choisi de franchir. En chemin, nous nous sommes découverts alignés sur l’essentiel — dans la foi, sinon la même religion ; dans les affaires ; dans l’ambition. Ce que nous n’avions pas prévu, Dieu l’a scellé. Et nous voici.',
+        },
       ],
     },
     week: {
       kicker: 'La semaine',
-      title: 'Une semaine, deux célébrations',
+      title: 'Une semaine, deux actes',
       intro:
-        'Impossible de choisir entre nos deux pays — alors nous ne choisissons pas. Rejoignez-nous au Ghana et au Sénégal la même semaine de joie.',
+        'Non pas deux mariages — une seule célébration en deux terres, la même semaine de joie.',
       labels: {
         when: 'Quand',
         where: 'Où',
         dress: 'Tenue',
         map: 'Ouvrir la carte',
-        culture: 'À quoi s’attendre',
       },
-      events: [ghanaEventFr, senegalEventFr],
+      events: [accraFr, senegalFr],
     },
     gallery: {
       kicker: 'Instants',
-      title: 'Galerie photo',
+      title: 'Nous',
       intro:
-        'Quelques-uns de nos clichés préférés — et bien d’autres après les célébrations.',
+        'Quelques images de notre histoire — et bien d’autres après les célébrations.',
       empty:
-        'Les photos arrivent. Revenez bientôt pour découvrir des images de notre parcours ensemble.',
+        'Les photos arrivent. Revenez bientôt pour découvrir notre parcours ensemble.',
+    },
+    witnesses: {
+      kicker: 'Nos témoins',
+      title: 'Celles et ceux à nos côtés',
+      intro: 'Les personnes qui nous ont portés jusqu’ici, et qui se tiendront près de nous.',
+      groups: [
+        {
+          role: 'Aux côtés de Georges',
+          names: 'Brice Die Koue & Yela Ba',
+          note: 'les frères qu’il s’est choisis, présents à ses côtés depuis toujours.',
+        },
+        {
+          role: 'Marraine de l’union',
+          names: 'Elisabeth Sophie Dioh',
+        },
+        {
+          role: 'Aux côtés d’Augusta',
+          names: 'À venir',
+          tbd: true,
+        },
+      ],
     },
     travel: {
-      kicker: 'Voyage & séjour',
+      kicker: 'Voyage & hébergement',
       title: 'Venir et rester un moment',
       intro:
-        'Deux pays en une semaine, c’est une aventure. Voici tout ce qu’il faut pour voyager sereinement entre Accra et Dakar.',
+        'Puisque vous voyagez pour les deux célébrations, voici l’essentiel pour circuler sereinement entre Accra et Dakar.',
       items: [
         {
-          title: 'Arriver au Ghana',
-          body: 'Atterrissez à l’aéroport international Kotoka (ACC) d’Accra, bien relié à l’Europe, au Moyen-Orient et au reste de l’Afrique. La plupart des nationalités ont besoin d’un visa ou e-visa — anticipez.',
-        },
-        {
-          title: 'Arriver au Sénégal',
-          body: 'L’aéroport international Blaise Diagne (DSS) dessert Dakar, à environ 45 minutes du centre. Le Sénégal offre l’entrée sans visa à de nombreuses nationalités — vérifiez vos conditions avant de partir.',
-        },
-        {
-          title: 'Entre les deux pays',
-          body: 'Des vols directs relient Accra (ACC) et Dakar (DSS) en 3 à 4 heures environ, avec ASKY, Air Peace ou Royal Air Maroc (via Casablanca). Nous conseillons le trajet Accra → Dakar les 21–22 décembre.',
+          title: 'Entre le Ghana & le Sénégal',
+          body: 'Atterrissez à l’aéroport international Kotoka (ACC) d’Accra pour le premier acte, et à Blaise Diagne (DSS) pour Dakar. Des vols directs relient les deux en quatre heures environ — itinéraires détaillés à venir.',
         },
         {
           title: 'Où loger à Accra',
-          body: 'Nous avons réservé un bloc de chambres près de Labadi Beach. Le Labadi Beach Hotel et le Kempinski Gold Coast City sont superbes, à deux pas de la cérémonie et de la côte.',
+          body: 'Nos suggestions d’hôtels près de la célébration d’Accra arrivent bientôt.',
         },
         {
-          title: 'Où loger à Dakar',
-          body: 'Le Terrou-Bi accueille notre célébration sénégalaise et dispose de chambres sur place. Le Radisson Blu et le Pullman Dakar Teranga sont d’excellentes alternatives sur la Corniche.',
+          title: 'Où loger au Sénégal',
+          body: 'Nos suggestions d’hôtels pour la célébration au Sénégal arrivent bientôt.',
         },
         {
-          title: 'Bon à savoir',
-          body: 'Le Ghana utilise le cedi (GHS) et le Sénégal le franc CFA (XOF). Les deux célébrations sont en plein air et chaudes — prévoyez des tissus légers, de la crème solaire et de bonnes chaussures pour danser.',
+          title: 'Visas & entrée',
+          body: 'Les informations de visa pour le Ghana et le Sénégal seront partagées ici. Vérifiez vos conditions au plus tôt, car elles varient selon la nationalité.',
         },
       ],
     },
     rsvp: {
       kicker: 'Rejoignez-nous',
-      title: 'RSVP',
+      title: 'Serez-vous des nôtres ?',
       intro:
-        'Merci de répondre avant le 1er novembre 2026. Dites-nous à quelle(s) célébration(s) vous vous joindrez — vous êtes les bienvenus aux deux.',
+        'Une date limite de réponse sera confirmée ici prochainement. Dites-nous à quelle(s) célébration(s) vous vous joindrez — vous êtes les bienvenus aux deux.',
       fields: {
         name: 'Nom complet',
-        email: 'Email',
-        attendingGhana: 'Je célébrerai au Ghana 🇬🇭',
-        attendingSenegal: 'Je célébrerai au Sénégal 🇸🇳',
-        partySize: 'Nombre d’invités (vous compris)',
+        email: 'E-mail',
+        attendingGhana: 'Présent(e) à Accra (2 déc.)',
+        attendingSenegal: 'Présent(e) au Sénégal (4 déc.)',
+        partySize: 'Combien serez-vous ?',
         dietary: 'Régime alimentaire',
         dietaryPlaceholder: 'Allergies, préférences, tout ce qu’il faut savoir',
-        message: 'Un mot pour les mariés',
+        message: 'Un mot pour nous (facultatif)',
         messagePlaceholder: 'Partagez votre joie, une bénédiction, une chanson…',
       },
-      submit: 'Envoyer le RSVP',
+      submit: 'Envoyer',
       submitting: 'Envoi…',
-      successTitle: 'Merci — nous avons hâte de célébrer avec vous !',
-      successBody:
-        'Votre RSVP a bien été reçu. Une confirmation a été envoyée à votre adresse email.',
+      successTitle: 'Merci — nous avons hâte de célébrer avec vous.',
+      successBody: 'Votre réponse a bien été reçue. Une confirmation suivra par e-mail.',
       another: 'Envoyer une autre réponse',
       errorGeneric: 'Une erreur est survenue. Merci de réessayer dans un instant.',
-      errorEmail: 'Merci d’indiquer une adresse email valide.',
+      errorEmail: 'Merci d’indiquer une adresse e-mail valide.',
       errorName: 'Merci d’indiquer votre nom.',
       errorAttend: 'Merci de choisir au moins une célébration.',
+      errorRate: 'Vous avez déjà répondu plusieurs fois. Merci de réessayer plus tard.',
       confirmationNote: 'Nous enverrons une confirmation à cette adresse.',
     },
     countdown: {
       kicker: 'Le compte à rebours',
       title: 'Avant le grand « oui »',
-      to: 'Compte à rebours vers Accra',
+      to: 'Compte à rebours vers Accra · 2 décembre 2026',
       days: 'Jours',
       hours: 'Heures',
       minutes: 'Minutes',
       seconds: 'Secondes',
-      passed: 'La célébration a commencé ! 🎉',
+      passed: 'La célébration a commencé.',
     },
     footer: {
-      madeWith: 'Fait avec amour sur deux continents',
-      hashtag: '#FaithSealedUs',
+      closing: 'Avec amour, Augusta & Georges',
     },
     admin: {
       title: 'Tableau de bord RSVP',
@@ -473,14 +528,14 @@ export const dictionaries: Record<Language, Dictionary> = {
       wrongPassword: 'Mot de passe incorrect. Merci de réessayer.',
       logout: 'Se déconnecter',
       total: 'Réponses totales',
-      ghana: 'Présents au Ghana',
+      ghana: 'Présents à Accra',
       senegal: 'Présents au Sénégal',
       guests: 'Invités au total',
       exportCsv: 'Exporter en CSV',
       noRsvps: 'Aucun RSVP pour le moment.',
-      colName: 'Nom',
-      colEmail: 'Email',
-      colGhana: 'Ghana',
+      colName: 'Nom complet',
+      colEmail: 'E-mail',
+      colGhana: 'Accra',
       colSenegal: 'Sénégal',
       colParty: 'Groupe',
       colDietary: 'Régime',

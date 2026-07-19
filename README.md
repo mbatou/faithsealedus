@@ -1,24 +1,25 @@
-# Faith &amp; Georges — Bilingual Wedding Website 💛
+# Augusta &amp; Georges — Bilingual Wedding Website
 
-A mobile-first, bilingual (EN/FR) single-page wedding site for a celebration
-that spans **two countries in one week** — a traditional ceremony in **Accra,
-Ghana** 🇬🇭 and a celebration in **Dakar, Senegal** 🇸🇳.
+A mobile-first, bilingual (EN/FR) single-page wedding site for **Augusta &amp;
+Georges** — one trip, two celebrations in the same week: **Accra, Ghana** 🇬🇭 on
+**2 December 2026** and **Senegal** 🇸🇳 on **4 December 2026**. *Two homelands,
+one union.*
 
 Built with **Next.js (App Router)**, **Supabase**, **Tailwind CSS**, and
-**Framer Motion** for slow, soft scroll reveals. The look is an **"Editorial
-Atelier"** — a magazine-catalogue take on a wedding site on a **pure black
-(`#000`)** canvas, delineated by champagne-gold (`#C6A15B`) hairlines rather
-than filled cards. Signatures: section index numerals (`N°01…05`) with
-vertical/uppercase labels, a recurring **"union" mark** (two interlocked rings
-— two people, two countries), high-contrast Playfair Display headings, a
-running editorial marquee, and large photos on black with offset gold frames.
+**Framer Motion** for slow, soft scroll reveals. The look is **black &amp; gold,
+premium** — a near-black (`#0B0B0B`) canvas with raised `#161514` surface cards,
+champagne-gold (`#C6A15B`) hairlines and accents, high-contrast Playfair Display
+headings and a quiet Inter body. Editorial signatures: section index numerals,
+a recurring **"union" mark** (two interlocked rings — two people, two countries),
+a running marquee, and large photos framed by thin gold hairlines.
 
 ## Sections
 
-Single-page scroll: **Hero → Our Story → The Week** (a visual timeline of both
-celebrations with venue, time, dress code, map & cultural notes) **→ Photo
-Gallery** (`next/image`, Supabase Storage) **→ Travel &amp; Stay → Countdown →
-RSVP**, plus a password-gated **/admin** dashboard.
+Single-page scroll: **Hero → Our Story** (three movements) **→ The Week** (one
+timeline, two acts — Accra & Senegal) **→ Us** (gallery, `next/image` from
+Supabase Storage) **→ Our Witnesses → Travel &amp; Stay → RSVP → Countdown +
+footer**, plus a password-gated **/admin** dashboard. Header **EN/FR** toggle
+throughout.
 
 ## Getting started
 
@@ -70,13 +71,14 @@ settings — that error means Vercel served no output for `/`:
 
 ### RSVP data model (`rsvps`)
 
-`name`, `email`, `attending_ghana`, `attending_senegal`, `party_size`,
-`dietary_notes`, `message`, `created_at`.
+`full_name`, `email`, `attending_ghana` (Accra, 2 Dec), `attending_senegal`
+(Senegal, 4 Dec), `party_size`, `dietary_notes`, `message`, `created_at`.
 
 Inserts go through the `POST /api/rsvp` route handler, which validates input,
-drops bot submissions via a **honeypot** field, and confirms on screen with a
-note that an email confirmation follows (wire up your email provider in
-`src/app/api/rsvp/route.ts`).
+drops bot submissions via a **honeypot** field, applies a **basic per-IP rate
+limit** (5 / 10 min, in-memory — swap for Upstash/Redis to share across
+instances), and confirms on screen with a note that an email confirmation
+follows (wire up your email provider in `src/app/api/rsvp/route.ts`).
 
 ## Admin
 
@@ -95,11 +97,13 @@ The header toggle switches EN/FR instantly and remembers the choice
 
 ## Customising
 
-- **Names, dates, venues, cultural notes** → `src/lib/dictionary.ts`
+- **All copy (names, story, venues, witnesses, travel…)** → `src/lib/dictionary.ts`
+  (the `TODO`/"to be confirmed" strings are the ones awaiting final details)
 - **Couple photo** → replace `public/couple-placeholder.svg`
-- **Gallery placeholders** → replace `public/gallery/*.svg` (or upload to Supabase)
-- **Colours (noir / charcoal / gold / ivory) &amp; fonts** → `tailwind.config.ts`
-  and `src/app/layout.tsx`
+- **Gallery placeholders** → replace `public/gallery/*.svg` (or upload to the
+  Supabase `gallery` bucket)
+- **Colours (`--bg` noir / `--surface` / gold / ivory / muted) &amp; fonts** →
+  `tailwind.config.ts` and `src/app/layout.tsx`
 
 ## Scripts
 

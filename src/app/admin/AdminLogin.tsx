@@ -25,7 +25,7 @@ export function AdminLogin() {
           {t.admin.title}
         </h1>
         <p className="mt-2 text-center text-xs font-semibold uppercase tracking-luxe text-gold">
-          {t.footer.hashtag}
+          {t.hero.bride} &amp; {t.hero.groom}
         </p>
 
         <div className="mt-6">

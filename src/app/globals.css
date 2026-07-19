@@ -36,9 +36,9 @@
     @apply py-24 sm:py-36;
   }
 
-  /* Pure-black card framed by a champagne-gold hairline — a gallery mat. */
+  /* Raised surface card framed by a champagne-gold hairline. */
   .card {
-    @apply rounded-none border border-gold/20 bg-noir;
+    @apply rounded-none border border-gold/20 bg-surface;
     box-shadow: inset 0 1px 0 rgba(198, 161, 91, 0.06);
   }
 

@@ -41,7 +41,7 @@ export function Rsvp() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name,
+          full_name: name,
           email,
           attending_ghana: ghana,
           attending_senegal: senegal,
@@ -57,6 +57,7 @@ export function Rsvp() {
         if (payload.error === 'invalid_email') setError(t.rsvp.errorEmail);
         else if (payload.error === 'invalid_name') setError(t.rsvp.errorName);
         else if (payload.error === 'no_attendance') setError(t.rsvp.errorAttend);
+        else if (payload.error === 'rate_limited') setError(t.rsvp.errorRate);
         else setError(t.rsvp.errorGeneric);
         setStatus('idle');
         return;
@@ -75,7 +76,7 @@ export function Rsvp() {
   return (
     <section id="rsvp" className="section-pad bg-noir">
       <div className="container-page">
-        <SectionHeading index="05" kicker={t.rsvp.kicker} title={t.rsvp.title} intro={t.rsvp.intro} />
+        <SectionHeading index="06" kicker={t.rsvp.kicker} title={t.rsvp.title} intro={t.rsvp.intro} />
 
         <Reveal className="mx-auto mt-14 max-w-xl">
           <div className="card p-6 sm:p-8">

@@ -16,24 +16,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Pure black base — no charcoal fills.
+        // Near-black base (#0B0B0B), raised surfaces on #161514.
         noir: {
-          DEFAULT: '#000000',
-          soft: '#000000',
+          DEFAULT: '#0B0B0B',
+          soft: '#0B0B0B',
         },
-        // Barely-there lifts, used only where a hairline can't do the job.
-        panel: {
-          DEFAULT: '#070707',
-          light: '#0D0C0B',
+        surface: {
+          DEFAULT: '#161514',
+          light: '#1E1C1A',
         },
         gold: {
           DEFAULT: '#C6A15B',
-          light: '#E4CB93',
+          light: '#CBAE6E', // --gold-soft
           dark: '#8C6D34',
         },
         ivory: {
           DEFAULT: '#F4EFE6',
-          dim: '#B9B2A6',
+          dim: '#8C877E', // --muted
         },
       },
       fontFamily: {

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, Mulish } from 'next/font/google';
+import { Playfair_Display, Inter } from 'next/font/google';
 import { LanguageProvider } from '@/context/LanguageContext';
 import './globals.css';
 
@@ -11,21 +11,21 @@ const serif = Playfair_Display({
   display: 'swap',
 });
 
-const sans = Mulish({
+const sans = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '600', '700'],
+  weight: ['300', '400', '500', '600'],
   variable: '--font-sans',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: 'Faith & Georges — Accra & Dakar, December 2026',
+  title: 'Augusta & Georges — Accra & Dakar, December 2026',
   description:
-    'Join us for a bilingual celebration of love across Ghana and Senegal — one joyful week, two cultures, a lifetime together.',
+    'Augusta & Georges are getting married — a bilingual celebration across Ghana and Senegal. Two homelands, one union. Accra, 2 December · Dakar, 4 December 2026.',
   openGraph: {
-    title: 'Faith & Georges are getting married',
+    title: 'Augusta & Georges are getting married',
     description:
-      'Two countries, one week, a lifetime of celebration. Accra & Dakar · December 2026.',
+      'Two homelands, one union. Accra — 2 December · Dakar — 4 December 2026.',
     type: 'website',
   },
 };

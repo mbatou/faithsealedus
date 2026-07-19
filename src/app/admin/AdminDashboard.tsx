@@ -6,7 +6,7 @@ import { useLanguage } from '@/context/LanguageContext';
 
 export interface RsvpRow {
   id: string;
-  name: string;
+  full_name: string;
   email: string;
   attending_ghana: boolean;
   attending_senegal: boolean;
@@ -18,7 +18,7 @@ export interface RsvpRow {
 
 function toCsv(rows: RsvpRow[]): string {
   const headers = [
-    'name',
+    'full_name',
     'email',
     'attending_ghana',
     'attending_senegal',
@@ -38,7 +38,7 @@ function toCsv(rows: RsvpRow[]): string {
     headers.join(','),
     ...rows.map((r) =>
       [
-        r.name,
+        r.full_name,
         r.email,
         r.attending_ghana,
         r.attending_senegal,
@@ -98,7 +98,7 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
         <div>
           <h1 className="font-serif text-3xl font-semibold text-ivory">{a.title}</h1>
           <p className="mt-1 text-xs font-semibold uppercase tracking-luxe text-gold">
-            {t.footer.hashtag}
+            {t.hero.bride} &amp; {t.hero.groom}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -130,7 +130,7 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
       ) : (
         <div className="card mt-8 overflow-x-auto">
           <table className="w-full min-w-[820px] text-left text-sm">
-            <thead className="border-b border-gold/15 bg-panel text-[0.65rem] uppercase tracking-[0.15em] text-ivory-dim/60">
+            <thead className="border-b border-gold/15 bg-surface text-[0.65rem] uppercase tracking-[0.15em] text-ivory-dim/60">
               <tr>
                 <th className="px-4 py-3">{a.colName}</th>
                 <th className="px-4 py-3">{a.colEmail}</th>
@@ -145,7 +145,7 @@ export function AdminDashboard({ rows }: { rows: RsvpRow[] }) {
             <tbody className="divide-y divide-gold/10">
               {rows.map((r) => (
                 <tr key={r.id} className="align-top transition hover:bg-gold/5">
-                  <td className="px-4 py-3 font-medium text-ivory">{r.name}</td>
+                  <td className="px-4 py-3 font-medium text-ivory">{r.full_name}</td>
                   <td className="px-4 py-3 text-ivory-dim">{r.email}</td>
                   <td className="px-4 py-3 text-center text-gold">
                     {r.attending_ghana ? '✦' : '—'}

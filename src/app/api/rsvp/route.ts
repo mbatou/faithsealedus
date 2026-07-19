@@ -6,7 +6,7 @@ export const runtime = 'nodejs';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 interface RsvpPayload {
-  name?: string;
+  full_name?: string;
   email?: string;
   attending_ghana?: boolean;
   attending_senegal?: boolean;
@@ -17,7 +17,41 @@ interface RsvpPayload {
   company?: string;
 }
 
+// ---------------------------------------------------------------------------
+// Basic per-IP rate limit (in-memory). Enough to blunt casual abuse; on a
+// serverless platform each instance keeps its own window, which is acceptable
+// for a low-traffic RSVP form. Swap for Upstash/Redis if you need it shared.
+// ---------------------------------------------------------------------------
+const RATE_LIMIT = 5; // max submissions
+const RATE_WINDOW_MS = 10 * 60 * 1000; // per 10 minutes
+const hits = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter((ts: number) => now - ts < RATE_WINDOW_MS);
+  recent.push(now);
+  hits.set(ip, recent);
+  // Opportunistic cleanup so the map doesn't grow unbounded.
+  if (hits.size > 5000) {
+    for (const key of Array.from(hits.keys())) {
+      const times = hits.get(key) ?? [];
+      if (times.every((ts: number) => now - ts >= RATE_WINDOW_MS)) hits.delete(key);
+    }
+  }
+  return recent.length > RATE_LIMIT;
+}
+
+function clientIp(request: Request): string {
+  const fwd = request.headers.get('x-forwarded-for');
+  if (fwd) return fwd.split(',')[0].trim();
+  return request.headers.get('x-real-ip') ?? 'unknown';
+}
+
 export async function POST(request: Request) {
+  if (isRateLimited(clientIp(request))) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+  }
+
   let body: RsvpPayload;
   try {
     body = (await request.json()) as RsvpPayload;
@@ -31,12 +65,12 @@ export async function POST(request: Request) {
   }
 
   // --- Validation -----------------------------------------------------------
-  const name = (body.name ?? '').trim();
+  const fullName = (body.full_name ?? '').trim();
   const email = (body.email ?? '').trim();
   const attendingGhana = Boolean(body.attending_ghana);
   const attendingSenegal = Boolean(body.attending_senegal);
 
-  if (!name) {
+  if (!fullName) {
     return NextResponse.json({ error: 'invalid_name' }, { status: 400 });
   }
   if (!EMAIL_RE.test(email)) {
@@ -53,12 +87,11 @@ export async function POST(request: Request) {
 
   const supabase = getSupabaseAnonClient();
   if (!supabase) {
-    // Supabase not configured yet — surface a clear server error.
     return NextResponse.json({ error: 'not_configured' }, { status: 503 });
   }
 
   const { error } = await supabase.from('rsvps').insert({
-    name,
+    full_name: fullName,
     email,
     attending_ghana: attendingGhana,
     attending_senegal: attendingSenegal,

@@ -3,6 +3,7 @@ import { Hero } from '@/components/Hero';
 import { OurStory } from '@/components/OurStory';
 import { TheWeek } from '@/components/TheWeek';
 import { Gallery } from '@/components/Gallery';
+import { Witnesses } from '@/components/Witnesses';
 import { TravelStay } from '@/components/TravelStay';
 import { Rsvp } from '@/components/Rsvp';
 import { Countdown } from '@/components/Countdown';
@@ -11,11 +12,11 @@ import { Marquee } from '@/components/Marquee';
 import { getGalleryImages } from '@/lib/gallery';
 
 const marqueeItems = [
-  'Faith & Georges',
-  'Accra',
-  'Dakar',
-  'XIX — XXIII · XII · MMXXVI',
-  '#FaithSealedUs',
+  'Augusta & Georges',
+  'Accra · 2 XII',
+  'Dakar · 4 XII',
+  'MMXXVI',
+  'Two homelands, one union',
 ];
 
 // Statically generated with hourly ISR: the page is served from the CDN (no
@@ -35,9 +36,10 @@ export default async function Home() {
         <OurStory />
         <TheWeek />
         <Gallery images={images} />
+        <Witnesses />
         <TravelStay />
-        <Countdown />
         <Rsvp />
+        <Countdown />
       </main>
       <Footer />
     </>

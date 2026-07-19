@@ -26,7 +26,7 @@ function EventCard({ event, index }: { event: WeekEvent; index: number }) {
       />
 
       <article className="card p-7 sm:p-9 md:text-left">
-        <div className="flex items-center justify-between md:flex-row-reverse md:justify-between">
+        <div className="flex items-center justify-between md:flex-row-reverse">
           <span
             className="font-serif text-5xl font-semibold leading-none text-gold/25"
             aria-hidden
@@ -38,49 +38,38 @@ function EventCard({ event, index }: { event: WeekEvent; index: number }) {
               {event.flag}
             </span>
             <span className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-gold">
-              {event.country} · {event.city}
+              {event.act}
             </span>
           </div>
         </div>
 
-        <h3 className="mt-6 font-serif text-2xl font-semibold text-ivory sm:text-3xl">
-          {event.title}
-        </h3>
-        <p className="mt-2 font-serif text-lg italic text-gold">{event.date}</p>
+        <p className="mt-6 font-serif text-xl italic text-gold sm:text-2xl">
+          {event.date}
+        </p>
+        <p className="mt-3 text-base font-light leading-relaxed text-ivory-dim">
+          {event.blurb}
+        </p>
 
         <dl className="mt-7 space-y-4 border-t border-gold/10 pt-6 text-sm">
           <div>
-            <dt className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-ivory-dim/50">
+            <dt className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-ivory-dim/60">
               {labels.when}
             </dt>
-            <dd className="mt-1 text-ivory-dim">{event.time}</dd>
+            <dd className="mt-1 text-ivory">{event.time}</dd>
           </div>
           <div>
-            <dt className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-ivory-dim/50">
+            <dt className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-ivory-dim/60">
               {labels.where}
             </dt>
-            <dd className="mt-1 text-ivory-dim">
-              {event.venue}
-              <br />
-              <span className="text-ivory-dim/60">{event.address}</span>
-            </dd>
+            <dd className="mt-1 text-ivory">{event.venue}</dd>
           </div>
           <div>
-            <dt className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-ivory-dim/50">
+            <dt className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-ivory-dim/60">
               {labels.dress}
             </dt>
-            <dd className="mt-1 text-ivory-dim">{event.dressCode}</dd>
+            <dd className="mt-1 text-ivory">{event.dressCode}</dd>
           </div>
         </dl>
-
-        <div className="mt-6 border-l border-gold/40 pl-4">
-          <p className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-gold">
-            {labels.culture}
-          </p>
-          <p className="mt-2 text-sm font-light leading-relaxed text-ivory-dim">
-            {event.cultural}
-          </p>
-        </div>
 
         <a
           href={event.mapUrl}

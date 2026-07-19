@@ -8,6 +8,7 @@ const navItems: { id: string; key: keyof ReturnType<typeof useLanguage>['t']['na
   { id: 'story', key: 'story' },
   { id: 'week', key: 'week' },
   { id: 'gallery', key: 'gallery' },
+  { id: 'witnesses', key: 'witnesses' },
   { id: 'travel', key: 'travel' },
   { id: 'rsvp', key: 'rsvp' },
 ];
@@ -71,10 +72,10 @@ export function Header() {
     >
       <div className="container-page flex h-16 items-center justify-between sm:h-20">
         <a href="#top" className="font-serif text-xl font-semibold tracking-[0.2em] text-ivory">
-          F <span className="text-gold">&amp;</span> G
+          A <span className="text-gold">&amp;</span> G
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-5 md:flex lg:gap-7" aria-label="Primary">
           {navItems.map((item) => (
             <a
               key={item.id}
