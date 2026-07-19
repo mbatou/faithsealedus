@@ -23,7 +23,8 @@ export async function login(
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
-    path: '/admin',
+    // Site-wide so admin-gated API routes (e.g. /api/db-check) receive it too.
+    path: '/',
     maxAge: 60 * 60 * 8, // 8 hours
   });
 
@@ -32,6 +33,6 @@ export async function login(
 }
 
 export async function logout(): Promise<void> {
-  cookies().delete(ADMIN_COOKIE);
+  cookies().delete({ name: ADMIN_COOKIE, path: '/' });
   revalidatePath('/admin');
 }
