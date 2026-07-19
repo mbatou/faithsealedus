@@ -68,7 +68,7 @@ export function Prayers() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) {
-        setError(p.error);
+        setError(data.error === 'not_configured' ? p.errorConfig : p.error);
         setStatus('idle');
         return;
       }

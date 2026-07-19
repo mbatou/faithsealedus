@@ -133,6 +133,7 @@ export interface Dictionary {
     empty: string;
     thanks: string;
     error: string;
+    errorConfig: string;
     signed: string; // "— {name}" prefix word, kept generic
   };
   exclusive: {
@@ -403,6 +404,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       empty: 'Be the first to leave a blessing.',
       thanks: 'Amen — thank you for your blessing.',
       error: 'Something went wrong. Please try again in a moment.',
+      errorConfig: 'The prayer wall isn’t connected to its database yet — please try again shortly.',
       signed: '—',
     },
     exclusive: {
@@ -619,6 +621,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       empty: 'Soyez la première personne à laisser une bénédiction.',
       thanks: 'Amen — merci pour votre bénédiction.',
       error: 'Une erreur est survenue. Merci de réessayer dans un instant.',
+      errorConfig: 'Le mur de prières n’est pas encore connecté à sa base de données — merci de réessayer bientôt.',
       signed: '—',
     },
     exclusive: {

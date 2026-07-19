@@ -8,16 +8,41 @@ import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
  * string is configured so the site still builds/renders before the database
  * is wired up. Vercel's Neon integration provides `DATABASE_URL`.
  */
+// Connection-string env vars, in priority order. Different Vercel/Neon
+// integrations expose different names, so we accept the common ones.
+const URL_VARS = [
+  'DATABASE_URL',
+  'POSTGRES_URL',
+  'DATABASE_URL_UNPOOLED',
+  'POSTGRES_URL_NON_POOLING',
+  'POSTGRES_PRISMA_URL',
+  'NEON_DATABASE_URL',
+];
+
+function findUrl(): { name: string; url: string } | null {
+  for (const name of URL_VARS) {
+    const url = process.env[name];
+    if (url) return { name, url };
+  }
+  return null;
+}
+
+/** Name of the env var the connection string was read from (for diagnostics). */
+export function dbEnvVarName(): string | null {
+  return findUrl()?.name ?? null;
+}
+
+/** Names of any recognised connection-string env vars that are set. */
+export function presentDbVars(): string[] {
+  return URL_VARS.filter((n) => Boolean(process.env[n]));
+}
+
 let cached: NeonQueryFunction<false, false> | null | undefined;
 
 export function getSql(): NeonQueryFunction<false, false> | null {
   if (cached !== undefined) return cached;
-  const url =
-    process.env.DATABASE_URL ||
-    process.env.POSTGRES_URL ||
-    process.env.POSTGRES_PRISMA_URL ||
-    process.env.NEON_DATABASE_URL;
-  cached = url ? neon(url) : null;
+  const found = findUrl();
+  cached = found ? neon(found.url) : null;
   return cached;
 }
 
