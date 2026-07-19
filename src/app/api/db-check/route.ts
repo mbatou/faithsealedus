@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import { isAuthed } from '@/lib/admin-auth';
-import { getSql, ensureSchema, dbEnvVarName, presentDbVars } from '@/lib/db';
+import {
+  getSql,
+  ensureSchema,
+  dbEnvVarName,
+  presentDbVars,
+  dbLikeEnvKeys,
+} from '@/lib/db';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -20,8 +26,10 @@ export async function GET() {
     return NextResponse.json({
       connected: false,
       reason: 'no_connection_string',
-      hint: 'No Neon/Postgres connection string is set in this deployment. Link the Neon integration to THIS project, enable it for the environment you are viewing (Preview and Production), then redeploy.',
+      hint: 'No Neon/Postgres connection string is set in this deployment. Link the Neon integration to THIS project, enable it for the environment you are viewing (Preview and Production), then REDEPLOY (env changes do not apply to existing deployments).',
       recognisedVarsPresent: presentVars,
+      // Names only (no values) — shows what the integration actually injected.
+      dbLikeEnvKeys: dbLikeEnvKeys(),
     });
   }
 

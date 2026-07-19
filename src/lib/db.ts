@@ -19,10 +19,18 @@ const URL_VARS = [
   'NEON_DATABASE_URL',
 ];
 
+const PG_URL_RE = /^postgres(ql)?:\/\//i;
+
 function findUrl(): { name: string; url: string } | null {
+  // 1. Known variable names, in priority order.
   for (const name of URL_VARS) {
     const url = process.env[name];
     if (url) return { name, url };
+  }
+  // 2. Fallback: any env var whose VALUE looks like a Postgres connection
+  //    string, whatever the integration named it.
+  for (const [name, val] of Object.entries(process.env)) {
+    if (val && PG_URL_RE.test(val)) return { name, url: val };
   }
   return null;
 }
@@ -35,6 +43,19 @@ export function dbEnvVarName(): string | null {
 /** Names of any recognised connection-string env vars that are set. */
 export function presentDbVars(): string[] {
   return URL_VARS.filter((n) => Boolean(process.env[n]));
+}
+
+/**
+ * Names (never values) of env vars that look database-related — matched either
+ * by a Postgres-ish key name or by a value that is a Postgres URL. Helps
+ * identify what a Vercel integration actually injected.
+ */
+export function dbLikeEnvKeys(): string[] {
+  const keyRe = /(DATABASE|POSTGRES|NEON|^PG|_PG|PGHOST|PGDATABASE)/i;
+  return Object.entries(process.env)
+    .filter(([k, v]) => keyRe.test(k) || (v ? PG_URL_RE.test(v) : false))
+    .map(([k]) => k)
+    .sort();
 }
 
 let cached: NeonQueryFunction<false, false> | null | undefined;
