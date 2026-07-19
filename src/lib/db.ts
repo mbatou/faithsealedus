@@ -13,8 +13,13 @@ import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
 const URL_VARS = [
   'DATABASE_URL',
   'POSTGRES_URL',
+  // Vercel integrations with a custom prefix (e.g. "STORAGE").
+  'STORAGE_URL',
+  'STORAGE_DATABASE_URL',
+  'STORAGE_POSTGRES_URL',
   'DATABASE_URL_UNPOOLED',
   'POSTGRES_URL_NON_POOLING',
+  'STORAGE_DATABASE_URL_UNPOOLED',
   'POSTGRES_PRISMA_URL',
   'NEON_DATABASE_URL',
 ];
@@ -28,9 +33,14 @@ function findUrl(): { name: string; url: string } | null {
     if (url) return { name, url };
   }
   // 2. Fallback: any env var whose VALUE looks like a Postgres connection
-  //    string, whatever the integration named it.
-  for (const [name, val] of Object.entries(process.env)) {
-    if (val && PG_URL_RE.test(val)) return { name, url: val };
+  //    string, whatever the integration named it. Prefer a pooled connection.
+  const candidates = Object.entries(process.env).filter(
+    ([, v]) => v && PG_URL_RE.test(v),
+  ) as [string, string][];
+  if (candidates.length) {
+    const pooled = candidates.find(([n]) => !/UNPOOL|NON_POOL/i.test(n));
+    const [name, url] = pooled ?? candidates[0];
+    return { name, url };
   }
   return null;
 }
