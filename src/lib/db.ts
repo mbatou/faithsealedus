@@ -33,13 +33,23 @@ function findUrl(): { name: string; url: string } | null {
     if (url) return { name, url };
   }
   // 2. Fallback: any env var whose VALUE looks like a Postgres connection
-  //    string, whatever the integration named it. Prefer a pooled connection.
+  //    string, whatever the integration named it (e.g. a project-name prefix
+  //    like `faithsealedus_DATABASE_URL`). Score names to prefer a pooled,
+  //    standard, SSL connection string.
   const candidates = Object.entries(process.env).filter(
     ([, v]) => v && PG_URL_RE.test(v),
   ) as [string, string][];
   if (candidates.length) {
-    const pooled = candidates.find(([n]) => !/UNPOOL|NON_POOL/i.test(n));
-    const [name, url] = pooled ?? candidates[0];
+    const score = (n: string): number => {
+      const u = n.toUpperCase();
+      if (/UNPOOL|NON_POOL/.test(u)) return -2; // avoid unpooled
+      if (/NO_SSL|PRISMA/.test(u)) return -1; // avoid odd variants
+      if (u.endsWith('DATABASE_URL')) return 3;
+      if (u.endsWith('POSTGRES_URL')) return 2;
+      return 1;
+    };
+    candidates.sort((a, b) => score(b[0]) - score(a[0]));
+    const [name, url] = candidates[0];
     return { name, url };
   }
   return null;
