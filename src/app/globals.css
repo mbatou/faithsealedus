@@ -108,6 +108,30 @@
   }
 }
 
+/* Tiny equalizer bars on the music toggle while playing. */
+@keyframes eq {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.eq-bar {
+  animation: eq 1.1s ease-in-out infinite;
+  animation-delay: var(--eq-delay, 0s);
+  transform-origin: bottom;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eq-bar {
+    animation: none;
+    transform: scaleY(0.7);
+  }
+}
+
 /* Twinkling star specks behind the prayer cloud. */
 @keyframes twinkle {
   0%,

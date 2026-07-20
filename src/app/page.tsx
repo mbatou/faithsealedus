@@ -1,5 +1,6 @@
 import { Header } from '@/components/Header';
 import { ScrollProgress } from '@/components/ScrollProgress';
+import { MusicToggle } from '@/components/MusicToggle';
 import { Hero } from '@/components/Hero';
 import { OurStory } from '@/components/OurStory';
 import { TheWeek } from '@/components/TheWeek';
@@ -32,6 +33,7 @@ export default function Home() {
   return (
     <>
       <ScrollProgress />
+      <MusicToggle />
       <Header />
       <main>
         <Hero />

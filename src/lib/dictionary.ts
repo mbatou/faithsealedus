@@ -162,6 +162,10 @@ export interface Dictionary {
   footer: {
     closing: string;
   };
+  music: {
+    play: string;
+    pause: string;
+  };
   admin: {
     title: string;
     passwordLabel: string;
@@ -194,7 +198,7 @@ export interface Dictionary {
 // Map links to the confirmed venues.
 const ACCRA_MAP =
   'https://maps.google.com/?q=19+Jacob+Avenue,+Nmai+Djorn,+Ashalley+Botwe,+Accra';
-const DAKAR_MAP = 'https://maps.google.com/?q=312+Comico,+Ouakam,+Dakar';
+const DAKAR_MAP = 'https://maps.app.goo.gl/mpk1KSCMRXpwojZJ6';
 
 const accraEn: WeekEvent = {
   id: 'ghana',
@@ -434,6 +438,10 @@ export const dictionaries: Record<Language, Dictionary> = {
     footer: {
       closing: 'With love, Augusta & Georges',
     },
+    music: {
+      play: 'Play music',
+      pause: 'Pause music',
+    },
     admin: {
       title: 'RSVP Dashboard',
       passwordLabel: 'Admin password',
@@ -651,6 +659,10 @@ export const dictionaries: Record<Language, Dictionary> = {
     },
     footer: {
       closing: 'Avec amour, Augusta & Georges',
+    },
+    music: {
+      play: 'Écouter la musique',
+      pause: 'Couper la musique',
     },
     admin: {
       title: 'Tableau de bord RSVP',
