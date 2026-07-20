@@ -58,22 +58,53 @@ export function MusicToggle() {
     window.localStorage.setItem(STORAGE_KEY, 'off');
   }
 
-  // Start on the first interaction anywhere, unless the guest opted out before.
+  // Play as automatically as browsers allow: attempt immediately on load, and
+  // if the browser blocks it, start on the very first interaction — including
+  // the first scroll swipe on mobile (touchend grants user activation).
+  // Guests who explicitly switched it off stay opted out.
   useEffect(() => {
     if (window.localStorage.getItem(STORAGE_KEY) === 'off') return;
 
     let started = false;
     const kick = () => {
-      if (started) return;
-      started = true;
+      if (started || !audioRef.current || !audioRef.current.paused) return;
       cleanup();
-      void play();
+      started = true;
+      void play().then(() => {
+        // If the browser still refused (no real activation yet), re-arm.
+        if (audioRef.current?.paused) {
+          started = false;
+          arm();
+        }
+      });
     };
-    const events: (keyof WindowEventMap)[] = ['pointerdown', 'keydown', 'touchstart'];
+    const events: (keyof WindowEventMap)[] = [
+      'pointerdown',
+      'keydown',
+      'touchend',
+      'click',
+    ];
+    const arm = () =>
+      events.forEach((e) => window.addEventListener(e, kick, { passive: true }));
     const cleanup = () =>
       events.forEach((e) => window.removeEventListener(e, kick));
-    events.forEach((e) => window.addEventListener(e, kick, { passive: true }));
-    return cleanup;
+
+    // 1. Immediate attempt (succeeds for browsers that already trust the site).
+    void play();
+    // 2. Retry when the tab becomes visible again.
+    const onVisible = () => {
+      if (document.visibilityState === 'visible' && audioRef.current?.paused) {
+        void play();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    // 3. First interaction anywhere.
+    arm();
+
+    return () => {
+      cleanup();
+      document.removeEventListener('visibilitychange', onVisible);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -92,6 +123,14 @@ export function MusicToggle() {
         aria-pressed={playing}
         className="fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-gold/40 bg-noir/80 backdrop-blur transition hover:border-gold hover:bg-noir focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:bottom-6 sm:right-6"
       >
+        {/* Soft pulsing ring drawing the eye until the music starts */}
+        {!playing && (
+          <span
+            aria-hidden
+            className="absolute inset-0 animate-ping rounded-full border border-gold/50 motion-reduce:hidden"
+            style={{ animationDuration: '2.2s' }}
+          />
+        )}
         {playing ? (
           <span className="flex h-4 items-end gap-[3px]" aria-hidden>
             {[0, 1, 2].map((i) => (
