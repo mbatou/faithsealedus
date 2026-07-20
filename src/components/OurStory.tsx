@@ -1,10 +1,32 @@
 'use client';
 
-import { Fragment } from 'react';
+import { Fragment, useRef, type ReactNode } from 'react';
 import Image from 'next/image';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { Reveal } from './Reveal';
 import { SectionHeading } from './SectionHeading';
+
+/** Gentle vertical parallax as the block crosses the viewport. */
+function Parallax({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [-20, 20]);
+  return (
+    <motion.div ref={ref} style={{ y: reduce ? 0 : y }}>
+      {children}
+    </motion.div>
+  );
+}
 
 // One photo per movement (portrait shots from the shoot).
 const storyImages = ['/faithsealedus4.PNG', '/faithsealedus7.PNG', '/faithsealedus3.PNG'];
@@ -44,23 +66,25 @@ export function OurStory() {
                   direction={imageRight ? 'left' : 'right'}
                   className={imageRight ? 'md:order-2' : ''}
                 >
-                  <div className="relative">
-                    <span
-                      aria-hidden
-                      className={`absolute -z-10 hidden h-full w-full border border-gold/30 md:block ${
-                        imageRight ? '-bottom-3 -right-3' : '-bottom-3 -left-3'
-                      }`}
-                    />
-                    <div className="relative aspect-[4/5] w-full overflow-hidden ring-1 ring-gold/25">
-                      <Image
-                        src={storyImages[i % storyImages.length]}
-                        alt={`${t.hero.bride} & ${t.hero.groom}`}
-                        fill
-                        sizes="(max-width: 768px) 90vw, 45vw"
-                        className="object-cover"
+                  <Parallax>
+                    <div className="relative">
+                      <span
+                        aria-hidden
+                        className={`absolute -z-10 hidden h-full w-full border border-gold/30 md:block ${
+                          imageRight ? '-bottom-3 -right-3' : '-bottom-3 -left-3'
+                        }`}
                       />
+                      <div className="relative aspect-[4/5] w-full overflow-hidden ring-1 ring-gold/25">
+                        <Image
+                          src={storyImages[i % storyImages.length]}
+                          alt={`${t.hero.bride} & ${t.hero.groom}`}
+                          fill
+                          sizes="(max-width: 768px) 90vw, 45vw"
+                          className="object-cover"
+                        />
+                      </div>
                     </div>
-                  </div>
+                  </Parallax>
                 </Reveal>
 
                 {/* Text */}

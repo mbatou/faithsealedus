@@ -1,4 +1,5 @@
 import { Header } from '@/components/Header';
+import { ScrollProgress } from '@/components/ScrollProgress';
 import { Hero } from '@/components/Hero';
 import { OurStory } from '@/components/OurStory';
 import { TheWeek } from '@/components/TheWeek';
@@ -30,6 +31,7 @@ export default function Home() {
 
   return (
     <>
+      <ScrollProgress />
       <Header />
       <main>
         <Hero />

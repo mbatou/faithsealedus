@@ -42,6 +42,29 @@ export function Hero() {
     },
   };
 
+  // Letter-by-letter blur-in for the names.
+  const nameGroup = {
+    hidden: {},
+    visible: { transition: { staggerChildren: reduce ? 0 : 0.05 } },
+  };
+  const letter = {
+    hidden: reduce
+      ? { opacity: 0 }
+      : { opacity: 0, y: 22, filter: 'blur(10px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] as const },
+    },
+  };
+  const renderName = (text: string) =>
+    [...text].map((ch, i) => (
+      <motion.span key={i} variants={letter} className="inline-block">
+        {ch}
+      </motion.span>
+    ));
+
   return (
     <section
       ref={ref}
@@ -108,12 +131,17 @@ export function Hero() {
           </motion.p>
 
           <motion.h1
-            variants={item}
+            variants={nameGroup}
             className="mt-4 w-full text-balance font-serif text-4xl font-semibold leading-[1.0] text-ivory sm:text-5xl lg:text-6xl"
           >
-            {t.hero.bride}
-            <span className="mx-2 font-normal italic text-gold sm:mx-3">{t.hero.and}</span>
-            {t.hero.groom}
+            {renderName(t.hero.bride)}
+            <motion.span
+              variants={letter}
+              className="mx-2 inline-block font-normal italic text-gold sm:mx-3"
+            >
+              {t.hero.and}
+            </motion.span>
+            {renderName(t.hero.groom)}
           </motion.h1>
 
           <motion.p

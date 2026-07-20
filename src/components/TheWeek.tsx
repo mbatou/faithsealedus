@@ -1,5 +1,7 @@
 'use client';
 
+import { useRef } from 'react';
+import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import type { WeekEvent } from '@/lib/dictionary';
 import { Reveal } from './Reveal';
@@ -25,7 +27,7 @@ function EventCard({ event, index }: { event: WeekEvent; index: number }) {
         }`}
       />
 
-      <article className="card p-7 sm:p-9 md:text-left">
+      <article className="card p-7 transition duration-500 hover:-translate-y-1 hover:border-gold/45 sm:p-9 md:text-left">
         <div className="flex items-center justify-between md:flex-row-reverse">
           <span
             className="font-serif text-5xl font-semibold leading-none text-gold/25"
@@ -89,6 +91,15 @@ function EventCard({ event, index }: { event: WeekEvent; index: number }) {
 
 export function TheWeek() {
   const { t } = useLanguage();
+  const reduce = useReducedMotion();
+  const timelineRef = useRef<HTMLDivElement>(null);
+
+  // The gold spine draws itself as the timeline scrolls through the viewport.
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ['start 80%', 'end 65%'],
+  });
+  const spineScale = useSpring(scrollYProgress, { stiffness: 70, damping: 22 });
 
   return (
     <section id="week" className="section-pad bg-noir">
@@ -100,10 +111,11 @@ export function TheWeek() {
           intro={t.week.intro}
         />
 
-        <div className="relative mt-20">
-          <span
+        <div ref={timelineRef} className="relative mt-20">
+          <motion.span
             aria-hidden
-            className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gold/20 md:block"
+            style={{ scaleY: reduce ? 1 : spineScale }}
+            className="absolute left-1/2 top-0 hidden h-full w-px origin-top -translate-x-1/2 bg-gradient-to-b from-gold/50 via-gold/25 to-gold/50 md:block"
           />
           <div className="space-y-10 md:space-y-24">
             {t.week.events.map((event, i) => (

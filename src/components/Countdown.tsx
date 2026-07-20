@@ -1,9 +1,29 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { MarkDivider } from './Mark';
+
+/** A value that rolls over vertically when it changes, like a flip counter. */
+function Rolling({ value, reduce }: { value: string; reduce: boolean }) {
+  return (
+    <span className="relative inline-flex h-[1.1em] items-baseline overflow-hidden align-baseline">
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          key={value}
+          initial={reduce ? { opacity: 0 } : { y: '0.9em', opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={reduce ? { opacity: 0 } : { y: '-0.9em', opacity: 0 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-block tabular-nums"
+        >
+          {value}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
 interface TimeLeft {
   days: number;
@@ -27,6 +47,7 @@ function computeTimeLeft(target: number): TimeLeft {
 
 export function Countdown() {
   const { t } = useLanguage();
+  const reduce = useReducedMotion() ?? false;
   const targetTime = useMemo(
     () => new Date(t.week.events[0].isoDate).getTime(),
     [t.week.events],
@@ -87,7 +108,7 @@ export function Countdown() {
                 className="bg-noir py-6 sm:py-8"
               >
                 <div className="font-serif text-3xl font-semibold tabular-nums text-gold sm:text-5xl">
-                  {String(unit.value).padStart(2, '0')}
+                  <Rolling value={String(unit.value).padStart(2, '0')} reduce={reduce} />
                 </div>
                 <div className="mt-2 text-[0.55rem] uppercase tracking-[0.2em] text-ivory-dim/60 sm:text-xs">
                   {unit.label}

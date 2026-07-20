@@ -134,6 +134,7 @@ export interface Dictionary {
     thanks: string;
     error: string;
     errorConfig: string;
+    countLabel: string; // suffix after the number of blessings
     signed: string; // "— {name}" prefix word, kept generic
   };
   exclusive: {
@@ -405,6 +406,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       thanks: 'Amen — thank you for your blessing.',
       error: 'Something went wrong. Please try again in a moment.',
       errorConfig: 'The prayer wall isn’t connected to its database yet — please try again shortly.',
+      countLabel: 'blessings and counting',
       signed: '—',
     },
     exclusive: {
@@ -622,6 +624,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       thanks: 'Amen — merci pour votre bénédiction.',
       error: 'Une erreur est survenue. Merci de réessayer dans un instant.',
       errorConfig: 'Le mur de prières n’est pas encore connecté à sa base de données — merci de réessayer bientôt.',
+      countLabel: 'bénédictions, et ce n’est que le début',
       signed: '—',
     },
     exclusive: {
