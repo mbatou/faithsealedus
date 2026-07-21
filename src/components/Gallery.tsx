@@ -30,7 +30,11 @@ export function Gallery({ images }: { images: GalleryImage[] }) {
               <Reveal
                 key={img.src}
                 delay={(i % 3) * 0.08}
-                className={i % 5 === 0 ? 'col-span-2 sm:col-span-1' : ''}
+                className={
+                  i % 5 === 0 || i === images.length - 1
+                    ? 'col-span-2 sm:col-span-1'
+                    : ''
+                }
               >
                 <button
                   type="button"

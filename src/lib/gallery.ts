@@ -13,6 +13,9 @@ const IMAGES: GalleryImage[] = [
   { src: '/story4.JPG', alt: 'Augusta & Georges go-karting' },
   { src: '/story7.png', alt: 'Augusta & Georges in the music room' },
   { src: '/story10.jpg', alt: 'Augusta & Georges holding hands' },
+  { src: '/faithsealedus2.PNG', alt: 'Augusta & Georges embracing' },
+  { src: '/faithsealedus5.PNG', alt: 'Augusta & Georges portrait' },
+  { src: '/faithsealedus8.PNG', alt: 'Augusta & Georges reclining together' },
 ];
 
 export function getGalleryImages(): GalleryImage[] {
