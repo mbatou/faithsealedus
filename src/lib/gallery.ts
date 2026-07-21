@@ -3,18 +3,15 @@ export interface GalleryImage {
   alt: string;
 }
 
-// The couple's photos, served from /public. To add or change the gallery,
-// drop new files in /public and edit this list.
-// Note: filenames are case-sensitive on Linux/Vercel — keep the .PNG casing.
+// Candid moments from the couple's story, served from /public — distinct from
+// the studio shots used in the hero and Our Story so nothing repeats.
+// Note: filenames are case-sensitive on Linux/Vercel — keep the exact casing.
 const IMAGES: GalleryImage[] = [
-  { src: '/faithsealedus5.PNG', alt: 'Augusta & Georges' },
-  { src: '/faithsealedus1.PNG', alt: 'Augusta & Georges' },
-  { src: '/faithsealedus7.PNG', alt: 'Augusta & Georges' },
-  { src: '/faithsealedus4.PNG', alt: 'Augusta & Georges' },
-  { src: '/faithsealedus6.PNG', alt: 'Augusta & Georges' },
-  { src: '/faithsealedus3.PNG', alt: 'Augusta & Georges' },
-  { src: '/faithsealedus8.PNG', alt: 'Augusta & Georges' },
-  { src: '/faithsealedus2.PNG', alt: 'Augusta & Georges' },
+  { src: '/story2.JPG', alt: 'Augusta & Georges quad biking under a baobab' },
+  { src: '/story1.JPG', alt: 'Augusta laughing over lunch' },
+  { src: '/story3.jpg', alt: 'Georges placing sunglasses on Augusta' },
+  { src: '/story4.JPG', alt: 'Augusta & Georges go-karting' },
+  { src: '/story7.png', alt: 'Augusta & Georges in the music room' },
 ];
 
 export function getGalleryImages(): GalleryImage[] {
