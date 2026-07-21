@@ -12,6 +12,7 @@ const IMAGES: GalleryImage[] = [
   { src: '/story3.jpg', alt: 'Georges placing sunglasses on Augusta' },
   { src: '/story4.JPG', alt: 'Augusta & Georges go-karting' },
   { src: '/story7.png', alt: 'Augusta & Georges in the music room' },
+  { src: '/story10.jpg', alt: 'Augusta & Georges holding hands' },
 ];
 
 export function getGalleryImages(): GalleryImage[] {
