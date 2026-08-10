@@ -27,6 +27,12 @@ export interface WitnessGroup {
   tbd?: boolean;
 }
 
+export interface WitnessCity {
+  act: string; // e.g. "Act I — Accra"
+  flag: string;
+  groups: WitnessGroup[];
+}
+
 export interface TravelItem {
   title: string;
   body: string;
@@ -80,7 +86,8 @@ export interface Dictionary {
     kicker: string;
     title: string;
     intro: string;
-    groups: WitnessGroup[];
+    cities: WitnessCity[];
+    godmother: WitnessGroup;
   };
   travel: {
     kicker: string;
@@ -207,10 +214,10 @@ const accraEn: WeekEvent = {
   country: 'Ghana',
   city: 'Accra',
   date: 'Wednesday, 2 December — Accra, Ghana',
-  isoDate: '2026-12-02T13:00:00+00:00',
+  isoDate: '2026-12-02T10:00:00+00:00',
   blurb: 'The celebration opens in Accra, the first act of our week.',
   venue: '19 Jacob Avenue, Nmai Djorn, Ashalley Botwe, Accra',
-  time: 'From 1:00 pm',
+  time: 'From 10:00 am',
   dressCode: 'Emerald green, white or black — no strict dress code',
   mapUrl: ACCRA_MAP,
 };
@@ -235,7 +242,7 @@ const accraFr: WeekEvent = {
   act: 'Acte I — Accra',
   date: 'Mercredi 2 décembre — Accra, Ghana',
   blurb: 'La célébration s’ouvre à Accra, le premier acte de notre semaine.',
-  time: 'À partir de 13h00',
+  time: 'À partir de 10h00',
   dressCode: 'Vert émeraude, blanc ou noir — pas de tenue imposée',
 };
 
@@ -311,22 +318,43 @@ export const dictionaries: Record<Language, Dictionary> = {
     witnesses: {
       kicker: 'Our Witnesses',
       title: 'Those standing with us',
-      intro: 'The people who’ve carried us here, and who’ll stand beside us.',
-      groups: [
+      intro: 'The people who’ve carried us here, and who’ll stand beside us — in each of our homelands.',
+      cities: [
         {
-          role: 'Standing with Georges',
-          names: 'Brice Die Koue & Yela Ba',
-          note: 'the brothers he chose, who’ve carried life alongside him longer than anyone.',
+          act: 'Act I — Accra',
+          flag: '🇬🇭',
+          groups: [
+            {
+              role: 'Standing with Georges',
+              names: 'Brice Die Koue & Emily Fiagbedzi',
+              note: 'Emily led our program at MEST — where our story began.',
+            },
+            {
+              role: 'Standing with Augusta',
+              names: 'Regina Shang & Linda Daniella Naa Akuye Addy',
+            },
+          ],
         },
         {
-          role: 'Godmother of the union',
-          names: 'Elisabeth Sophie Dioh',
-        },
-        {
-          role: 'Standing with Augusta',
-          names: 'Regina Shang & Linda Daniella Naa Akuye Addy',
+          act: 'Act II — Dakar',
+          flag: '🇸🇳',
+          groups: [
+            {
+              role: 'Standing with Georges',
+              names: 'Brice Die Koue & Yela Ba',
+              note: 'the brothers he chose, who’ve carried life alongside him longer than anyone.',
+            },
+            {
+              role: 'Standing with Augusta',
+              names: 'Ahmed Ekoume & Miranaya Wallace-Ollennu',
+            },
+          ],
         },
       ],
+      godmother: {
+        role: 'Godmother of the union',
+        names: 'Elisabeth Sophie Dioh',
+      },
     },
     travel: {
       kicker: 'Travel & Stay',
@@ -533,22 +561,43 @@ export const dictionaries: Record<Language, Dictionary> = {
     witnesses: {
       kicker: 'Nos témoins',
       title: 'Celles et ceux à nos côtés',
-      intro: 'Les personnes qui nous ont portés jusqu’ici, et qui se tiendront près de nous.',
-      groups: [
+      intro: 'Les personnes qui nous ont portés jusqu’ici, et qui se tiendront près de nous — dans chacune de nos deux terres.',
+      cities: [
         {
-          role: 'Aux côtés de Georges',
-          names: 'Brice Die Koue & Yela Ba',
-          note: 'les frères qu’il s’est choisis, présents à ses côtés depuis toujours.',
+          act: 'Acte I — Accra',
+          flag: '🇬🇭',
+          groups: [
+            {
+              role: 'Aux côtés de Georges',
+              names: 'Brice Die Koue & Emily Fiagbedzi',
+              note: 'Emily dirigeait notre programme au MEST — là où notre histoire a commencé.',
+            },
+            {
+              role: 'Aux côtés d’Augusta',
+              names: 'Regina Shang & Linda Daniella Naa Akuye Addy',
+            },
+          ],
         },
         {
-          role: 'Marraine de l’union',
-          names: 'Elisabeth Sophie Dioh',
-        },
-        {
-          role: 'Aux côtés d’Augusta',
-          names: 'Regina Shang & Linda Daniella Naa Akuye Addy',
+          act: 'Acte II — Dakar',
+          flag: '🇸🇳',
+          groups: [
+            {
+              role: 'Aux côtés de Georges',
+              names: 'Brice Die Koue & Yela Ba',
+              note: 'les frères qu’il s’est choisis, présents à ses côtés depuis toujours.',
+            },
+            {
+              role: 'Aux côtés d’Augusta',
+              names: 'Ahmed Ekoume & Miranaya Wallace-Ollennu',
+            },
+          ],
         },
       ],
+      godmother: {
+        role: 'Marraine de l’union',
+        names: 'Elisabeth Sophie Dioh',
+      },
     },
     travel: {
       kicker: 'Voyage & hébergement',
