@@ -18,8 +18,19 @@ export function Witnesses() {
           intro={t.witnesses.intro}
         />
 
+        {/* Godmother of the union — spanning both homelands, above the panels */}
+        <Reveal className="mx-auto mt-16 max-w-md text-center">
+          <Mark className="mx-auto h-5 w-9 text-gold" />
+          <p className="mt-4 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-ivory-dim/70">
+            {t.witnesses.godmother.role}
+          </p>
+          <p className="mt-3 font-serif text-2xl text-gold sm:text-3xl">
+            {t.witnesses.godmother.names}
+          </p>
+        </Reveal>
+
         {/* One panel per city, mirroring The Week's two acts */}
-        <div className="mx-auto mt-16 grid max-w-4xl gap-px overflow-hidden border border-gold/15 bg-gold/15 md:grid-cols-2">
+        <div className="mx-auto mt-12 grid max-w-4xl gap-px overflow-hidden border border-gold/15 bg-gold/15 md:grid-cols-2">
           {t.witnesses.cities.map((city, ci) => (
             <Reveal key={ci} delay={ci * 0.12}>
               <div className="h-full bg-noir p-8 text-center sm:p-10">
@@ -54,16 +65,6 @@ export function Witnesses() {
           ))}
         </div>
 
-        {/* Godmother of the union — spanning both homelands */}
-        <Reveal delay={0.2} className="mx-auto mt-12 max-w-md text-center">
-          <Mark className="mx-auto h-5 w-9 text-gold" />
-          <p className="mt-4 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-ivory-dim/70">
-            {t.witnesses.godmother.role}
-          </p>
-          <p className="mt-3 font-serif text-2xl text-gold sm:text-3xl">
-            {t.witnesses.godmother.names}
-          </p>
-        </Reveal>
       </div>
     </section>
   );
