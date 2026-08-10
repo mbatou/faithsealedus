@@ -69,12 +69,22 @@ export function TravelStay() {
               ))}
             </div>
 
-            {/* Airline recommendation */}
-            <div className="mt-9 flex items-center gap-3 border-t border-gold/10 pt-6">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-gold/30">
-                <Plane className="h-4 w-4 text-gold" />
-              </span>
-              <p className="text-sm text-ivory sm:text-base">{f.airline}</p>
+            {/* Airline we booked + link for guests to join */}
+            <div className="mt-9 flex flex-col gap-4 border-t border-gold/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-gold/30">
+                  <Plane className="h-4 w-4 text-gold" />
+                </span>
+                <p className="text-sm text-ivory sm:text-base">{f.airline}</p>
+              </div>
+              <a
+                href={f.airlineUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost shrink-0 self-start sm:self-auto"
+              >
+                {f.airlineLinkLabel}
+              </a>
             </div>
           </div>
         </Reveal>

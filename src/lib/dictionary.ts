@@ -98,6 +98,8 @@ export interface Dictionary {
       intro: string;
       legs: { route: string; day: string; detail: string }[];
       airline: string;
+      airlineLinkLabel: string;
+      airlineUrl: string;
     };
     stayLabel: string;
     items: TravelItem[];
@@ -364,22 +366,25 @@ export const dictionaries: Record<Language, Dictionary> = {
       flights: {
         label: 'The journey',
         intro:
-          'We’re flying in together — here are the two legs to sync your own flights with.',
+          'We’ve booked our own flights — here they are, so you can be on board with us.',
         legs: [
           {
-            route: 'Into Accra',
+            route: 'Dakar → Accra',
             day: 'Friday, 27 November',
             detail:
-              'Fly into Kotoka International (ACC). We arrive this day, ahead of the first celebration on 2 December.',
+              'Air Côte d’Ivoire, departing Blaise Diagne (DSS) 10:40, landing Kotoka (ACC) 16:35 — one stop, ahead of the first celebration on 2 December.',
           },
           {
             route: 'Accra → Dakar',
-            day: 'Friday, 4 December',
+            day: 'Thursday, 3 December',
             detail:
-              'Between the two celebrations, fly on to Blaise Diagne International (DSS), Dakar — a day before we gather there.',
+              'Air Côte d’Ivoire, departing Kotoka (ACC) 10:45, landing Blaise Diagne (DSS) 17:35 — one stop, two days before we gather in Dakar.',
           },
         ],
-        airline: 'ASKY is currently the best option to fly to Accra and back.',
+        airline:
+          'We’re flying Air Côte d’Ivoire — around XOF 599,400 (≈ $1,055) return at the promotional fare when we booked.',
+        airlineLinkLabel: 'Book the same flights',
+        airlineUrl: 'https://www.aircotedivoire.com',
       },
       stayLabel: 'Stay & essentials',
       items: [
@@ -607,22 +612,25 @@ export const dictionaries: Record<Language, Dictionary> = {
       flights: {
         label: 'Le voyage',
         intro:
-          'Nous voyageons ensemble — voici les deux trajets à accorder avec vos propres vols.',
+          'Nous avons réservé nos propres vols — les voici, pour embarquer avec nous.',
         legs: [
           {
-            route: 'Vers Accra',
+            route: 'Dakar → Accra',
             day: 'Vendredi 27 novembre',
             detail:
-              'Atterrissez à l’aéroport international Kotoka (ACC). Nous arrivons ce jour-là, avant la première célébration du 2 décembre.',
+              'Air Côte d’Ivoire, départ de Blaise Diagne (DSS) à 10h40, arrivée à Kotoka (ACC) à 16h35 — une escale, avant la première célébration du 2 décembre.',
           },
           {
             route: 'Accra → Dakar',
-            day: 'Vendredi 4 décembre',
+            day: 'Jeudi 3 décembre',
             detail:
-              'Entre les deux célébrations, envolez-vous vers Blaise Diagne (DSS), Dakar — la veille de nos retrouvailles là-bas.',
+              'Air Côte d’Ivoire, départ de Kotoka (ACC) à 10h45, arrivée à Blaise Diagne (DSS) à 17h35 — une escale, deux jours avant nos retrouvailles à Dakar.',
           },
         ],
-        airline: 'ASKY est aujourd’hui la meilleure option pour rejoindre Accra et en revenir.',
+        airline:
+          'Nous volons avec Air Côte d’Ivoire — environ 599 400 XOF (≈ 1 055 $) aller-retour au tarif promotionnel lors de notre réservation.',
+        airlineLinkLabel: 'Réserver les mêmes vols',
+        airlineUrl: 'https://www.aircotedivoire.com',
       },
       stayLabel: 'Hébergement & essentiels',
       items: [
