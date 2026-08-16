@@ -275,7 +275,9 @@ export function AdminDashboard({
                 <th className="px-4 py-3">{a.colDietary}</th>
                 <th className="px-4 py-3">{a.colMessage}</th>
                 <th className="px-4 py-3">{a.colDate}</th>
-                <th className="px-4 py-3 text-right">{a.colActions}</th>
+                <th className="sticky right-0 z-10 border-l border-gold/10 bg-surface px-4 py-3 text-right">
+                  {a.colActions}
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gold/10">
@@ -299,7 +301,7 @@ export function AdminDashboard({
                     <td className="whitespace-nowrap px-4 py-3 text-ivory-dim/60">
                       {new Date(r.created_at).toLocaleDateString()}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3 text-right">
+                    <td className="sticky right-0 z-10 whitespace-nowrap border-l border-gold/10 bg-noir px-4 py-3 text-right">
                       <button
                         type="button"
                         disabled={busy}
