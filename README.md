@@ -94,8 +94,12 @@ are only shown once the code matches, so nothing sensitive ships in the bundle.
 
 Visit **`/admin`** and enter `ADMIN_PASSWORD`. You get response totals
 (including a **Private ceremony** count), guest totals, the full RSVP table with
-a **CSV export**, and the **prayer wall**. Auth is a signed, http-only cookie
-derived from the password — the password itself is never stored in the cookie.
+a **CSV export**, and the **prayer wall**. Each booking can be **edited inline**
+(name, email, attendance, party size, notes) or **cancelled**, and prayers can
+be **removed** from the public wall — all via admin-gated API routes
+(`/api/admin/rsvps/[id]`, `/api/admin/prayers/[id]`). Auth is a signed,
+http-only cookie derived from the password — the password itself is never
+stored in the cookie.
 
 ## Internationalisation
 

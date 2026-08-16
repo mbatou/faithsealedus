@@ -199,6 +199,17 @@ export interface Dictionary {
     colDietary: string;
     colMessage: string;
     colDate: string;
+    colActions: string;
+    edit: string;
+    delete: string;
+    save: string;
+    cancel: string;
+    saving: string;
+    confirmDelete: string;
+    confirmDeletePrayer: string;
+    remove: string;
+    updateError: string;
+    deleteError: string;
     yes: string;
     no: string;
   };
@@ -499,6 +510,17 @@ export const dictionaries: Record<Language, Dictionary> = {
       colDietary: 'Dietary',
       colMessage: 'Message',
       colDate: 'Date',
+      colActions: 'Actions',
+      edit: 'Edit',
+      delete: 'Cancel',
+      save: 'Save',
+      cancel: 'Discard',
+      saving: 'Saving…',
+      confirmDelete: 'Cancel this RSVP? This cannot be undone.',
+      confirmDeletePrayer: 'Remove this prayer from the wall?',
+      remove: 'Remove',
+      updateError: 'Could not save the changes. Please try again.',
+      deleteError: 'Could not delete. Please try again.',
       yes: 'Yes',
       no: 'No',
     },
@@ -745,6 +767,17 @@ export const dictionaries: Record<Language, Dictionary> = {
       colDietary: 'Régime',
       colMessage: 'Message',
       colDate: 'Date',
+      colActions: 'Actions',
+      edit: 'Modifier',
+      delete: 'Annuler',
+      save: 'Enregistrer',
+      cancel: 'Abandonner',
+      saving: 'Enregistrement…',
+      confirmDelete: 'Annuler ce RSVP ? Action irréversible.',
+      confirmDeletePrayer: 'Retirer cette prière du mur ?',
+      remove: 'Retirer',
+      updateError: 'Impossible d’enregistrer les modifications. Merci de réessayer.',
+      deleteError: 'Suppression impossible. Merci de réessayer.',
       yes: 'Oui',
       no: 'Non',
     },
