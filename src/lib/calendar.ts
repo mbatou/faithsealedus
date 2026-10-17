@@ -11,8 +11,8 @@ export interface CalendarSlot {
 
 export const CALENDAR_EVENTS: Record<EventKey, CalendarSlot> = {
   ghana: {
-    start: '20261202T100000Z',
-    end: '20261202T160000Z',
+    start: '20261202T110000Z',
+    end: '20261202T170000Z',
     location: '19 Jacob Avenue, Nmai Djorn, Ashalley Botwe, Accra, Ghana',
   },
   senegal: {

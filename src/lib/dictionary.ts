@@ -271,10 +271,10 @@ const accraEn: WeekEvent = {
   country: 'Ghana',
   city: 'Accra',
   date: 'Wednesday, 2 December — Accra, Ghana',
-  isoDate: '2026-12-02T10:00:00+00:00',
+  isoDate: '2026-12-02T11:00:00+00:00',
   blurb: 'The celebration opens in Accra, the first act of our week.',
   venue: '19 Jacob Avenue, Nmai Djorn, Ashalley Botwe, Accra',
-  time: 'From 10:00 am',
+  time: 'From 11:00 am',
   dressCode: 'Emerald green, white or black — no strict dress code',
   mapUrl: ACCRA_MAP,
 };
@@ -299,7 +299,7 @@ const accraFr: WeekEvent = {
   act: 'Acte I — Accra',
   date: 'Mercredi 2 décembre — Accra, Ghana',
   blurb: 'La célébration s’ouvre à Accra, le premier acte de notre semaine.',
-  time: 'À partir de 10h00',
+  time: 'À partir de 11h00',
   dressCode: 'Vert émeraude, blanc ou noir — pas de tenue imposée',
 };
 
@@ -495,7 +495,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       apple: 'Apple / Outlook (.ics)',
       description: 'Two homelands, one union — details at faithsealedus.vercel.app',
       events: {
-        ghana: 'Augusta & Georges — Accra celebration (2 Dec, 10:00 am)',
+        ghana: 'Augusta & Georges — Accra celebration (2 Dec, 11:00 am)',
         senegal: 'Augusta & Georges — Dakar celebration (5 Dec, 5:00 pm)',
         dinner: 'Augusta & Georges — Dinner at Maison Madera (5 Dec, 8:00 pm)',
       },
@@ -851,7 +851,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       apple: 'Apple / Outlook (.ics)',
       description: 'Deux terres, une seule union — détails sur faithsealedus.vercel.app',
       events: {
-        ghana: 'Augusta & Georges — Célébration d’Accra (2 déc., 10h00)',
+        ghana: 'Augusta & Georges — Célébration d’Accra (2 déc., 11h00)',
         senegal: 'Augusta & Georges — Célébration de Dakar (5 déc., 17h00)',
         dinner: 'Augusta & Georges — Dîner à la Maison Madera (5 déc., 20h00)',
       },
