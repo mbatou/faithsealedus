@@ -1,11 +1,16 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import type { Language } from '@/lib/dictionary';
 import type { MealId } from '@/lib/meals';
 import { Mark, MarkDivider } from '@/components/Mark';
+import { AddToCalendar } from '@/components/AddToCalendar';
+
+const MADERA_MAP_URL =
+  'https://www.google.com/maps/place/Maison+Madera+-+Restaurant+Sp%C3%A9cialis%C3%A9+en+viande,+Brunch+%26+Espaces+Privatifs/@14.7418477,-17.5205286,17z/data=!3m1!4b1!4m6!3m5!1s0xec11350b3fe19ed:0x3ac40d9aece74202!8m2!3d14.7418477!4d-17.5205286!16s%2Fg%2F11ykkpxdz0';
 
 type Status = 'idle' | 'submitting' | 'success';
 
@@ -118,6 +123,31 @@ export function MenuPage() {
           </p>
         </div>
 
+        {/* The venue */}
+        <figure className="mx-auto mt-12 max-w-2xl">
+          <div className="border border-gold/20 p-1.5 sm:p-2">
+            <Image
+              src="/maison-madera.webp"
+              alt={m.photoAlt}
+              width={900}
+              height={500}
+              className="h-auto w-full"
+              priority
+            />
+          </div>
+          <figcaption className="mt-4 flex flex-col items-center justify-between gap-3 sm:flex-row">
+            <span className="text-sm font-light text-ivory-dim">{m.address}</span>
+            <a
+              href={MADERA_MAP_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-ghost shrink-0"
+            >
+              {t.week.labels.map}
+            </a>
+          </figcaption>
+        </figure>
+
         <div className="mx-auto mt-12 max-w-xl">
           <div className="card p-6 sm:p-8">
             <AnimatePresence mode="wait">
@@ -136,6 +166,7 @@ export function MenuPage() {
                     {m.successTitle}
                   </h2>
                   <p className="mt-3 font-light text-ivory-dim">{m.successBody}</p>
+                  <AddToCalendar events={['dinner']} />
                   <button
                     type="button"
                     onClick={() => setStatus('idle')}

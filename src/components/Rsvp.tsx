@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { Reveal } from './Reveal';
 import { SectionHeading } from './SectionHeading';
+import { AddToCalendar } from './AddToCalendar';
+import type { EventKey } from '@/lib/calendar';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -19,6 +21,9 @@ export function Rsvp() {
   const [error, setError] = useState<string | null>(null);
   const [ghana, setGhana] = useState(false);
   const [senegal, setSenegal] = useState(false);
+  // What the guest just booked, kept for the success screen's calendar prompt
+  // (the form state itself is reset on success).
+  const [booked, setBooked] = useState<EventKey[]>([]);
 
   // Geo restriction: guests in Ghana can only book Accra, guests in Senegal
   // only Dakar. The visitor's country comes from /api/geo (the home page is
@@ -127,6 +132,11 @@ export function Rsvp() {
         return;
       }
 
+      const justBooked: EventKey[] = [];
+      if (ghana) justBooked.push('ghana');
+      if (senegal) justBooked.push('senegal');
+      setBooked(justBooked);
+
       form.reset();
       setGhana(false);
       setSenegal(false);
@@ -165,6 +175,7 @@ export function Rsvp() {
                     {t.rsvp.successTitle}
                   </h3>
                   <p className="mt-3 font-light text-ivory-dim">{t.rsvp.successBody}</p>
+                  <AddToCalendar events={booked} />
                   <button
                     type="button"
                     onClick={() => setStatus('idle')}

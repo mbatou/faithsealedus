@@ -136,11 +136,20 @@ export interface Dictionary {
     geoNoteGhana: string; // visitor is in Ghana
     geoNoteSenegal: string; // visitor is in Senegal
   };
+  calendar: {
+    prompt: string;
+    google: string;
+    apple: string;
+    description: string;
+    events: { ghana: string; senegal: string; dinner: string };
+  };
   menu: {
     kicker: string;
     title: string;
     place: string;
     intro: string;
+    photoAlt: string;
+    address: string;
     nameLabel: string;
     mealLabel: string;
     options: { id: MealId; title: string; desc: string }[];
@@ -476,12 +485,25 @@ export const dictionaries: Record<Language, Dictionary> = {
       geoNoteSenegal:
         'As you’re joining us from Senegal, RSVPs here are open for the Dakar celebration.',
     },
+    calendar: {
+      prompt: 'Add it to your calendar',
+      google: 'Google Calendar',
+      apple: 'Apple / Outlook (.ics)',
+      description: 'Two homelands, one union — details at faithsealedus.vercel.app',
+      events: {
+        ghana: 'Augusta & Georges — Accra celebration (2 Dec, 10:00 am)',
+        senegal: 'Augusta & Georges — Dakar celebration (5 Dec, 5:00 pm)',
+        dinner: 'Augusta & Georges — Dinner at Maison Madera (5 Dec, 8:00 pm)',
+      },
+    },
     menu: {
       kicker: 'The Dinner',
       title: 'Choose your meal',
       place: 'Maison Madera · Dakar — Saturday, 5 December 2026',
       intro:
         'You’re joining us for dinner, and we’d love to have your plate ready. Two options from the chef — pick the one that speaks to you.',
+      photoAlt: 'Maison Madera at dusk — the venue for our dinner in Dakar',
+      address: 'Maison Madera — Ouakam, Dakar',
       nameLabel: 'Your full name',
       mealLabel: 'Your choice',
       options: [
@@ -775,12 +797,25 @@ export const dictionaries: Record<Language, Dictionary> = {
       geoNoteSenegal:
         'Comme vous nous rejoignez depuis le Sénégal, les confirmations sont ouvertes ici pour la célébration de Dakar.',
     },
+    calendar: {
+      prompt: 'Ajoutez-le à votre calendrier',
+      google: 'Google Agenda',
+      apple: 'Apple / Outlook (.ics)',
+      description: 'Deux terres, une seule union — détails sur faithsealedus.vercel.app',
+      events: {
+        ghana: 'Augusta & Georges — Célébration d’Accra (2 déc., 10h00)',
+        senegal: 'Augusta & Georges — Célébration de Dakar (5 déc., 17h00)',
+        dinner: 'Augusta & Georges — Dîner à la Maison Madera (5 déc., 20h00)',
+      },
+    },
     menu: {
       kicker: 'Le dîner',
       title: 'Choisissez votre plat',
       place: 'Maison Madera · Dakar — samedi 5 décembre 2026',
       intro:
         'Vous dînez avec nous, et nous voulons que votre assiette vous attende. Deux propositions du chef — choisissez celle qui vous parle.',
+      photoAlt: 'La Maison Madera à la tombée du soir — le lieu de notre dîner à Dakar',
+      address: 'Maison Madera — Ouakam, Dakar',
       nameLabel: 'Votre nom complet',
       mealLabel: 'Votre choix',
       options: [
