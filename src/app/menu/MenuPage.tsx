@@ -148,6 +148,23 @@ export function MenuPage() {
           </figcaption>
         </figure>
 
+        {/* The programme of the evening */}
+        <div className="mx-auto mt-14 max-w-xl">
+          <p className="eyebrow text-center">{m.programme.label}</p>
+          <ol className="card mt-6 divide-y divide-gold/10 px-6 py-2 sm:px-8">
+            {m.programme.items.map((item) => (
+              <li key={item.time} className="flex items-baseline gap-5 py-4">
+                <span className="w-16 shrink-0 font-serif text-base italic text-gold">
+                  {item.time}
+                </span>
+                <span className="text-sm font-light leading-relaxed text-ivory-dim sm:text-base">
+                  {item.title}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
         <div className="mx-auto mt-12 max-w-xl">
           <div className="card p-6 sm:p-8">
             <AnimatePresence mode="wait">

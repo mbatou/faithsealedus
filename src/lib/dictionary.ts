@@ -150,6 +150,10 @@ export interface Dictionary {
     intro: string;
     photoAlt: string;
     address: string;
+    programme: {
+      label: string;
+      items: { time: string; title: string }[];
+    };
     nameLabel: string;
     mealLabel: string;
     options: { id: MealId; title: string; desc: string }[];
@@ -504,6 +508,18 @@ export const dictionaries: Record<Language, Dictionary> = {
         'You’re joining us for dinner, and we’d love to have your plate ready. Two options from the chef — pick the one that speaks to you.',
       photoAlt: 'Maison Madera at dusk — the venue for our dinner in Dakar',
       address: 'Maison Madera — Ouakam, Dakar',
+      programme: {
+        label: 'The evening',
+        items: [
+          { time: '8:00 pm', title: 'Arrival of the bride & groom' },
+          { time: '8:10 pm', title: 'Opening speech from the MC' },
+          { time: '8:20 pm', title: 'Godmother’s speech' },
+          { time: '8:30 pm', title: 'Witnesses’ speeches' },
+          { time: '8:45 pm', title: 'Family addresses' },
+          { time: '9:00 pm', title: 'Presentation of vows & toast' },
+          { time: '9:30 pm', title: 'Friends & colleagues addresses' },
+        ],
+      },
       nameLabel: 'Your full name',
       mealLabel: 'Your choice',
       options: [
@@ -816,6 +832,18 @@ export const dictionaries: Record<Language, Dictionary> = {
         'Vous dînez avec nous, et nous voulons que votre assiette vous attende. Deux propositions du chef — choisissez celle qui vous parle.',
       photoAlt: 'La Maison Madera à la tombée du soir — le lieu de notre dîner à Dakar',
       address: 'Maison Madera — Ouakam, Dakar',
+      programme: {
+        label: 'Le déroulé de la soirée',
+        items: [
+          { time: '20h00', title: 'Arrivée des mariés' },
+          { time: '20h10', title: 'Mot d’ouverture du maître de cérémonie' },
+          { time: '20h20', title: 'Discours de la marraine' },
+          { time: '20h30', title: 'Discours des témoins' },
+          { time: '20h45', title: 'Mots des familles' },
+          { time: '21h00', title: 'Présentation des vœux & toast' },
+          { time: '21h30', title: 'Mots des amis & collègues' },
+        ],
+      },
       nameLabel: 'Votre nom complet',
       mealLabel: 'Votre choix',
       options: [
