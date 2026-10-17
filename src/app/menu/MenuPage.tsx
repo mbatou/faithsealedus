@@ -157,8 +157,13 @@ export function MenuPage() {
                 <span className="w-16 shrink-0 font-serif text-base italic text-gold">
                   {item.time}
                 </span>
-                <span className="text-sm font-light leading-relaxed text-ivory-dim sm:text-base">
-                  {item.title}
+                <span>
+                  <span className="block font-serif text-lg font-medium leading-snug text-ivory">
+                    {item.title}
+                  </span>
+                  <span className="mt-1 block text-sm font-light leading-relaxed text-ivory-dim">
+                    {item.detail}
+                  </span>
                 </span>
               </li>
             ))}

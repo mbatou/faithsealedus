@@ -152,7 +152,7 @@ export interface Dictionary {
     address: string;
     programme: {
       label: string;
-      items: { time: string; title: string }[];
+      items: { time: string; title: string; detail: string }[];
     };
     nameLabel: string;
     mealLabel: string;
@@ -511,13 +511,45 @@ export const dictionaries: Record<Language, Dictionary> = {
       programme: {
         label: 'The evening',
         items: [
-          { time: '8:00 pm', title: 'Arrival of the bride & groom' },
-          { time: '8:10 pm', title: 'Opening speech from the MC' },
-          { time: '8:20 pm', title: 'Godmother’s speech' },
-          { time: '8:30 pm', title: 'Witnesses’ speeches' },
-          { time: '8:45 pm', title: 'Family addresses' },
-          { time: '9:00 pm', title: 'Presentation of vows & toast' },
-          { time: '9:30 pm', title: 'Friends & colleagues addresses' },
+          {
+            time: '8:00 pm',
+            title: 'The newlyweds arrive',
+            detail:
+              'Augusta & Georges make their entrance — take your seats, keep a glass within reach.',
+          },
+          {
+            time: '8:10 pm',
+            title: 'A word of welcome',
+            detail: 'Our master of ceremonies opens the evening.',
+          },
+          {
+            time: '8:20 pm',
+            title: 'The godmother speaks',
+            detail:
+              'Elisabeth Sophie Dioh, godmother of the union, offers her blessing.',
+          },
+          {
+            time: '8:30 pm',
+            title: 'The witnesses take the floor',
+            detail:
+              'Brice, Yela, Ahmed & Miranaya — the four standing beside us in Dakar.',
+          },
+          {
+            time: '8:45 pm',
+            title: 'Words from our families',
+            detail: 'Two families, from two homelands, now one.',
+          },
+          {
+            time: '9:00 pm',
+            title: 'The vows & the toast',
+            detail: 'We present our vows — then raise your glass with us.',
+          },
+          {
+            time: '9:30 pm',
+            title: 'Friends & colleagues',
+            detail:
+              'The floor is open to those who have walked this road with us.',
+          },
         ],
       },
       nameLabel: 'Your full name',
@@ -835,13 +867,45 @@ export const dictionaries: Record<Language, Dictionary> = {
       programme: {
         label: 'Le déroulé de la soirée',
         items: [
-          { time: '20h00', title: 'Arrivée des mariés' },
-          { time: '20h10', title: 'Mot d’ouverture du maître de cérémonie' },
-          { time: '20h20', title: 'Discours de la marraine' },
-          { time: '20h30', title: 'Discours des témoins' },
-          { time: '20h45', title: 'Mots des familles' },
-          { time: '21h00', title: 'Présentation des vœux & toast' },
-          { time: '21h30', title: 'Mots des amis & collègues' },
+          {
+            time: '20h00',
+            title: 'L’arrivée des mariés',
+            detail:
+              'Augusta & Georges font leur entrée — prenez place, gardez un verre à portée de main.',
+          },
+          {
+            time: '20h10',
+            title: 'Le mot de bienvenue',
+            detail: 'Notre maître de cérémonie ouvre la soirée.',
+          },
+          {
+            time: '20h20',
+            title: 'La marraine prend la parole',
+            detail:
+              'Elisabeth Sophie Dioh, marraine de l’union, nous offre sa bénédiction.',
+          },
+          {
+            time: '20h30',
+            title: 'La parole aux témoins',
+            detail:
+              'Brice, Yela, Ahmed & Miranaya — les quatre qui se tiennent à nos côtés à Dakar.',
+          },
+          {
+            time: '20h45',
+            title: 'Les mots de nos familles',
+            detail: 'Deux familles, de deux terres, désormais une seule.',
+          },
+          {
+            time: '21h00',
+            title: 'Les vœux & le toast',
+            detail: 'Nous présentons nos vœux — puis levez votre verre avec nous.',
+          },
+          {
+            time: '21h30',
+            title: 'Amis & collègues',
+            detail:
+              'La parole est à celles et ceux qui ont fait la route avec nous.',
+          },
         ],
       },
       nameLabel: 'Votre nom complet',
