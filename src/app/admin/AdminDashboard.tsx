@@ -3,6 +3,7 @@
 import { Fragment, useMemo, useState } from 'react';
 import { logout } from './actions';
 import { useLanguage } from '@/context/LanguageContext';
+import { MEAL_NAMES, isMealId } from '@/lib/meals';
 
 export interface RsvpRow {
   id: string;
@@ -22,6 +23,35 @@ export interface PrayerRow {
   name: string | null;
   message: string;
   created_at: string;
+}
+
+export interface MealRow {
+  id: string;
+  full_name: string;
+  meal: string;
+  allergies: string | null;
+  created_at: string;
+}
+
+function mealName(meal: string): string {
+  return isMealId(meal) ? MEAL_NAMES[meal] : meal;
+}
+
+function mealsToCsv(meals: MealRow[]): string {
+  const headers = ['full_name', 'meal', 'allergies', 'created_at'];
+  const escape = (value: unknown) => {
+    const s = value === null || value === undefined ? '' : String(value);
+    return `"${s.replace(/"/g, '""')}"`;
+  };
+  const lines = [
+    headers.join(','),
+    ...meals.map((m) =>
+      [m.full_name, mealName(m.meal), m.allergies ?? '', m.created_at]
+        .map(escape)
+        .join(','),
+    ),
+  ];
+  return lines.join('\r\n');
 }
 
 function toCsv(rows: RsvpRow[]): string {
@@ -103,15 +133,18 @@ function toDraft(r: RsvpRow): Draft {
 export function AdminDashboard({
   rows: initialRows,
   prayers: initialPrayers,
+  meals: initialMeals,
 }: {
   rows: RsvpRow[];
   prayers: PrayerRow[];
+  meals: MealRow[];
 }) {
   const { t } = useLanguage();
   const a = t.admin;
 
   const [rows, setRows] = useState<RsvpRow[]>(initialRows);
   const [prayers, setPrayers] = useState<PrayerRow[]>(initialPrayers);
+  const [meals, setMeals] = useState<MealRow[]>(initialMeals);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState<Draft | null>(null);
   const [busy, setBusy] = useState(false);
@@ -190,6 +223,46 @@ export function AdminDashboard({
       }
       setRows((prev) => prev.filter((r) => r.id !== id));
       if (editingId === id) stopEdit();
+    } catch {
+      setError(a.deleteError);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const mealCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const m of meals) {
+      counts.set(m.meal, (counts.get(m.meal) ?? 0) + 1);
+    }
+    return counts;
+  }, [meals]);
+
+  function handleExportMeals() {
+    const csv = mealsToCsv(meals);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `meals-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  async function deleteMeal(id: string) {
+    if (!window.confirm(a.confirmDelete)) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/meals/${id}`, { method: 'DELETE' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        setError(a.deleteError);
+        return;
+      }
+      setMeals((prev) => prev.filter((m) => m.id !== id));
     } catch {
       setError(a.deleteError);
     } finally {
@@ -430,6 +503,72 @@ export function AdminDashboard({
           </table>
         </div>
       )}
+
+      {/* Dinner meal choices */}
+      <div className="mt-14">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h2 className="font-serif text-2xl font-semibold text-ivory">
+            {a.mealsTitle} <span className="text-gold">({meals.length})</span>
+          </h2>
+          {meals.length > 0 && (
+            <button type="button" onClick={handleExportMeals} className="btn-ghost">
+              ⬇ {a.exportMeals}
+            </button>
+          )}
+        </div>
+
+        {meals.length === 0 ? (
+          <p className="mt-4 text-ivory-dim">{a.noMeals}</p>
+        ) : (
+          <>
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:max-w-md sm:gap-4">
+              {t.menu.options.map((option) => (
+                <StatCard
+                  key={option.id}
+                  label={option.title}
+                  value={mealCounts.get(option.id) ?? 0}
+                />
+              ))}
+            </div>
+
+            <div className="card mt-6 overflow-x-auto">
+              <table className="w-full min-w-[640px] text-left text-sm">
+                <thead className="border-b border-gold/15 bg-surface text-[0.65rem] uppercase tracking-[0.15em] text-ivory-dim/60">
+                  <tr>
+                    <th className="px-4 py-3">{a.colName}</th>
+                    <th className="px-4 py-3">{a.colMeal}</th>
+                    <th className="px-4 py-3">{a.colAllergies}</th>
+                    <th className="px-4 py-3">{a.colDate}</th>
+                    <th className="px-4 py-3 text-right">{a.colActions}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gold/10">
+                  {meals.map((m) => (
+                    <tr key={m.id} className="align-top transition hover:bg-gold/5">
+                      <td className="px-4 py-3 font-medium text-ivory">{m.full_name}</td>
+                      <td className="px-4 py-3 text-gold">{mealName(m.meal)}</td>
+                      <td className="px-4 py-3 text-ivory-dim">{m.allergies || '—'}</td>
+                      <td className="whitespace-nowrap px-4 py-3 text-ivory-dim/60">
+                        {new Date(m.created_at).toLocaleDateString()}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 text-right">
+                        <button
+                          type="button"
+                          disabled={busy}
+                          onClick={() => deleteMeal(m.id)}
+                          className={`${actionBtn} text-red-300`}
+                        >
+                          {a.remove}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </div>
 
       {/* Prayer wall */}
       <div className="mt-14">

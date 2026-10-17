@@ -122,8 +122,18 @@ export function ensureSchema(sql: NeonQueryFunction<false, false>): Promise<void
           created_at  timestamptz not null default now()
         )
       `;
+      await sql`
+        create table if not exists meal_choices (
+          id          uuid primary key default gen_random_uuid(),
+          full_name   text        not null,
+          meal        text        not null,
+          allergies   text,
+          created_at  timestamptz not null default now()
+        )
+      `;
       await sql`create index if not exists rsvps_created_at_idx on rsvps (created_at desc)`;
       await sql`create index if not exists prayers_created_at_idx on prayers (created_at desc)`;
+      await sql`create index if not exists meal_choices_created_at_idx on meal_choices (created_at desc)`;
     })().catch((err) => {
       // Allow a retry on the next request if provisioning failed.
       schemaReady = null;

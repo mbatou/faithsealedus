@@ -1,3 +1,5 @@
+import type { MealId } from './meals';
+
 export type Language = 'en' | 'fr';
 
 export interface WeekEvent {
@@ -130,6 +132,30 @@ export interface Dictionary {
     errorAttend: string;
     errorRate: string;
     confirmationNote: string;
+    // Shown when the visitor's location limits which celebration they can book.
+    geoNoteGhana: string; // visitor is in Ghana
+    geoNoteSenegal: string; // visitor is in Senegal
+  };
+  menu: {
+    kicker: string;
+    title: string;
+    place: string;
+    intro: string;
+    nameLabel: string;
+    mealLabel: string;
+    options: { id: MealId; title: string; desc: string }[];
+    allergiesLabel: string;
+    allergiesPlaceholder: string;
+    submit: string;
+    submitting: string;
+    successTitle: string;
+    successBody: string;
+    another: string;
+    errorName: string;
+    errorMeal: string;
+    errorGeneric: string;
+    errorRate: string;
+    errorConfig: string;
   };
   prayers: {
     kicker: string;
@@ -190,6 +216,11 @@ export interface Dictionary {
     noRsvps: string;
     prayersTitle: string;
     noPrayers: string;
+    mealsTitle: string;
+    noMeals: string;
+    colMeal: string;
+    colAllergies: string;
+    exportMeals: string;
     colName: string;
     colEmail: string;
     colGhana: string;
@@ -440,6 +471,43 @@ export const dictionaries: Record<Language, Dictionary> = {
       errorAttend: 'Please choose at least one celebration to attend.',
       errorRate: 'You’ve submitted a few times already. Please try again shortly.',
       confirmationNote: 'We’ll send a confirmation to this address.',
+      geoNoteGhana:
+        'As you’re joining us from Ghana, RSVPs here are open for the Accra celebration.',
+      geoNoteSenegal:
+        'As you’re joining us from Senegal, RSVPs here are open for the Dakar celebration.',
+    },
+    menu: {
+      kicker: 'The Dinner',
+      title: 'Choose your meal',
+      place: 'Maison Madera · Dakar — Saturday, 5 December 2026',
+      intro:
+        'You’re joining us for dinner, and we’d love to have your plate ready. Two options from the chef — pick the one that speaks to you.',
+      nameLabel: 'Your full name',
+      mealLabel: 'Your choice',
+      options: [
+        {
+          id: 'volaille',
+          title: 'Jambonnette de volaille à l’estragon',
+          desc: 'Tender stuffed chicken in a tarragon sauce.',
+        },
+        {
+          id: 'boeuf',
+          title: 'Filet de bœuf au poivre',
+          desc: 'Beef fillet in a classic pepper sauce.',
+        },
+      ],
+      allergiesLabel: 'Allergies or notes (optional)',
+      allergiesPlaceholder: 'Anything the kitchen should know',
+      submit: 'Confirm my choice',
+      submitting: 'Sending…',
+      successTitle: 'Noted — your plate will be waiting.',
+      successBody: 'Thank you! Your meal choice has been passed to the kitchen.',
+      another: 'Choose for another guest',
+      errorName: 'Please enter your name.',
+      errorMeal: 'Please choose one of the two options.',
+      errorGeneric: 'Something went wrong. Please try again in a moment.',
+      errorRate: 'You’ve submitted a few times already. Please try again shortly.',
+      errorConfig: 'The menu isn’t connected to its database yet — please try again shortly.',
     },
     prayers: {
       kicker: 'Blessings',
@@ -501,6 +569,11 @@ export const dictionaries: Record<Language, Dictionary> = {
       noRsvps: 'No RSVPs yet.',
       prayersTitle: 'Prayer wall',
       noPrayers: 'No prayers yet.',
+      mealsTitle: 'Dinner meal choices',
+      noMeals: 'No meal choices yet.',
+      colMeal: 'Meal',
+      colAllergies: 'Allergies / notes',
+      exportMeals: 'Export meals CSV',
       colName: 'Full name',
       colEmail: 'Email',
       colGhana: 'Accra',
@@ -697,6 +770,43 @@ export const dictionaries: Record<Language, Dictionary> = {
       errorAttend: 'Merci de choisir au moins une célébration.',
       errorRate: 'Vous avez déjà répondu plusieurs fois. Merci de réessayer plus tard.',
       confirmationNote: 'Nous enverrons une confirmation à cette adresse.',
+      geoNoteGhana:
+        'Comme vous nous rejoignez depuis le Ghana, les confirmations sont ouvertes ici pour la célébration d’Accra.',
+      geoNoteSenegal:
+        'Comme vous nous rejoignez depuis le Sénégal, les confirmations sont ouvertes ici pour la célébration de Dakar.',
+    },
+    menu: {
+      kicker: 'Le dîner',
+      title: 'Choisissez votre plat',
+      place: 'Maison Madera · Dakar — samedi 5 décembre 2026',
+      intro:
+        'Vous dînez avec nous, et nous voulons que votre assiette vous attende. Deux propositions du chef — choisissez celle qui vous parle.',
+      nameLabel: 'Votre nom complet',
+      mealLabel: 'Votre choix',
+      options: [
+        {
+          id: 'volaille',
+          title: 'Jambonnette de volaille à l’estragon',
+          desc: 'Volaille fondante, sauce à l’estragon.',
+        },
+        {
+          id: 'boeuf',
+          title: 'Filet de bœuf au poivre',
+          desc: 'Filet de bœuf, sauce au poivre classique.',
+        },
+      ],
+      allergiesLabel: 'Allergies ou remarques (facultatif)',
+      allergiesPlaceholder: 'Tout ce que la cuisine doit savoir',
+      submit: 'Confirmer mon choix',
+      submitting: 'Envoi…',
+      successTitle: 'C’est noté — votre assiette vous attendra.',
+      successBody: 'Merci ! Votre choix a été transmis à la cuisine.',
+      another: 'Choisir pour un autre invité',
+      errorName: 'Merci d’indiquer votre nom.',
+      errorMeal: 'Merci de choisir l’une des deux propositions.',
+      errorGeneric: 'Une erreur est survenue. Merci de réessayer dans un instant.',
+      errorRate: 'Vous avez déjà répondu plusieurs fois. Merci de réessayer plus tard.',
+      errorConfig: 'Le menu n’est pas encore connecté à sa base de données — merci de réessayer bientôt.',
     },
     prayers: {
       kicker: 'Bénédictions',
@@ -758,6 +868,11 @@ export const dictionaries: Record<Language, Dictionary> = {
       noRsvps: 'Aucun RSVP pour le moment.',
       prayersTitle: 'Mur de prières',
       noPrayers: 'Aucune prière pour le moment.',
+      mealsTitle: 'Choix des plats du dîner',
+      noMeals: 'Aucun choix de plat pour le moment.',
+      colMeal: 'Plat',
+      colAllergies: 'Allergies / remarques',
+      exportMeals: 'Exporter les plats en CSV',
       colName: 'Nom complet',
       colEmail: 'E-mail',
       colGhana: 'Accra',

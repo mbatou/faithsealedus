@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { Reveal } from './Reveal';
@@ -19,6 +19,32 @@ export function Rsvp() {
   const [error, setError] = useState<string | null>(null);
   const [ghana, setGhana] = useState(false);
   const [senegal, setSenegal] = useState(false);
+
+  // Geo restriction: guests in Ghana can only book Accra, guests in Senegal
+  // only Dakar. The visitor's country comes from /api/geo (the home page is
+  // static, so the header isn't available at render time). Unknown → show both.
+  const [country, setCountry] = useState<string | null>(null);
+  const showGhana = country !== 'SN';
+  const showSenegal = country !== 'GH';
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/geo')
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled || typeof data?.country !== 'string') return;
+        setCountry(data.country);
+        // Drop any selection that just became unavailable.
+        if (data.country === 'GH') setSenegal(false);
+        if (data.country === 'SN') setGhana(false);
+      })
+      .catch(() => {
+        /* Unknown location → both celebrations stay available. */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Discreet, code-gated private ceremony.
   const [exOpen, setExOpen] = useState(false);
@@ -195,24 +221,33 @@ export function Rsvp() {
 
                   <fieldset className="space-y-2">
                     <legend className="field-label">{t.nav.week}</legend>
-                    <label className="flex cursor-pointer items-center gap-3 border border-gold/15 px-4 py-3 transition hover:border-gold/45">
-                      <input
-                        type="checkbox"
-                        checked={ghana}
-                        onChange={(e) => setGhana(e.target.checked)}
-                        className="h-5 w-5 accent-gold"
-                      />
-                      <span className="text-ivory-dim">{f.attendingGhana}</span>
-                    </label>
-                    <label className="flex cursor-pointer items-center gap-3 border border-gold/15 px-4 py-3 transition hover:border-gold/45">
-                      <input
-                        type="checkbox"
-                        checked={senegal}
-                        onChange={(e) => setSenegal(e.target.checked)}
-                        className="h-5 w-5 accent-gold"
-                      />
-                      <span className="text-ivory-dim">{f.attendingSenegal}</span>
-                    </label>
+                    {showGhana && (
+                      <label className="flex cursor-pointer items-center gap-3 border border-gold/15 px-4 py-3 transition hover:border-gold/45">
+                        <input
+                          type="checkbox"
+                          checked={ghana}
+                          onChange={(e) => setGhana(e.target.checked)}
+                          className="h-5 w-5 accent-gold"
+                        />
+                        <span className="text-ivory-dim">{f.attendingGhana}</span>
+                      </label>
+                    )}
+                    {showSenegal && (
+                      <label className="flex cursor-pointer items-center gap-3 border border-gold/15 px-4 py-3 transition hover:border-gold/45">
+                        <input
+                          type="checkbox"
+                          checked={senegal}
+                          onChange={(e) => setSenegal(e.target.checked)}
+                          className="h-5 w-5 accent-gold"
+                        />
+                        <span className="text-ivory-dim">{f.attendingSenegal}</span>
+                      </label>
+                    )}
+                    {(!showGhana || !showSenegal) && (
+                      <p className="pt-1 text-xs font-light leading-relaxed text-ivory-dim/60">
+                        {!showSenegal ? t.rsvp.geoNoteGhana : t.rsvp.geoNoteSenegal}
+                      </p>
+                    )}
                   </fieldset>
 
                   {/* Discreet, code-gated private ceremony */}

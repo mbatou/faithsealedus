@@ -6,6 +6,7 @@ import {
   AdminDashboard,
   type RsvpRow,
   type PrayerRow,
+  type MealRow,
 } from './AdminDashboard';
 
 export const metadata: Metadata = {
@@ -15,23 +16,29 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-async function fetchData(): Promise<{ rows: RsvpRow[]; prayers: PrayerRow[] }> {
+async function fetchData(): Promise<{
+  rows: RsvpRow[];
+  prayers: PrayerRow[];
+  meals: MealRow[];
+}> {
   const sql = getSql();
-  if (!sql) return { rows: [], prayers: [] };
+  if (!sql) return { rows: [], prayers: [], meals: [] };
 
   try {
     await ensureSchema(sql);
-    const [rowsRaw, prayersRaw] = await Promise.all([
+    const [rowsRaw, prayersRaw, mealsRaw] = await Promise.all([
       sql`select * from rsvps order by created_at desc`,
       sql`select id, name, message, created_at from prayers order by created_at desc`,
+      sql`select id, full_name, meal, allergies, created_at from meal_choices order by created_at desc`,
     ]);
     return {
       rows: rowsRaw as RsvpRow[],
       prayers: prayersRaw as PrayerRow[],
+      meals: mealsRaw as MealRow[],
     };
   } catch (err) {
     console.error('Admin data load failed:', err);
-    return { rows: [], prayers: [] };
+    return { rows: [], prayers: [], meals: [] };
   }
 }
 
@@ -44,11 +51,11 @@ export default async function AdminPage() {
     );
   }
 
-  const { rows, prayers } = await fetchData();
+  const { rows, prayers, meals } = await fetchData();
 
   return (
     <main className="min-h-screen bg-noir">
-      <AdminDashboard rows={rows} prayers={prayers} />
+      <AdminDashboard rows={rows} prayers={prayers} meals={meals} />
     </main>
   );
 }

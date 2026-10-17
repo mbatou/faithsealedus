@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSql, ensureSchema } from '@/lib/db';
 import { rateLimit, clientIp } from '@/lib/rate-limit';
+import { clientCountry } from '@/lib/geo';
 
 export const runtime = 'nodejs';
 
@@ -44,8 +45,13 @@ export async function POST(request: Request) {
 
   const fullName = (body.full_name ?? '').trim();
   const email = (body.email ?? '').trim();
-  const attendingGhana = Boolean(body.attending_ghana);
-  const attendingSenegal = Boolean(body.attending_senegal);
+  // Geo restriction: guests in Ghana may not book the Senegal celebration,
+  // and guests in Senegal may not book the Ghana one. Enforced here so the
+  // client-side hiding of the checkbox can't be bypassed. The code-gated
+  // private ceremony is unaffected — those guests are invited by hand.
+  const country = clientCountry(request);
+  const attendingGhana = Boolean(body.attending_ghana) && country !== 'SN';
+  const attendingSenegal = Boolean(body.attending_senegal) && country !== 'GH';
   // Only honour the private-ceremony RSVP when the code checks out server-side.
   const attendingExclusive =
     Boolean(body.attending_exclusive) && exclusiveCodeValid(body.access_code);
