@@ -30,7 +30,11 @@ export function Witnesses() {
         </Reveal>
 
         {/* One panel per city, mirroring The Week's two acts */}
-        <div className="mx-auto mt-12 grid max-w-4xl gap-px overflow-hidden border border-gold/15 bg-gold/15 md:grid-cols-2">
+        <div
+          className={`mx-auto mt-12 grid gap-px overflow-hidden border border-gold/15 bg-gold/15 ${
+            t.witnesses.cities.length > 1 ? 'max-w-4xl md:grid-cols-2' : 'max-w-xl'
+          }`}
+        >
           {t.witnesses.cities.map((city, ci) => (
             <Reveal key={ci} delay={ci * 0.12}>
               <div className="h-full bg-noir p-8 text-center sm:p-10">

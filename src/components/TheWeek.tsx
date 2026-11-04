@@ -9,32 +9,48 @@ import { SectionHeading } from './SectionHeading';
 
 const numerals = ['I', 'II', 'III', 'IV'];
 
-function EventCard({ event, index }: { event: WeekEvent; index: number }) {
+function EventCard({
+  event,
+  index,
+  single,
+}: {
+  event: WeekEvent;
+  index: number;
+  single: boolean;
+}) {
   const { t } = useLanguage();
   const labels = t.week.labels;
   const left = index % 2 === 0;
 
   return (
     <Reveal
-      direction={left ? 'right' : 'left'}
-      className={`relative md:w-1/2 ${left ? 'md:pr-16 md:text-right' : 'md:ml-auto md:pl-16'}`}
+      direction={single ? 'up' : left ? 'right' : 'left'}
+      className={
+        single
+          ? 'relative mx-auto md:w-2/3'
+          : `relative md:w-1/2 ${left ? 'md:pr-16 md:text-right' : 'md:ml-auto md:pl-16'}`
+      }
     >
       {/* Timeline node (desktop) */}
-      <span
-        aria-hidden
-        className={`absolute top-12 hidden h-2 w-2 rotate-45 border border-gold bg-noir md:block ${
-          left ? 'right-[-4px]' : 'left-[-4px]'
-        }`}
-      />
+      {!single && (
+        <span
+          aria-hidden
+          className={`absolute top-12 hidden h-2 w-2 rotate-45 border border-gold bg-noir md:block ${
+            left ? 'right-[-4px]' : 'left-[-4px]'
+          }`}
+        />
+      )}
 
       <article className="card p-7 transition duration-500 hover:-translate-y-1 hover:border-gold/45 sm:p-9 md:text-left">
         <div className="flex items-center justify-between md:flex-row-reverse">
-          <span
-            className="font-serif text-5xl font-semibold leading-none text-gold/25"
-            aria-hidden
-          >
-            {numerals[index] ?? index + 1}
-          </span>
+          {!single && (
+            <span
+              className="font-serif text-5xl font-semibold leading-none text-gold/25"
+              aria-hidden
+            >
+              {numerals[index] ?? index + 1}
+            </span>
+          )}
           <div className="flex items-center gap-3">
             <span className="text-xl" aria-hidden>
               {event.flag}
@@ -100,6 +116,7 @@ export function TheWeek() {
     offset: ['start 80%', 'end 65%'],
   });
   const spineScale = useSpring(scrollYProgress, { stiffness: 70, damping: 22 });
+  const single = t.week.events.length === 1;
 
   return (
     <section id="week" className="section-pad bg-noir">
@@ -112,14 +129,16 @@ export function TheWeek() {
         />
 
         <div ref={timelineRef} className="relative mt-20">
-          <motion.span
-            aria-hidden
-            style={{ scaleY: reduce ? 1 : spineScale }}
-            className="absolute left-1/2 top-0 hidden h-full w-px origin-top -translate-x-1/2 bg-gradient-to-b from-gold/50 via-gold/25 to-gold/50 md:block"
-          />
+          {!single && (
+            <motion.span
+              aria-hidden
+              style={{ scaleY: reduce ? 1 : spineScale }}
+              className="absolute left-1/2 top-0 hidden h-full w-px origin-top -translate-x-1/2 bg-gradient-to-b from-gold/50 via-gold/25 to-gold/50 md:block"
+            />
+          )}
           <div className="space-y-10 md:space-y-24">
             {t.week.events.map((event, i) => (
-              <EventCard key={event.id} event={event} index={i} />
+              <EventCard key={event.id} event={event} index={i} single={single} />
             ))}
           </div>
         </div>

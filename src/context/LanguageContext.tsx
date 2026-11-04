@@ -6,9 +6,12 @@ import {
   useEffect,
   useState,
   useCallback,
+  useMemo,
   type ReactNode,
 } from 'react';
 import { dictionaries, type Dictionary, type Language } from '@/lib/dictionary';
+import { forRegion } from '@/lib/region';
+import { useRegion } from './RegionContext';
 
 interface LanguageContextValue {
   lang: Language;
@@ -68,8 +71,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
 export function useLanguage(): LanguageContextValue {
   const ctx = useContext(LanguageContext);
-  if (!ctx) {
+  const region = useRegion();
+  const value = useMemo(
+    () => (ctx && region !== 'all' ? { ...ctx, t: forRegion(ctx.t, ctx.lang, region) } : ctx),
+    [ctx, region],
+  );
+  if (!value) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
-  return ctx;
+  return value;
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
+import { useRegion } from '@/context/RegionContext';
 import { Reveal } from './Reveal';
 import { SectionHeading } from './SectionHeading';
 import { AddToCalendar } from './AddToCalendar';
@@ -28,7 +29,9 @@ export function Rsvp() {
   // Geo restriction: guests in Ghana can only book Accra, guests in Senegal
   // only Dakar. The visitor's country comes from /api/geo (the home page is
   // static, so the header isn't available at render time). Unknown → show both.
-  const [country, setCountry] = useState<string | null>(null);
+  // The Ghana edition of the page is already known server-side — no flash.
+  const region = useRegion();
+  const [country, setCountry] = useState<string | null>(region === 'gh' ? 'GH' : null);
   const showGhana = country !== 'SN';
   const showSenegal = country !== 'GH';
 
@@ -254,11 +257,18 @@ export function Rsvp() {
                         <span className="text-ivory-dim">{f.attendingSenegal}</span>
                       </label>
                     )}
-                    {(!showGhana || !showSenegal) && (
-                      <p className="pt-1 text-xs font-light leading-relaxed text-ivory-dim/60">
-                        {!showSenegal ? t.rsvp.geoNoteGhana : t.rsvp.geoNoteSenegal}
-                      </p>
-                    )}
+                    {(() => {
+                      const note = !showSenegal
+                        ? t.rsvp.geoNoteGhana
+                        : !showGhana
+                          ? t.rsvp.geoNoteSenegal
+                          : '';
+                      return note ? (
+                        <p className="pt-1 text-xs font-light leading-relaxed text-ivory-dim/60">
+                          {note}
+                        </p>
+                      ) : null;
+                    })()}
                   </fieldset>
 
                   {/* Discreet, code-gated private ceremony */}

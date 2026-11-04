@@ -19,13 +19,14 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Augusta & Georges — Accra & Dakar, December 2026',
+  // Kept location-neutral: link previews (WhatsApp, etc.) are fetched by the
+  // app's servers, not the guest, so they can't follow the Ghana edition.
+  title: 'Augusta & Georges — December 2026',
   description:
-    'Augusta & Georges are getting married — a bilingual celebration across Ghana and Senegal. Two homelands, one union. Accra, 2 December · Dakar, 5 December 2026.',
+    'Augusta & Georges are getting married. Two homelands, one union — December 2026.',
   openGraph: {
     title: 'Augusta & Georges are getting married',
-    description:
-      'Two homelands, one union. Accra — 2 December · Dakar — 5 December 2026.',
+    description: 'Two homelands, one union — December 2026.',
     type: 'website',
   },
 };
