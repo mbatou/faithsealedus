@@ -83,7 +83,10 @@ let cached: NeonQueryFunction<false, false> | null | undefined;
 export function getSql(): NeonQueryFunction<false, false> | null {
   if (cached !== undefined) return cached;
   const found = findUrl();
-  cached = found ? neon(found.url) : null;
+  // The HTTP driver talks to Neon over fetch(), and Next.js 14 would otherwise
+  // keep those responses in its Data Cache — serving stale rows (e.g. a photo
+  // feed that never updates). Database reads must always be live.
+  cached = found ? neon(found.url, { fetchOptions: { cache: 'no-store' } }) : null;
   return cached;
 }
 

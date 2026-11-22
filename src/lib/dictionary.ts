@@ -49,6 +49,7 @@ export interface Dictionary {
     prayers: string;
     travel: string;
     rsvp: string;
+    photos: string;
     langLabel: string;
   };
   hero: {
@@ -257,6 +258,74 @@ export interface Dictionary {
     yes: string;
     no: string;
   };
+  share: {
+    title: string;
+    sub: string;
+    name: string;
+    namePlaceholder: string;
+    continue: string;
+    hello: string; // {name}
+    add: string;
+    left: string; // {n} {country}
+    otherLeft: string; // {n} {country}
+    doneGh: string;
+    doneGhLocal: string; // Ghana-located visitors: no mention of Dakar
+    doneSn: string;
+    opensSenegal: string;
+    retry: string;
+    retrying: string;
+    tapRetry: string;
+    preparing: string;
+    uploading: string;
+    shared: string;
+    refused: string;
+    unreadable: string;
+    captionPlaceholder: string;
+    viewGallery: string;
+    notConfigured: string;
+    error: string;
+  };
+  photos: {
+    kicker: string;
+    title: string;
+    intro: string;
+    empty: string;
+    by: string; // {name}
+    all: string;
+    accra: string;
+    dakar: string;
+    events: { civil: string; traditional: string; dakar: string; moments: string };
+    allEvents: string;
+    loadMore: string;
+    download: string;
+    close: string;
+    prev: string;
+    next: string;
+    shareCta: string;
+    seeAll: string;
+  };
+  country: { ghana: string; senegal: string };
+  ourWeek: { kicker: string; title: string; intro: string };
+  adminPhotos: {
+    link: string;
+    title: string;
+    back: string;
+    total: string;
+    hiddenCount: string;
+    uploaders: string;
+    topUploaders: string;
+    perEvent: string;
+    hide: string;
+    unhide: string;
+    hidden: string;
+    downloadAll: string;
+    part: string;
+    noPhotos: string;
+    loadMore: string;
+    updateError: string;
+    filterAll: string;
+    filterHidden: string;
+  };
 }
 
 // Map links to the confirmed venues.
@@ -322,6 +391,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       prayers: 'Prayers',
       travel: 'Travel & Stay',
       rsvp: 'RSVP',
+      photos: 'Album',
       langLabel: 'Language',
     },
     hero: {
@@ -667,6 +737,83 @@ export const dictionaries: Record<Language, Dictionary> = {
       yes: 'Yes',
       no: 'No',
     },
+    share: {
+      title: 'Share your moments',
+      sub: 'Your photos become our wedding album.',
+      name: 'What’s your name?',
+      namePlaceholder: 'Your name',
+      continue: 'Continue',
+      hello: 'Hello, {name}',
+      add: 'Add photos',
+      left: '{n} of 15 left for {country}',
+      otherLeft: '{country}: {n} of 15 left',
+      doneGh: 'You’ve shared your 15 photos for Ghana. Thank you! See you in Dakar.',
+      doneGhLocal: 'You’ve shared your 15 photos. Thank you for being part of our story!',
+      doneSn: 'You’ve shared your 15 photos for Senegal. Thank you for being part of our story.',
+      opensSenegal: 'Senegal photos open on 4 December.',
+      retry: 'Connection lost, retrying…',
+      retrying: 'Retrying…',
+      tapRetry: 'Tap to retry',
+      preparing: 'Preparing…',
+      uploading: 'Uploading',
+      shared: 'Shared',
+      refused: 'Over your 15 — not shared',
+      unreadable: 'This photo couldn’t be read',
+      captionPlaceholder: 'Add a caption (optional)',
+      viewGallery: 'See the gallery',
+      notConfigured: 'Photo sharing isn’t open yet — please check back soon.',
+      error: 'Something went wrong. Please try again.',
+    },
+    photos: {
+      kicker: 'The album',
+      title: 'Our week, through your eyes',
+      intro: 'Every photo here was taken by someone we love.',
+      empty: 'The first photos will appear here soon.',
+      by: 'Photo by {name}',
+      all: 'All',
+      accra: 'Accra',
+      dakar: 'Dakar',
+      events: {
+        civil: 'Civil marriage',
+        traditional: 'Traditional ceremony',
+        dakar: 'Dakar',
+        moments: 'Moments',
+      },
+      allEvents: 'Everything',
+      loadMore: 'More photos',
+      download: 'Download',
+      close: 'Close',
+      prev: 'Previous photo',
+      next: 'Next photo',
+      shareCta: 'Share your photos',
+      seeAll: 'Open the full album',
+    },
+    country: { ghana: 'Ghana', senegal: 'Senegal' },
+    ourWeek: {
+      kicker: 'Our week',
+      title: 'Two homelands, one union',
+      intro: 'Thank you for celebrating with us.',
+    },
+    adminPhotos: {
+      link: 'Guest photos',
+      title: 'Guest photos',
+      back: 'RSVPs',
+      total: 'Photos',
+      hiddenCount: 'Hidden',
+      uploaders: 'Guests who shared',
+      topUploaders: 'Top uploaders',
+      perEvent: 'By event',
+      hide: 'Hide',
+      unhide: 'Unhide',
+      hidden: 'Hidden',
+      downloadAll: 'Download all',
+      part: 'part',
+      noPhotos: 'No photos yet.',
+      loadMore: 'Load more',
+      updateError: 'Couldn’t update this photo. Please try again.',
+      filterAll: 'All',
+      filterHidden: 'Hidden only',
+    },
   },
   fr: {
     nav: {
@@ -677,6 +824,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       prayers: 'Prières',
       travel: 'Voyage & hébergement',
       rsvp: 'Confirmer',
+      photos: 'Album',
       langLabel: 'Langue',
     },
     hero: {
@@ -1022,6 +1170,83 @@ export const dictionaries: Record<Language, Dictionary> = {
       deleteError: 'Suppression impossible. Merci de réessayer.',
       yes: 'Oui',
       no: 'Non',
+    },
+    share: {
+      title: 'Partagez vos moments',
+      sub: 'Vos photos deviennent notre album de mariage.',
+      name: 'Quel est votre prénom ?',
+      namePlaceholder: 'Votre prénom',
+      continue: 'Continuer',
+      hello: 'Bonjour, {name}',
+      add: 'Ajouter des photos',
+      left: 'Il vous reste {n} sur 15 pour le {country}',
+      otherLeft: '{country} : {n} sur 15 restantes',
+      doneGh: 'Vous avez partagé vos 15 photos du Ghana. Merci ! À bientôt à Dakar.',
+      doneGhLocal: 'Vous avez partagé vos 15 photos. Merci de faire partie de notre histoire !',
+      doneSn: 'Vous avez partagé vos 15 photos du Sénégal. Merci de faire partie de notre histoire.',
+      opensSenegal: 'Les photos du Sénégal ouvrent le 4 décembre.',
+      retry: 'Connexion perdue, nouvel essai…',
+      retrying: 'Nouvel essai…',
+      tapRetry: 'Touchez pour réessayer',
+      preparing: 'Préparation…',
+      uploading: 'Envoi',
+      shared: 'Partagée',
+      refused: 'Au-delà de vos 15 — non partagée',
+      unreadable: 'Cette photo n’a pas pu être lue',
+      captionPlaceholder: 'Ajouter une légende (facultatif)',
+      viewGallery: 'Voir la galerie',
+      notConfigured: 'Le partage de photos n’est pas encore ouvert — revenez bientôt.',
+      error: 'Une erreur est survenue. Merci de réessayer.',
+    },
+    photos: {
+      kicker: 'L’album',
+      title: 'Notre semaine, à travers vos yeux',
+      intro: 'Chaque photo ici a été prise par quelqu’un que nous aimons.',
+      empty: 'Les premières photos apparaîtront ici bientôt.',
+      by: 'Photo de {name}',
+      all: 'Tout',
+      accra: 'Accra',
+      dakar: 'Dakar',
+      events: {
+        civil: 'Mariage civil',
+        traditional: 'Cérémonie traditionnelle',
+        dakar: 'Dakar',
+        moments: 'Moments',
+      },
+      allEvents: 'Tout voir',
+      loadMore: 'Plus de photos',
+      download: 'Télécharger',
+      close: 'Fermer',
+      prev: 'Photo précédente',
+      next: 'Photo suivante',
+      shareCta: 'Partagez vos photos',
+      seeAll: 'Ouvrir l’album complet',
+    },
+    country: { ghana: 'Ghana', senegal: 'Sénégal' },
+    ourWeek: {
+      kicker: 'Notre semaine',
+      title: 'Deux terres, une seule union',
+      intro: 'Merci d’avoir célébré avec nous.',
+    },
+    adminPhotos: {
+      link: 'Photos des invités',
+      title: 'Photos des invités',
+      back: 'RSVP',
+      total: 'Photos',
+      hiddenCount: 'Masquées',
+      uploaders: 'Invités ayant partagé',
+      topUploaders: 'Plus actifs',
+      perEvent: 'Par événement',
+      hide: 'Masquer',
+      unhide: 'Afficher',
+      hidden: 'Masquée',
+      downloadAll: 'Tout télécharger',
+      part: 'partie',
+      noPhotos: 'Aucune photo pour le moment.',
+      loadMore: 'Voir plus',
+      updateError: 'Impossible de modifier cette photo. Merci de réessayer.',
+      filterAll: 'Toutes',
+      filterHidden: 'Masquées seulement',
     },
   },
 };

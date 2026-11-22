@@ -14,7 +14,7 @@ const navItems: { id: string; key: keyof ReturnType<typeof useLanguage>['t']['na
   { id: 'rsvp', key: 'rsvp' },
 ];
 
-function LanguageToggle() {
+export function LanguageToggle() {
   const { lang, setLang, t } = useLanguage();
   const options: Language[] = ['en', 'fr'];
   return (
@@ -43,8 +43,18 @@ function LanguageToggle() {
   );
 }
 
-export function Header() {
+/**
+ * `sections` limits the nav to the sections actually on the page (the home
+ * page changes shape from 1 December); 'photos' adds the album link first.
+ */
+export function Header({ sections }: { sections?: string[] }) {
   const { t } = useLanguage();
+  const links = [
+    ...(sections?.includes('photos') ? [{ id: 'photos', label: t.nav.photos }] : []),
+    ...navItems
+      .filter((item) => !sections || sections.includes(item.id))
+      .map((item) => ({ id: item.id, label: t.nav[item.key] })),
+  ];
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -77,13 +87,13 @@ export function Header() {
         </a>
 
         <nav className="hidden items-center gap-5 lg:flex lg:gap-6" aria-label="Primary">
-          {navItems.map((item) => (
+          {links.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
               className="text-xs font-semibold uppercase tracking-[0.15em] text-ivory-dim transition hover:text-gold"
             >
-              {t.nav[item.key]}
+              {item.label}
             </a>
           ))}
         </nav>
@@ -125,14 +135,14 @@ export function Header() {
           aria-label="Mobile"
         >
           <ul className="container-page flex flex-col py-4">
-            {navItems.map((item) => (
+            {links.map((item) => (
               <li key={item.id}>
                 <a
                   href={`#${item.id}`}
                   onClick={() => setMenuOpen(false)}
                   className="block py-3 font-serif text-lg text-ivory/85 transition hover:text-gold"
                 >
-                  {t.nav[item.key]}
+                  {item.label}
                 </a>
               </li>
             ))}

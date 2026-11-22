@@ -301,7 +301,10 @@ export function AdminDashboard({
             {t.hero.bride} &amp; {t.hero.groom}
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <a href="/admin/photos" className="btn-ghost">
+            {t.adminPhotos.link}
+          </a>
           <button
             type="button"
             onClick={handleExport}
