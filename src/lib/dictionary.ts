@@ -345,6 +345,8 @@ export interface Dictionary {
     updateError: string;
     filterAll: string;
     filterHidden: string;
+    delete: string;
+    confirmDelete: string;
   };
 }
 
@@ -854,6 +856,8 @@ export const dictionaries: Record<Language, Dictionary> = {
       updateError: 'Couldn’t update this photo. Please try again.',
       filterAll: 'All',
       filterHidden: 'Hidden only',
+      delete: 'Delete for good',
+      confirmDelete: 'Delete this photo for good? Its files are erased and it can’t be restored.',
     },
   },
   fr: {
@@ -1309,6 +1313,8 @@ export const dictionaries: Record<Language, Dictionary> = {
       updateError: 'Impossible de modifier cette photo. Merci de réessayer.',
       filterAll: 'Toutes',
       filterHidden: 'Masquées seulement',
+      delete: 'Supprimer définitivement',
+      confirmDelete: 'Supprimer définitivement cette photo ? Ses fichiers sont effacés, sans retour possible.',
     },
   },
 };

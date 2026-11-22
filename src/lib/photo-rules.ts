@@ -3,7 +3,7 @@
 
 export type PhotoCountry = 'ghana' | 'senegal';
 export type PhotoEvent = 'civil' | 'traditional' | 'dakar' | 'moments';
-export type PhotoStatus = 'pending' | 'published' | 'hidden';
+export type PhotoStatus = 'pending' | 'published' | 'hidden' | 'deleted';
 export type SitePhase = 'before' | 'live' | 'after';
 
 export const PHOTO_CAP = 15;

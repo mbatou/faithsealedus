@@ -58,6 +58,21 @@ export function AdminPhotos({
     }
   }
 
+  async function remove(id: string) {
+    if (!window.confirm(a.confirmDelete)) return;
+    setBusy(id);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/photos/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error();
+      setPhotos((prev) => prev.filter((p) => p.id !== id));
+    } catch {
+      setError(a.updateError);
+    } finally {
+      setBusy(null);
+    }
+  }
+
   async function patch(id: string, body: Record<string, string>) {
     setBusy(id);
     setError(null);
@@ -239,6 +254,14 @@ export function AdminPhotos({
                     }`}
                   >
                     {hidden ? a.unhide : a.hide}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={busy === p.id}
+                    onClick={() => void remove(p.id)}
+                    className="w-full px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.15em] text-ivory-dim underline-offset-4 hover:text-red-200 hover:underline"
+                  >
+                    {a.delete}
                   </button>
                 </div>
               </div>

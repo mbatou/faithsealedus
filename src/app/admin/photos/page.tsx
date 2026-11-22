@@ -29,10 +29,10 @@ async function loadStats(): Promise<PhotoStats> {
     sql`select country as k, count(*)::int as n from photos where status = 'published' group by country`,
     sql`select event as k, count(*)::int as n from photos where status = 'published' group by event`,
     sql`select count(*)::int as n from photos where status = 'hidden'`,
-    sql`select count(distinct guest_id)::int as n from photos where status <> 'pending'`,
+    sql`select count(distinct guest_id)::int as n from photos where status in ('published', 'hidden')`,
     sql`
       select g.name, count(*)::int as n from photos p join guests g on g.id = p.guest_id
-      where p.status <> 'pending' group by g.id, g.name order by n desc limit 8
+      where p.status in ('published', 'hidden') group by g.id, g.name order by n desc limit 8
     `,
   ]);
   const stats: PhotoStats = structuredClone(EMPTY);

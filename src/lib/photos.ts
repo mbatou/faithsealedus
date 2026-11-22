@@ -58,7 +58,7 @@ export function ensurePhotoSchema(sql: Sql): Promise<void> {
           event        text not null default 'moments'
                        check (event in ('civil','traditional','dakar','moments')),
           status       text not null default 'pending'
-                       check (status in ('pending','published','hidden')),
+                       check (status in ('pending','published','hidden','deleted')),
           storage_key  text not null,
           thumb_key    text not null,
           url          text,
@@ -69,6 +69,21 @@ export function ensurePhotoSchema(sql: Sql): Promise<void> {
           created_at   timestamptz not null default now(),
           updated_at   timestamptz not null default now()
         )
+      `;
+      // 'deleted' (files erased by the couple) arrived after the table was
+      // first created: widen the check once, only if it isn't already.
+      await sql`
+        do $$ begin
+          if not exists (
+            select 1 from pg_constraint
+            where conname = 'photos_status_check'
+              and pg_get_constraintdef(oid) like '%deleted%'
+          ) then
+            alter table photos drop constraint if exists photos_status_check;
+            alter table photos add constraint photos_status_check
+              check (status in ('pending','published','hidden','deleted'));
+          end if;
+        end $$
       `;
       await sql`create index if not exists photos_guest_country_idx on photos (guest_id, country)`;
       await sql`create index if not exists photos_status_created_idx on photos (status, created_at desc)`;

@@ -92,3 +92,34 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     return NextResponse.json({ error: 'update_failed' }, { status: 500 });
   }
 }
+
+/**
+ * Admin: delete a photo for good. Both files are removed from storage; the
+ * row stays as `deleted` (no files, no URL) so galleries already open drop it
+ * on their next 30-second poll, and — like hiding — the guest doesn't get the
+ * slot back. Hiding is the everyday tool; this is for what shouldn't be kept.
+ */
+export async function DELETE(_request: Request, { params }: { params: { id: string } }) {
+  if (!isAuthed()) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  if (!isUuid(params.id)) return NextResponse.json({ error: 'invalid_id' }, { status: 400 });
+  const sql = getSql();
+  if (!sql || !blobConfigured()) {
+    return NextResponse.json({ error: 'not_configured' }, { status: 503 });
+  }
+  try {
+    await ensurePhotoSchema(sql);
+    const rows = (await sql`
+      select storage_key, thumb_key from photos where id = ${params.id}
+    `) as { storage_key: string; thumb_key: string }[];
+    if (!rows.length) return NextResponse.json({ error: 'not_found' }, { status: 404 });
+    await del([rows[0].storage_key, rows[0].thumb_key]);
+    await sql`
+      update photos set status = 'deleted', url = null, thumb_url = null, updated_at = now()
+      where id = ${params.id}
+    `;
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error('Admin photo delete failed:', err);
+    return NextResponse.json({ error: 'delete_failed' }, { status: 500 });
+  }
+}
