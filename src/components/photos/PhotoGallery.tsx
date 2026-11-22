@@ -6,6 +6,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { SectionHeading } from '@/components/SectionHeading';
 import type { GalleryPhoto, PhotoCountry, PhotoEvent } from '@/lib/photo-rules';
+import { FrameBand } from '@/components/photos/FrameBand';
+import { frameLine } from '@/lib/brand';
+import { renderKeepsake, saveKeepsake } from '@/lib/client/keepsake';
 
 type CountryTab = 'all' | PhotoCountry;
 type EventTab = 'all' | PhotoEvent;
@@ -350,6 +353,38 @@ function Lightbox({
     });
   }, [index, photos]);
 
+  // The framed keepsake for the photo on screen, prepared ahead of the tap so
+  // the phone's share sheet opens instantly (it needs the tap's "gesture").
+  const line = frameLine(p.country, p.event);
+  const by = fill(g.by, { name: p.name });
+  const [keepsake, setKeepsake] = useState<{ id: string; blob: Blob } | null>(null);
+  const [saving, setSaving] = useState(false);
+  const pending = useRef<Promise<Blob> | null>(null);
+  useEffect(() => {
+    let alive = true;
+    const job = fetch(`/api/photos/${p.id}/file`)
+      .then((r) => (r.ok ? r.blob() : Promise.reject(new Error('fetch_failed'))))
+      .then((b) => renderKeepsake(b, { line, by }));
+    pending.current = job;
+    job.then((blob) => alive && setKeepsake({ id: p.id, blob })).catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [p.id, line, by]);
+
+  async function download() {
+    const name = `augusta-georges-${p.id.slice(0, 8)}.jpg`;
+    if (keepsake?.id === p.id) return saveKeepsake(keepsake.blob, name);
+    setSaving(true);
+    try {
+      await saveKeepsake(await pending.current!, name);
+    } catch {
+      window.location.href = downloadHref(p.url); // plain original as a last resort
+    } finally {
+      setSaving(false);
+    }
+  }
+
   const iconBtn =
     'flex h-11 w-11 items-center justify-center rounded-full border border-gold/40 text-gold backdrop-blur transition hover:bg-gold/10';
 
@@ -373,9 +408,15 @@ function Lightbox({
       }}
     >
       <div className="flex items-center justify-between p-4">
-        <a href={downloadHref(p.url)} className={iconBtn} aria-label={g.download} title={g.download}>
+        <button
+          type="button"
+          onClick={() => void download()}
+          className={`${iconBtn} ${saving ? 'animate-pulse' : ''}`}
+          aria-label={g.download}
+          title={g.download}
+        >
           ⬇
-        </a>
+        </button>
         <span className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ivory-dim">
           {index + 1} / {photos.length}
         </span>
@@ -384,20 +425,32 @@ function Lightbox({
         </button>
       </div>
 
-      <div className="relative flex min-h-0 flex-1 items-center justify-center px-2" onClick={onClose}>
+      <div className="relative flex min-h-0 flex-1 items-center justify-center px-6" onClick={onClose}>
         <AnimatePresence mode="wait" initial={false}>
-          <motion.img
+          {/* The photo in the wedding frame: floating gold hairline, as on the camera */}
+          <motion.div
             key={p.id}
-            src={p.url}
-            alt={p.caption ?? ''}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="max-h-full max-w-full object-contain ring-1 ring-gold/30"
-            style={{ backgroundImage: `url(${p.thumbUrl})`, backgroundSize: 'cover' }}
+            transition={{ duration: 0.3 }}
+            className="relative"
             onClick={(e) => e.stopPropagation()}
-          />
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={p.url}
+              alt={p.caption ?? ''}
+              className="block object-contain"
+              style={{
+                maxHeight: 'calc(100dvh - 300px)',
+                maxWidth: 'calc(100vw - 48px)',
+                backgroundImage: `url(${p.thumbUrl})`,
+                backgroundSize: 'cover',
+              }}
+            />
+            <span aria-hidden className="pointer-events-none absolute -inset-[7px] border border-gold/60" />
+          </motion.div>
         </AnimatePresence>
         <button
           type="button"
@@ -425,11 +478,9 @@ function Lightbox({
         </button>
       </div>
 
-      <div className="px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4 text-center">
-        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
-          {fill(g.by, { name: p.name })} · {g.events[p.event]}
-        </p>
-        {p.caption && <p className="mt-2 font-serif text-lg italic text-ivory">“{p.caption}”</p>}
+      <div className="px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-6 text-center">
+        <FrameBand line={line} by={by} />
+        {p.caption && <p className="mt-3 font-serif text-lg italic text-ivory/90">“{p.caption}”</p>}
       </div>
     </motion.div>
   );

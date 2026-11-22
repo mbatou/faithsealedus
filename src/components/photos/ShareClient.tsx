@@ -14,10 +14,13 @@ import { MarkDivider } from '@/components/Mark';
 import { CameraView, type CameraFailure } from '@/components/photos/CameraView';
 import { UploadQueue, type QueueItem } from '@/lib/client/upload-queue';
 import { requestOrientationPermission } from '@/lib/client/orientation';
-import { CAPTION_MAX, GUEST_NAME_MAX, type PhotoCountry } from '@/lib/photo-rules';
+import { CAPTION_MAX, GUEST_NAME_MAX, type PhotoCountry, type PhotoEvent } from '@/lib/photo-rules';
+import { COUPLE, frameLine } from '@/lib/brand';
+import { Mark } from '@/components/Mark';
 
 interface Me {
   country: PhotoCountry;
+  event: PhotoEvent;
   cap: number;
   region: 'all' | 'gh';
   configured: boolean;
@@ -149,6 +152,11 @@ export function ShareClient() {
 
   const nameForm = (
     <form onSubmit={submitName} className="card w-full max-w-sm p-6 sm:p-8">
+      <div className="mb-6 flex flex-col items-center text-center">
+        <Mark className="h-6 w-10 text-gold" />
+        <p className="mt-2 font-serif text-lg italic text-ivory">{COUPLE}</p>
+        <p className="mt-1 text-[0.55rem] font-semibold uppercase tracking-[0.3em] text-gold">{s.title}</p>
+      </div>
       <label htmlFor="guest-name" className="block font-serif text-2xl text-ivory">
         {s.name}
       </label>
@@ -180,7 +188,10 @@ export function ShareClient() {
       <CameraView
         enabled={!needName && !capReached}
         left={left}
+        cap={cap}
         countryLabel={t.country[country]}
+        frameLine={frameLine(country, me.event ?? 'moments')}
+        guestName={me.guest?.name ?? null}
         items={items}
         offline={offline}
         doneMessage={capReached ? doneMessage : null}

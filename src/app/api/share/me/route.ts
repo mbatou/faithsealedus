@@ -10,7 +10,7 @@ import {
   regionFromCountryHeader,
   usedSlots,
 } from '@/lib/photos';
-import { PHOTO_CAP, countryFor } from '@/lib/photo-rules';
+import { PHOTO_CAP, countryFor, eventFor } from '@/lib/photo-rules';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -20,6 +20,7 @@ export async function GET(request: Request) {
   const now = photoNow();
   const base = {
     country: countryFor(now),
+    event: eventFor(now),
     cap: PHOTO_CAP,
     region: regionFromCountryHeader(clientCountry(request)),
     configured: Boolean(getSql()) && blobConfigured(),

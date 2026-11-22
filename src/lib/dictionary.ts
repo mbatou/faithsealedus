@@ -303,6 +303,7 @@ export interface Dictionary {
     retry: string;
     nameWhy: string;
     start: string;
+    shared: string;
   };
   photos: {
     kicker: string;
@@ -802,6 +803,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       retry: 'Try the camera again',
       nameWhy: 'So everyone knows who took each photo.',
       start: 'Start',
+      shared: 'Added to the album',
     },
     photos: {
       kicker: 'The album',
@@ -1256,6 +1258,7 @@ export const dictionaries: Record<Language, Dictionary> = {
       retry: 'Réessayer l’appareil photo',
       nameWhy: 'Pour que chacun sache qui a pris chaque photo.',
       start: 'Commencer',
+      shared: 'Ajoutée à l’album',
     },
     photos: {
       kicker: 'L’album',
