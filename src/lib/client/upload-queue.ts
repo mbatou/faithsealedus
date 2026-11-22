@@ -11,7 +11,7 @@
 //    While the phone is offline, waiting doesn't burn tries.
 
 import { put } from '@vercel/blob/client';
-import { preparePhoto } from './image';
+import { preparePhoto, type PreparedPhoto } from './image';
 
 export type ItemStatus =
   | 'preparing'
@@ -284,6 +284,24 @@ export class UploadQueue {
       });
     });
     this.emit();
+  }
+
+  /** A photo already prepared on the phone (the in-page camera): straight into line. */
+  addPrepared(p: PreparedPhoto) {
+    const item: QueueItem = {
+      localId: uid(),
+      createdAt: Date.now(),
+      status: 'queued',
+      progress: 0,
+      attempts: 0,
+      nextAttemptAt: 0,
+      caption: '',
+      ...p,
+      previewUrl: URL.createObjectURL(p.thumb),
+    };
+    this.items.push(item);
+    this.update(item, {}); // persist to IndexedDB, then notify
+    this.kick();
   }
 
   setCaption(localId: string, caption: string) {

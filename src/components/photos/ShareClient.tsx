@@ -7,12 +7,13 @@ import {
   useRef,
   useState,
   useSyncExternalStore,
-  type ChangeEvent,
   type FormEvent,
 } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { MarkDivider } from '@/components/Mark';
+import { CameraView, type CameraFailure } from '@/components/photos/CameraView';
 import { UploadQueue, type QueueItem } from '@/lib/client/upload-queue';
+import { requestOrientationPermission } from '@/lib/client/orientation';
 import { CAPTION_MAX, GUEST_NAME_MAX, type PhotoCountry } from '@/lib/photo-rules';
 
 interface Me {
@@ -31,9 +32,16 @@ function fill(s: string, vars: Record<string, string | number>): string {
   return s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
 }
 
+/**
+ * /share — what the QR code opens. The page goes straight to a live camera;
+ * every photo taken is uploaded in the background. "My photos" (the list
+ * view) holds captions, retries and a gallery picker, and is also the
+ * fallback when a browser can't open the camera.
+ */
 export function ShareClient() {
   const { t } = useLanguage();
   const s = t.share;
+  const c = t.camera;
 
   const [me, setMe] = useState<Me | null>(null);
   const [loadError, setLoadError] = useState(false);
@@ -41,7 +49,8 @@ export function ShareClient() {
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [needName, setNeedName] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [view, setView] = useState<'camera' | 'list'>('camera');
+  const [cameraError, setCameraError] = useState<CameraFailure | null>(null);
 
   const refresh = useCallback(async () => {
     try {
@@ -70,6 +79,11 @@ export function ShareClient() {
 
   useEffect(() => {
     void refresh();
+    // No camera API at all (very old browser): go straight to the fallback.
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setCameraError('unsupported');
+      setView('list');
+    }
   }, [refresh]);
 
   // Start the queue once we know who the guest is.
@@ -91,6 +105,8 @@ export function ShareClient() {
 
   async function submitName(e: FormEvent) {
     e.preventDefault();
+    // This tap is the chance to ask iPhones for motion access (landscape photos).
+    requestOrientationPermission();
     const n = name.trim();
     if (!n) return;
     setSaving(true);
@@ -111,17 +127,10 @@ export function ShareClient() {
     }
   }
 
-  function onFiles(e: ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files ?? []);
-    e.target.value = ''; // allow picking the same photo again later
-    if (!files.length || !queue) return;
-    queue.add(files, left);
-  }
-
   // ---- Counters ---------------------------------------------------------------
   const country = me?.country ?? 'ghana';
   const cap = me?.cap ?? 15;
-  // Photos picked on this phone that haven't reserved a server slot yet.
+  // Photos on this phone that haven't reserved a server slot yet.
   const unreserved = items.filter((i) => IN_PLAY.includes(i.status) && !i.slot).length;
   const used = me?.used[country] ?? 0;
   const left = Math.max(0, cap - used - unreserved);
@@ -132,9 +141,62 @@ export function ShareClient() {
   const otherLeft = Math.max(0, cap - (me?.used[other] ?? 0));
   const ordered = [...items].sort((a, b) => b.createdAt - a.createdAt);
   const offline = Boolean(queue?.offline) && items.some((i) => i.status === 'retrying');
-
   const doneMessage = country === 'ghana' ? (gh ? s.doneGhLocal : s.doneGh) : s.doneSn;
 
+  function addFiles(files: File[]) {
+    queue?.add(files, left);
+  }
+
+  const nameForm = (
+    <form onSubmit={submitName} className="card w-full max-w-sm p-6 sm:p-8">
+      <label htmlFor="guest-name" className="block font-serif text-2xl text-ivory">
+        {s.name}
+      </label>
+      <p className="mt-1 text-sm text-ivory-dim">{c.nameWhy}</p>
+      <input
+        id="guest-name"
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        maxLength={GUEST_NAME_MAX}
+        autoComplete="given-name"
+        placeholder={s.namePlaceholder}
+        className="field-input mt-5 text-lg"
+      />
+      {formError && (
+        <p className="mt-4 border border-red-400/25 bg-red-500/10 px-4 py-2 text-sm text-red-200">
+          {formError}
+        </p>
+      )}
+      <button type="submit" disabled={saving || !name.trim()} className="btn-primary mt-7 w-full py-4">
+        {c.start}
+      </button>
+    </form>
+  );
+
+  // ---- The camera ---------------------------------------------------------------
+  if (me?.configured && view === 'camera' && !cameraError) {
+    return (
+      <CameraView
+        enabled={!needName && !capReached}
+        left={left}
+        countryLabel={t.country[country]}
+        items={items}
+        offline={offline}
+        doneMessage={capReached ? doneMessage : null}
+        overlay={needName ? nameForm : null}
+        onCapture={(p) => queue?.addPrepared(p)}
+        onFiles={addFiles}
+        onOpenList={() => setView('list')}
+        onFail={(why) => {
+          setCameraError(why);
+          setView('list');
+        }}
+      />
+    );
+  }
+
+  // ---- Everything else: loading, fallback, "My photos" -------------------------
   return (
     <main className="container-page max-w-xl pb-24 pt-12 sm:pt-16">
       <div className="flex flex-col items-center text-center">
@@ -165,39 +227,8 @@ export function ShareClient() {
         <p className="card mt-12 p-6 text-center text-ivory-dim">{s.notConfigured}</p>
       )}
 
-      {/* First visit: name */}
-      {me && me.configured && needName && (
-        <form onSubmit={submitName} className="card mt-12 p-6 sm:p-8">
-          <label htmlFor="guest-name" className="block font-serif text-2xl text-ivory">
-            {s.name}
-          </label>
-          <input
-            id="guest-name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            maxLength={GUEST_NAME_MAX}
-            autoComplete="given-name"
-            autoFocus
-            placeholder={s.namePlaceholder}
-            className="field-input mt-5 text-lg"
-          />
-          {formError && (
-            <p className="mt-4 border border-red-400/25 bg-red-500/10 px-4 py-2 text-sm text-red-200">
-              {formError}
-            </p>
-          )}
-          <button
-            type="submit"
-            disabled={saving || !name.trim()}
-            className="btn-primary mt-7 w-full py-4"
-          >
-            {s.continue}
-          </button>
-        </form>
-      )}
+      {me && me.configured && needName && <div className="mt-12 flex justify-center">{nameForm}</div>}
 
-      {/* Upload screen */}
       {me && me.configured && me.guest && !needName && (
         <div className="mt-10">
           <p className="text-center font-serif text-lg italic text-gold">
@@ -221,21 +252,75 @@ export function ShareClient() {
             )}
           </div>
 
+          {cameraError && (
+            <div className="mt-8 border border-gold/30 bg-gold/5 p-4 text-center text-sm">
+              <p className="text-ivory">{c.denied}</p>
+              <p className="mt-1 text-ivory-dim">{c.deniedHelp}</p>
+              {cameraError !== 'unsupported' && (
+                <button
+                  type="button"
+                  className="mt-3 text-xs font-semibold uppercase tracking-[0.16em] text-gold underline underline-offset-4"
+                  onClick={() => {
+                    setCameraError(null);
+                    setView('camera');
+                  }}
+                >
+                  {c.retry}
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Primary: back to the live camera, or the phone's own camera as fallback */}
+          {cameraError ? (
+            <label
+              className={`btn-primary mt-8 w-full cursor-pointer py-5 text-sm hover:bg-gold hover:text-noir ${
+                left === 0 ? 'pointer-events-none opacity-50' : ''
+              }`}
+              aria-disabled={left === 0}
+            >
+              <span aria-hidden className="text-lg leading-none">◉</span> {c.nativeCapture}
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                disabled={left === 0}
+                className="sr-only-field"
+                onChange={(e) => {
+                  const files = Array.from(e.target.files ?? []);
+                  e.target.value = '';
+                  if (files.length) addFiles(files);
+                }}
+              />
+            </label>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setView('camera')}
+              disabled={left === 0}
+              className="btn-primary mt-8 w-full py-5 text-sm hover:bg-gold hover:text-noir"
+            >
+              <span aria-hidden className="text-lg leading-none">◉</span>{' '}
+              {items.length ? c.backToCamera : c.open}
+            </button>
+          )}
+
           <label
-            className={`btn-primary mt-8 w-full cursor-pointer py-5 text-sm hover:bg-gold hover:text-noir ${
-              left === 0 ? 'pointer-events-none opacity-50' : ''
-            }`}
+            className={`btn-ghost mt-3 w-full cursor-pointer py-4 ${left === 0 ? 'pointer-events-none opacity-50' : ''}`}
             aria-disabled={left === 0}
           >
-            <span aria-hidden className="text-lg leading-none">＋</span> {s.add}
+            <span aria-hidden>▦</span> {c.fromGallery}
             <input
-              ref={inputRef}
               type="file"
               accept="image/*"
               multiple
               disabled={left === 0}
-              onChange={onFiles}
               className="sr-only-field"
+              onChange={(e) => {
+                const files = Array.from(e.target.files ?? []);
+                e.target.value = '';
+                if (files.length) addFiles(files);
+              }}
             />
           </label>
 

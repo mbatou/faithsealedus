@@ -169,3 +169,17 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* In-page camera: the white blink when a photo is taken. */
+@keyframes shutter-flash {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.shutter-flash {
+  animation: shutter-flash 0.28s ease-out forwards;
+}

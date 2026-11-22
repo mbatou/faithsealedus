@@ -285,6 +285,25 @@ export interface Dictionary {
     notConfigured: string;
     error: string;
   };
+  camera: {
+    starting: string;
+    hint: string;
+    left: string; // {n} {country}
+    shutter: string;
+    flip: string;
+    flash: string;
+    fromGallery: string;
+    myPhotos: string;
+    sending: string; // {n}
+    open: string;
+    backToCamera: string;
+    nativeCapture: string;
+    denied: string;
+    deniedHelp: string;
+    retry: string;
+    nameWhy: string;
+    start: string;
+  };
   photos: {
     kicker: string;
     title: string;
@@ -764,6 +783,26 @@ export const dictionaries: Record<Language, Dictionary> = {
       notConfigured: 'Photo sharing isn’t open yet — please check back soon.',
       error: 'Something went wrong. Please try again.',
     },
+    camera: {
+      starting: 'Opening the camera…',
+      hint: 'Tap the button — every photo is shared instantly.',
+      left: '{n} left · {country}',
+      shutter: 'Take a photo',
+      flip: 'Switch camera',
+      flash: 'Flash',
+      fromGallery: 'From your gallery',
+      myPhotos: 'My photos',
+      sending: '{n} sending',
+      open: 'Open the camera',
+      backToCamera: 'Back to the camera',
+      nativeCapture: 'Take a photo',
+      denied: 'We couldn’t open the camera here.',
+      deniedHelp:
+        'Allow camera access for this site, or open the page in Safari or Chrome. You can still take or choose a photo below.',
+      retry: 'Try the camera again',
+      nameWhy: 'So everyone knows who took each photo.',
+      start: 'Start',
+    },
     photos: {
       kicker: 'The album',
       title: 'Our week, through your eyes',
@@ -1197,6 +1236,26 @@ export const dictionaries: Record<Language, Dictionary> = {
       viewGallery: 'Voir la galerie',
       notConfigured: 'Le partage de photos n’est pas encore ouvert — revenez bientôt.',
       error: 'Une erreur est survenue. Merci de réessayer.',
+    },
+    camera: {
+      starting: 'Ouverture de l’appareil photo…',
+      hint: 'Appuyez sur le bouton — chaque photo est partagée aussitôt.',
+      left: '{n} restantes · {country}',
+      shutter: 'Prendre une photo',
+      flip: 'Changer de caméra',
+      flash: 'Flash',
+      fromGallery: 'Depuis votre galerie',
+      myPhotos: 'Mes photos',
+      sending: '{n} en cours d’envoi',
+      open: 'Ouvrir l’appareil photo',
+      backToCamera: 'Retour à l’appareil photo',
+      nativeCapture: 'Prendre une photo',
+      denied: 'Impossible d’ouvrir l’appareil photo ici.',
+      deniedHelp:
+        'Autorisez l’accès à la caméra pour ce site, ou ouvrez la page dans Safari ou Chrome. Vous pouvez quand même prendre ou choisir une photo ci-dessous.',
+      retry: 'Réessayer l’appareil photo',
+      nameWhy: 'Pour que chacun sache qui a pris chaque photo.',
+      start: 'Commencer',
     },
     photos: {
       kicker: 'L’album',
