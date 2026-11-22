@@ -95,11 +95,26 @@ export async function GET(request: Request) {
       limit ${PAGE + 1}
     `) as (PhotoRow & { cur: string })[];
 
+    // First page only: how many photos match, for the "N photos shared" line.
+    let total: number | undefined;
+    if (!cAt) {
+      const [c] = (await sql`
+        select count(*)::int as n from photos
+        where status = 'published'
+          and (${countryFilter}::text is null or country = ${countryFilter})
+          and (${eventFilter}::text is null or event = ${eventFilter})
+      `) as { n: number }[];
+      total = c.n;
+    }
+
     const page = rows.slice(0, PAGE);
     const last = page[page.length - 1];
     // Full microsecond precision, so photos sharing a millisecond aren't skipped.
     const nextCursor = rows.length > PAGE && last ? `${last.cur}|${last.id}` : null;
-    return NextResponse.json({ photos: page.map(toGalleryPhoto), nextCursor, serverTime }, { headers });
+    return NextResponse.json(
+      { photos: page.map(toGalleryPhoto), nextCursor, serverTime, total },
+      { headers },
+    );
   } catch (err) {
     console.error('photos feed failed:', err);
     return NextResponse.json({ error: 'server_error' }, { status: 500, headers });

@@ -303,7 +303,7 @@ function Thumb({ photo, onOpen }: { photo: GalleryPhoto; onOpen: () => void }) {
   );
 }
 
-function Lightbox({
+export function Lightbox({
   photos,
   index,
   onIndex,

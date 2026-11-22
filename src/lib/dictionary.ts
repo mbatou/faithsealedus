@@ -323,6 +323,10 @@ export interface Dictionary {
     next: string;
     shareCta: string;
     seeAll: string;
+    liveKicker: string;
+    live: string;
+    count: string; // {n}
+    firstInvite: string;
   };
   country: { ghana: string; senegal: string };
   ourWeek: { kicker: string; title: string; intro: string };
@@ -830,6 +834,10 @@ export const dictionaries: Record<Language, Dictionary> = {
       next: 'Next photo',
       shareCta: 'Share your photos',
       seeAll: 'Open the full album',
+      liveKicker: 'The live album',
+      live: 'Live',
+      count: '{n} photos shared',
+      firstInvite: 'Share the very first moment of our week.',
     },
     country: { ghana: 'Ghana', senegal: 'Senegal' },
     ourWeek: {
@@ -1287,6 +1295,10 @@ export const dictionaries: Record<Language, Dictionary> = {
       next: 'Photo suivante',
       shareCta: 'Partagez vos photos',
       seeAll: 'Ouvrir l’album complet',
+      liveKicker: 'L’album en direct',
+      live: 'En direct',
+      count: '{n} photos partagées',
+      firstInvite: 'Partagez le tout premier moment de notre semaine.',
     },
     country: { ghana: 'Ghana', senegal: 'Sénégal' },
     ourWeek: {

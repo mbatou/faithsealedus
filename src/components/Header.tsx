@@ -10,7 +10,7 @@ const navItems: { id: string; key: keyof ReturnType<typeof useLanguage>['t']['na
   { id: 'gallery', key: 'gallery' },
   { id: 'witnesses', key: 'witnesses' },
   { id: 'prayers', key: 'prayers' },
-  { id: 'travel', key: 'travel' },
+  { id: 'photos', key: 'photos' },
   { id: 'rsvp', key: 'rsvp' },
 ];
 
@@ -45,14 +45,17 @@ export function LanguageToggle() {
 
 /**
  * `sections` limits the nav to the sections actually on the page (the home
- * page changes shape from 1 December); 'photos' adds the album link first.
+ * page changes shape from 1 December); listing 'photos' first puts the album
+ * first in the menu.
  */
 export function Header({ sections }: { sections?: string[] }) {
   const { t } = useLanguage();
+  // When the album leads the page (from 1 Dec), it leads the menu too.
+  const albumFirst = sections?.[0] === 'photos';
   const links = [
-    ...(sections?.includes('photos') ? [{ id: 'photos', label: t.nav.photos }] : []),
+    ...(albumFirst ? [{ id: 'photos', label: t.nav.photos }] : []),
     ...navItems
-      .filter((item) => !sections || sections.includes(item.id))
+      .filter((item) => (!sections || sections.includes(item.id)) && !(albumFirst && item.id === 'photos'))
       .map((item) => ({ id: item.id, label: t.nav[item.key] })),
   ];
   const [scrolled, setScrolled] = useState(false);
