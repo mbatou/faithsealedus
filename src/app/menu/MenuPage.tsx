@@ -71,38 +71,6 @@ function Backdrop() {
   );
 }
 
-function ShareButton() {
-  const { t } = useLanguage();
-  const m = t.menu;
-  const [copied, setCopied] = useState(false);
-
-  async function share() {
-    const url = window.location.href;
-    const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> };
-    if (nav.share) {
-      try {
-        await nav.share({ title: `${m.title} · Augusta & Georges`, text: m.closingBody, url });
-        return;
-      } catch (err) {
-        if ((err as DOMException)?.name === 'AbortError') return;
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    } catch {
-      /* nothing else to try */
-    }
-  }
-
-  return (
-    <button type="button" onClick={share} className="btn-ghost">
-      {copied ? `✓ ${m.shared}` : m.share}
-    </button>
-  );
-}
-
 export function MenuPage() {
   const { t } = useLanguage();
   const m = t.menu;
@@ -307,9 +275,6 @@ export function MenuPage() {
             {m.closingTitle}
           </h2>
           <p className="mt-4 font-light text-ivory-dim">{m.closingBody}</p>
-          <div className="mt-8">
-            <ShareButton />
-          </div>
           <p className="mt-14 font-serif text-sm italic text-ivory-dim/50">{t.footer.closing}</p>
         </motion.div>
       </section>

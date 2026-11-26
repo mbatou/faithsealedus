@@ -166,8 +166,6 @@ export interface Dictionary {
     venueKicker: string;
     closingTitle: string;
     closingBody: string;
-    share: string;
-    shared: string;
     /** The two plates guests chose from before the menu was standardised (admin history). */
     options: { id: MealId; title: string; desc: string }[];
   };
@@ -661,8 +659,6 @@ export const dictionaries: Record<Language, Dictionary> = {
       venueKicker: 'The place',
       closingTitle: 'We can’t wait to welcome you',
       closingBody: 'See you on Saturday, 5 December at 8:00 pm, at Maison Madera.',
-      share: 'Share this invitation',
-      shared: 'Link copied',
       options: [
         {
           id: 'volaille',
@@ -1123,8 +1119,6 @@ export const dictionaries: Record<Language, Dictionary> = {
       venueKicker: 'Le lieu',
       closingTitle: 'Nous avons hâte de vous accueillir',
       closingBody: 'Rendez-vous le samedi 5 décembre à 20h00, à la Maison Madera.',
-      share: 'Partager l’invitation',
-      shared: 'Lien copié',
       options: [
         {
           id: 'volaille',
