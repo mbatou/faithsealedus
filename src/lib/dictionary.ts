@@ -151,25 +151,25 @@ export interface Dictionary {
     intro: string;
     photoAlt: string;
     address: string;
+    startsLabel: string;
+    startsTime: string;
+    startsDate: string;
+    startsNote: string;
     programme: {
       label: string;
+      title: string;
       items: { time: string; title: string; detail: string }[];
     };
-    nameLabel: string;
-    mealLabel: string;
+    tableKicker: string;
+    tableTitle: string;
+    tableBody: string;
+    venueKicker: string;
+    closingTitle: string;
+    closingBody: string;
+    share: string;
+    shared: string;
+    /** The two plates guests chose from before the menu was standardised (admin history). */
     options: { id: MealId; title: string; desc: string }[];
-    allergiesLabel: string;
-    allergiesPlaceholder: string;
-    submit: string;
-    submitting: string;
-    successTitle: string;
-    successBody: string;
-    another: string;
-    errorName: string;
-    errorMeal: string;
-    errorGeneric: string;
-    errorRate: string;
-    errorConfig: string;
   };
   prayers: {
     kicker: string;
@@ -597,15 +597,21 @@ export const dictionaries: Record<Language, Dictionary> = {
       },
     },
     menu: {
-      kicker: 'The Dinner',
-      title: 'Choose your meal',
+      kicker: 'The Dinner · You’re invited',
+      title: 'Welcome to our table',
       place: 'Maison Madera · Dakar — Saturday, 5 December 2026',
       intro:
-        'You’re joining us for dinner, and we’d love to have your plate ready. Two options from the chef — pick the one that speaks to you.',
+        'Thank you for being part of our story. On Saturday evening in Dakar we are gathering the people closest to our hearts around one table — and you are one of them.',
       photoAlt: 'Maison Madera at dusk — the venue for our dinner in Dakar',
       address: 'Maison Madera — Ouakam, Dakar',
+      startsLabel: 'Dinner begins at',
+      startsTime: '8:00 pm',
+      startsDate: 'Saturday, 5 December 2026',
+      startsNote:
+        'Please be seated by 8:00 pm — the evening opens with our entrance, and we’d love to see every one of your faces when we walk in.',
       programme: {
         label: 'The evening',
+        title: 'The programme of the evening',
         items: [
           {
             time: '8:00 pm',
@@ -648,8 +654,15 @@ export const dictionaries: Record<Language, Dictionary> = {
           },
         ],
       },
-      nameLabel: 'Your full name',
-      mealLabel: 'Your choice',
+      tableKicker: 'At the table',
+      tableTitle: 'Everything is taken care of',
+      tableBody:
+        'One menu, lovingly prepared by the chef for all of us. Nothing to choose, nothing to bring — just come, sit down and enjoy the evening with us.',
+      venueKicker: 'The place',
+      closingTitle: 'We can’t wait to welcome you',
+      closingBody: 'See you on Saturday, 5 December at 8:00 pm, at Maison Madera.',
+      share: 'Share this invitation',
+      shared: 'Link copied',
       options: [
         {
           id: 'volaille',
@@ -662,18 +675,6 @@ export const dictionaries: Record<Language, Dictionary> = {
           desc: 'Beef fillet in a classic pepper sauce.',
         },
       ],
-      allergiesLabel: 'Allergies or notes (optional)',
-      allergiesPlaceholder: 'Anything the kitchen should know',
-      submit: 'Confirm my choice',
-      submitting: 'Sending…',
-      successTitle: 'Noted — your plate will be waiting.',
-      successBody: 'Thank you! Your meal choice has been passed to the kitchen.',
-      another: 'Choose for another guest',
-      errorName: 'Please enter your name.',
-      errorMeal: 'Please choose one of the two options.',
-      errorGeneric: 'Something went wrong. Please try again in a moment.',
-      errorRate: 'You’ve submitted a few times already. Please try again shortly.',
-      errorConfig: 'The menu isn’t connected to its database yet — please try again shortly.',
     },
     prayers: {
       kicker: 'Blessings',
@@ -1058,15 +1059,21 @@ export const dictionaries: Record<Language, Dictionary> = {
       },
     },
     menu: {
-      kicker: 'Le dîner',
-      title: 'Choisissez votre plat',
+      kicker: 'Le dîner · Vous êtes invités',
+      title: 'Bienvenue à notre table',
       place: 'Maison Madera · Dakar — samedi 5 décembre 2026',
       intro:
-        'Vous dînez avec nous, et nous voulons que votre assiette vous attende. Deux propositions du chef — choisissez celle qui vous parle.',
+        'Merci de faire partie de notre histoire. Samedi soir, à Dakar, nous réunissons autour d’une même table celles et ceux qui nous sont les plus chers — et vous en faites partie.',
       photoAlt: 'La Maison Madera à la tombée du soir — le lieu de notre dîner à Dakar',
       address: 'Maison Madera — Ouakam, Dakar',
+      startsLabel: 'Le dîner commence à',
+      startsTime: '20h00',
+      startsDate: 'Samedi 5 décembre 2026',
+      startsNote:
+        'Merci d’être installés pour 20h00 — la soirée s’ouvre sur notre entrée, et nous aimerions voir chacun de vos visages en arrivant.',
       programme: {
-        label: 'Le déroulé de la soirée',
+        label: 'La soirée',
+        title: 'Le programme de la soirée',
         items: [
           {
             time: '20h00',
@@ -1109,8 +1116,15 @@ export const dictionaries: Record<Language, Dictionary> = {
           },
         ],
       },
-      nameLabel: 'Votre nom complet',
-      mealLabel: 'Votre choix',
+      tableKicker: 'À table',
+      tableTitle: 'Tout est prévu',
+      tableBody:
+        'Un menu unique, préparé avec soin par le chef pour nous tous. Rien à choisir, rien à apporter — venez, installez-vous et profitez de la soirée avec nous.',
+      venueKicker: 'Le lieu',
+      closingTitle: 'Nous avons hâte de vous accueillir',
+      closingBody: 'Rendez-vous le samedi 5 décembre à 20h00, à la Maison Madera.',
+      share: 'Partager l’invitation',
+      shared: 'Lien copié',
       options: [
         {
           id: 'volaille',
@@ -1123,18 +1137,6 @@ export const dictionaries: Record<Language, Dictionary> = {
           desc: 'Filet de bœuf, sauce au poivre classique.',
         },
       ],
-      allergiesLabel: 'Allergies ou remarques (facultatif)',
-      allergiesPlaceholder: 'Tout ce que la cuisine doit savoir',
-      submit: 'Confirmer mon choix',
-      submitting: 'Envoi…',
-      successTitle: 'C’est noté — votre assiette vous attendra.',
-      successBody: 'Merci ! Votre choix a été transmis à la cuisine.',
-      another: 'Choisir pour un autre invité',
-      errorName: 'Merci d’indiquer votre nom.',
-      errorMeal: 'Merci de choisir l’une des deux propositions.',
-      errorGeneric: 'Une erreur est survenue. Merci de réessayer dans un instant.',
-      errorRate: 'Vous avez déjà répondu plusieurs fois. Merci de réessayer plus tard.',
-      errorConfig: 'Le menu n’est pas encore connecté à sa base de données — merci de réessayer bientôt.',
     },
     prayers: {
       kicker: 'Bénédictions',
